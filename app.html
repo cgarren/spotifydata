@@ -343,20 +343,20 @@
             #try:
             track_data["duration"] = str(convertMilliseconds(track_data["duration_ms"]))
             del track_data["duration_ms"]
-            track_data["loudness"] = str(track_data["loudness"]) + " decibels"
+            track_data["loudness"] = str(round(track_data["loudness"], 0)) + " decibels"
             track_data["valence (happiness)"] = float(track_data["valence"])
             del track_data["valence"]
             track_data["time signature"] = str(track_data["time_signature"])
             del track_data["time_signature"]
-            track_data["tempo"] = str(track_data["tempo"]) + " BPM"
+            track_data["tempo"] = str(round(track_data["tempo"], 0) + " BPM"
 
-            track_data["danceability"] = round(track_data["danceability"]*100, 1)
-            track_data["energy"] = round(track_data["energy"]*100, 1)
-            track_data["speechiness"] = round(track_data["speechiness"]*100, 1)
-            track_data["acousticness"] = round(track_data["acousticness"]*100, 1)
-            track_data["instrumentalness"] = round(track_data["instrumentalness"]*100, 1)
-            track_data["liveness"] = round(track_data["liveness"]*100, 1)
-            track_data["valence (happiness)"] = round(track_data["valence (happiness)"]*100, 1)
+            track_data["danceability"] = round(track_data["danceability"]*100, 0)
+            track_data["energy"] = round(track_data["energy"]*100, 0)
+            track_data["speechiness"] = round(track_data["speechiness"]*100, 0)
+            track_data["acousticness"] = round(track_data["acousticness"]*100, 0)
+            track_data["instrumentalness"] = round(track_data["instrumentalness"]*100, 0)
+            track_data["liveness"] = round(track_data["liveness"]*100, 0)
+            track_data["valence (happiness)"] = round(track_data["valence (happiness)"]*100, 0)
 
             # All the elements will be inserted in the div with the "container" id
             container = document.select(".container")[0]
