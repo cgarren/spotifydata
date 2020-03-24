@@ -350,13 +350,13 @@
             del track_data["time_signature"]
             track_data["tempo"] = str(int(round(track_data["tempo"], 0))) + " BPM"
 
-            track_data["danceability"] = int(round(track_data["danceability"]*100, 0)
-            track_data["energy"] = int(round(track_data["energy"]*100, 0)
-            track_data["speechiness"] = int(round(track_data["speechiness"]*100, 0)
-            track_data["acousticness"] = int(round(track_data["acousticness"]*100, 0)
-            track_data["instrumentalness"] = int(round(track_data["instrumentalness"]*100, 0)
-            track_data["liveness"] = int(round(track_data["liveness"]*100, 0)
-            track_data["valence (happiness)"] = int(round(track_data["valence (happiness)"]*100, 0)
+            track_data["danceability"] = int(round(track_data["danceability"]*100, 0))
+            track_data["energy"] = int(round(track_data["energy"]*100, 0))
+            track_data["speechiness"] = int(round(track_data["speechiness"]*100, 0))
+            track_data["acousticness"] = int(round(track_data["acousticness"]*100, 0))
+            track_data["instrumentalness"] = int(round(track_data["instrumentalness"]*100, 0))
+            track_data["liveness"] = int(round(track_data["liveness"]*100, 0))
+            track_data["valence (happiness)"] = int(round(track_data["valence (happiness)"]*100, 0))
 
             # All the elements will be inserted in the div with the "container" id
             container = document.select(".container")[0]
