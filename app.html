@@ -247,6 +247,7 @@
             try:
                 hashParams = window.window.getHashParams().to_dict()
                 storage['access_token'] = hashParams["access_token"]
+                storage['received_state'] = hashParams["state"]
                 return True
             except:
                 return False
@@ -442,16 +443,15 @@
 
         #document["data"].attrs["style"] = "display: none"
         success = getParamsFromURL()
-        if success:
-            try:
-                state = storage['spotify_auth_state']
-                document <= state
+        try:   
+            if success and storage['received_state'] == storage['spotify_auth_state']:
+                #document <= state
                 del document["dataform"].attrs["style"]
                 searchbutton = document["searchbutton"]
                 searchbutton.bind("click", searchForTrack)
-            except:
+            else:
                 del document["errormessage"].attrs["style"]
-        else:
+        except:
             del document["errormessage"].attrs["style"]
 
         track_id = "0rKtyWc8bvkriBthvHKY8d"
