@@ -348,7 +348,7 @@
             del track_data["valence"]
             track_data["time signature"] = str(track_data["time_signature"])
             del track_data["time_signature"]
-            track_data["tempo"] = str(round(track_data["tempo"], 0) + " BPM"
+            track_data["tempo"] = str(round(track_data["tempo"], 0)) + " BPM"
 
             track_data["danceability"] = round(track_data["danceability"]*100, 0)
             track_data["energy"] = round(track_data["energy"]*100, 0)
