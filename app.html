@@ -253,6 +253,16 @@
                 return False
             #document <= hashParams["expires_in"]
 
+        def convertMilliseconds(millis):
+            millis = int(millis)
+            seconds=(millis/1000)%60
+            seconds = int(seconds)
+            minutes=(millis/(1000*60))%60
+            minutes = int(minutes)
+            hours=(millis/(1000*60*60))%24
+
+            return "%dh %dm %ds" % (hours, minutes, seconds)
+
         def getTrackData(track_id): #Returns a dictionary based on the json response
             def on_complete(req):
                 if req.status == 200 or req.status == 0:
@@ -331,7 +341,7 @@
             song_key_codes = {-1 : "Unkown key", 0 : "C", 1 : "C#", 2 : "D", 3 : "D#", 4 : "E", 5 : "F", 6 : "F#", 7 : "G", 8 : "G#", 9 : "A", 10 : "A#", 11 : "B"}
             song_mode_codes = {-1 : "Unkown mode", 0 : "minor", 1 : "major"}
             #try:
-            track_data["duration"] = str(track_data["duration_ms"]) + " ms"
+            track_data["duration"] = str(convertMilliseconds(track_data["duration_ms"]))
             del track_data["duration_ms"]
             track_data["loudness"] = str(track_data["loudness"]) + " decibels"
             track_data["valence (happiness)"] = str(track_data["valence"])
@@ -339,7 +349,14 @@
             track_data["time signature"] = str(track_data["time_signature"])
             del track_data["time_signature"]
             track_data["tempo"] = str(track_data["tempo"]) + " BPM"
-            print(type(track_data["danceability"]))
+
+            track_data["danceability"] = track_data["danceability"]*100
+            track_data["energy"] = track_data["energy"]*100
+            track_data["speechiness"] = track_data["speechiness"]*100
+            track_data["acousticness"] = track_data["acousticness"]*100
+            track_data["instrumentalness"] = track_data["instrumentalness"]*100
+            track_data["liveness"] = track_data["liveness"]*100
+            track_data["valence (happiness)"] = track_data["valence (happiness)"]*100
 
             # All the elements will be inserted in the div with the "container" id
             container = document.select(".container")[0]
