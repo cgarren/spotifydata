@@ -344,7 +344,7 @@
             track_data["duration"] = str(convertMilliseconds(track_data["duration_ms"]))
             del track_data["duration_ms"]
             track_data["loudness"] = str(track_data["loudness"]) + " decibels"
-            track_data["valence (happiness)"] = str(track_data["valence"])
+            track_data["valence (happiness)"] = track_data["valence"]
             del track_data["valence"]
             track_data["time signature"] = str(track_data["time_signature"])
             del track_data["time_signature"]
