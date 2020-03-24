@@ -111,7 +111,7 @@
         from browser import document, html, ajax, window, timer
         from browser.local_storage import storage
 
-        storage['last_refresh_time']='2020-03-05 15:33:41.695988'
+        #storage['last_refresh_time']='2020-03-05 15:33:41.695988'
         #print(document["test3"].attrs["style"])
         
 
@@ -442,10 +442,15 @@
 
         #document["data"].attrs["style"] = "display: none"
         success = getParamsFromURL()
-        if success == True:
-            del document["dataform"].attrs["style"]
-            searchbutton = document["searchbutton"]
-            searchbutton.bind("click", searchForTrack)
+        if success:
+            try:
+                state = storage['spotify_auth_state']
+                document <= state
+                del document["dataform"].attrs["style"]
+                searchbutton = document["searchbutton"]
+                searchbutton.bind("click", searchForTrack)
+            except:
+                del document["errormessage"].attrs["style"]
         else:
             del document["errormessage"].attrs["style"]
 
