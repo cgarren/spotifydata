@@ -96,7 +96,10 @@
         <script type="text/python">
         #access_token=BQDAd972QMo5MxC3EA9qw_wUd8CVP7UUHAuhmQ8YhEdXXP2p74jYHx_axRL-fBaWgswhJ1vkcbfZZPjpgAiYWF62dAMLds7xty6fe27LCGzxW6Ac_f238nOvhf5O6nFQpneg2eoeniqMdrDT3TRnwU1fdaXvTdn0fiY_eyfhVk_-ixeWmmLkuGlmcgq5sZXoAIHBNQp3voD8eZgZ_CF8aCw&token_type=Bearer&expires_in=3600&state=R6wHbLudpklxkgS9
 
+        #TODO
         #ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
+        #Style login page
+        #make numbers in chart easier to read and understand
 
         #import requests
         import datetime
@@ -402,7 +405,7 @@
             
             first = True
             if len(artist_data["genres"]) == 0:
-                track_data["genres"] = "Unknown"
+                track_data["genres"] = "unknown"
             elif len(artist_data["genres"]) == 1:
                 track_data["genre"] = artist_data["genres"][0]
             else:
