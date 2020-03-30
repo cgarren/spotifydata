@@ -2,7 +2,7 @@
 
 A web interface for getting song data through the spotify api
 
-# Website Link
+## Website Link
 [spotifydata.ml](https://spotifydata.ml/)
 
 ## TODO
