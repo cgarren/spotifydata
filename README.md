@@ -18,7 +18,7 @@
 
 ## License
 
-This project is distributed without a license. If you would like to use some of its code, please contact the developer.
+* This project is distributed without a license. If you would like to use some of its code, please contact the developer.
 
 ## Acknowledgments
 
