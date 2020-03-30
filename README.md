@@ -27,7 +27,7 @@
 
 ## Author
 
-* Cooper Garren
+* Cooper <span style="color:blue">some <em>blue</em> text</span>Garren
 
 ## License
 
