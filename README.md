@@ -2,11 +2,11 @@
 
 A web interface for getting song data through the spotify api
 
-##TODO
-*ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)<br>
-*Style login page<br>
-*Make numbers in chart easier to read and understand
-*Make account stats page<br>
+## TODO
+* ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)<br>
+* Style login page<br>
+* Make numbers in chart easier to read and understand
+* Make account stats page<br>
 
 ## Getting Started
 
