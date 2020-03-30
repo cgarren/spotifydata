@@ -1,6 +1,6 @@
 # Spotify Data
 
-A web interface for getting song data through the spotify api
+*A web interface for getting song data through the spotify api*
 
 ## Website Link
 [spotifydata.ml](https://spotifydata.ml/)
@@ -14,7 +14,7 @@ A web interface for getting song data through the spotify api
 
 ## Author
 
-* **Cooper Garren**
+* Cooper Garren
 
 ## License
 
