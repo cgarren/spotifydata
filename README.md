@@ -10,7 +10,7 @@
 * Convert to pure javascript
 ### Song Info Page
 * ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
-* **Style login page** ✅
+* ~~Style login page~~
 * Make numbers in chart easier to read and understand
 * Add a 30 sec preview to track data page using preview_url field
 ### Account Stats Page
