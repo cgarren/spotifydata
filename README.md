@@ -8,12 +8,12 @@
 ## TODO
 ### General
 * Convert to pure javascript
-### Song Info
+### Song Info Page
 * ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
 * **Style login page** ✅
 * Make numbers in chart easier to read and understand
 * Add a 30 sec preview to track data page using preview_url field
-### Account Stats
+### Account Stats Page
 * Account Info
 * Top Artists
 * Top tracks
@@ -21,7 +21,7 @@
 * Followers
 * Playlists
 * Reccomendations
-### New Music (filter by user's top artists, maybe a "for you" tab-ML?)
+### New Music Page (filter by user's top artists, maybe a "for you" tab-ML?)
 * New Singles
 * New Albums
 
