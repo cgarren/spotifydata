@@ -8,7 +8,7 @@
 ## TODO
 
 * ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
-* Style login page
+* Style login page ✅Done!
 * Make numbers in chart easier to read and understand
 * Make account stats page
 
