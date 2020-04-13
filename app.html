@@ -181,13 +181,17 @@
                         #document["result"].html = req.text
                         #document <= str(json.loads(req.text))
                         results = json.loads(req.text)
-                        for i in range(0,len(results["tracks"]["items"])):
-                            try:
-                                print(results["tracks"]["items"][i]["name"] + " by " + results["tracks"]["items"][i]["artists"][0]["name"])
-                                getTrackData(results["tracks"]["items"][i]["id"])
-                            except:
-                                document <= "Error!!!"
-                                break
+                        if len(results["tracks"]["items"]) > 0:
+                            for i in range(0,len(results["tracks"]["items"])):
+                                try:
+                                    print(results["tracks"]["items"][i]["name"] + " by " + results["tracks"]["items"][i]["artists"][0]["name"])
+                                    getTrackData(results["tracks"]["items"][i]["id"])
+                                except:
+                                    document <= "Error!!!"
+                                    print("Error")
+                                    break
+                        else:
+                            print("No results for that search")
 
                     elif req.status == 401:
                         #document <= "Error! Please sign in again by going to spotifydata.ml"
@@ -195,12 +199,14 @@
                         del document["errormessage"].attrs["style"]
                     else:
                         document <= "Unkown Error"
+                        print(error)
 
                 def submitRequest():
                     req.send()
 
                 def func():
                     document <= "Request timed out"
+                    print("Request timed out")
                 
                 #Get access_token
                 oauth_id = storage['access_token']
