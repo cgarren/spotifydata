@@ -27,6 +27,10 @@
               return hashParams;
             }
 
+            function dismissAlert() {
+                $('.alert').alert('close')
+            }
+
             // Example starter JavaScript for disabling form submissions if there are invalid fields
             (function() {
               'use strict';
@@ -351,7 +355,7 @@
 
         def showAlert(message):
             def dismissAlert():
-                document.select(".alert")[0].window.alert('close')
+                window.window.dismissAlert()
             alertdiv = document.select(".alertdiv")[0]
             alert = html.DIV(message, Class = "alert alert-danger alert-dismissible fade show", role="alert")
             button = html.BUTTON(type = "button", Class = "close", data_dismiss = "alert", aria_label = "Close")
