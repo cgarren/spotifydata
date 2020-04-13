@@ -50,6 +50,12 @@
     </head>
 
     <body class="bg-dark" onload="brython(1)">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #1DB954;">
             <a class="navbar-brand" href="https://spotifydata.ml">Spotify Data</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -192,6 +198,7 @@
                                     break
                         else:
                             print("No results for that search")
+                            formatdata("", "", "")
 
                     elif req.status == 401:
                         #document <= "Error! Please sign in again by going to spotifydata.ml"
@@ -348,122 +355,126 @@
             req.send()
 
         def formatData(track_data, song_data, artist_data):
-            song_key_codes = {-1 : "Unkown key", 0 : "C", 1 : "C#", 2 : "D", 3 : "D#", 4 : "E", 5 : "F", 6 : "F#", 7 : "G", 8 : "G#", 9 : "A", 10 : "A#", 11 : "B"}
-            song_mode_codes = {-1 : "Unkown mode", 0 : "minor", 1 : "major"}
-            #try:
-            track_data["duration"] = str(convertMilliseconds(track_data["duration_ms"]))
-            del track_data["duration_ms"]
-            track_data["loudness"] = str(round(track_data["loudness"], 1)) + " decibels"
-            track_data["valence (happiness)"] = float(track_data["valence"])
-            del track_data["valence"]
-            track_data["time signature"] = str(track_data["time_signature"])
-            del track_data["time_signature"]
-            track_data["tempo"] = str(int(round(track_data["tempo"], 0))) + " BPM"
-
-            track_data["danceability"] = int(round(track_data["danceability"]*100, 0))
-            track_data["energy"] = int(round(track_data["energy"]*100, 0))
-            track_data["speechiness"] = int(round(track_data["speechiness"]*100, 0))
-            track_data["acousticness"] = int(round(track_data["acousticness"]*100, 0))
-            track_data["instrumentalness"] = int(round(track_data["instrumentalness"]*100, 0))
-            track_data["liveness"] = int(round(track_data["liveness"]*100, 0))
-            track_data["valence (happiness)"] = int(round(track_data["valence (happiness)"]*100, 0))
-
-            # All the elements will be inserted in the div with the "container" id
-            container = document.select(".container")[0]
-
-            if len(document.select("table")) == 0:
-                sys.stdout.write("makeTable")
-                #this is the first request and there is no table present
-                rowdiv = html.DIV(Class = "row")
-                tablediv = html.DIV(Class = "col")
-                table = html.TABLE(Class = "table table-dark table-sm table-borderless mx-auto mt-3", style={"max-width":"500px"})
-                thead = html.THEAD(Class = "border-success border-bottom")
-                tbody = html.TBODY()
-                table <= thead
-                table <= tbody
+            if track_data == [] or song_data == [] or artist_data = []:
+                if len(document.select("table")) == 0:
+                    document.select(".alert").alert()
             else:
-                print("table exists")
-                #the table exists already
-                document.select("table")[0].remove()
-                rowdiv = html.DIV(Class = "row")
-                tablediv = html.DIV(Class = "col")
-                table = html.TABLE(Class = "table table-dark table-sm table-borderless mx-auto mt-3", style={"max-width":"500px"})
-                thead = html.THEAD(Class = "border-success border-bottom")
-                tbody = html.TBODY()
-                table <= thead
-                table <= tbody
+                song_key_codes = {-1 : "Unkown key", 0 : "C", 1 : "C#", 2 : "D", 3 : "D#", 4 : "E", 5 : "F", 6 : "F#", 7 : "G", 8 : "G#", 9 : "A", 10 : "A#", 11 : "B"}
+                song_mode_codes = {-1 : "Unkown mode", 0 : "minor", 1 : "major"}
+                #try:
+                track_data["duration"] = str(convertMilliseconds(track_data["duration_ms"]))
+                del track_data["duration_ms"]
+                track_data["loudness"] = str(round(track_data["loudness"], 1)) + " decibels"
+                track_data["valence (happiness)"] = float(track_data["valence"])
+                del track_data["valence"]
+                track_data["time signature"] = str(track_data["time_signature"])
+                del track_data["time_signature"]
+                track_data["tempo"] = str(int(round(track_data["tempo"], 0))) + " BPM"
 
-            try:
-                song_title = song_data["name"]
-                album = song_data["album"]["name"]
-                artist = song_data["album"]["artists"][0]["name"]
-                thead <= html.TR(html.TH("Stats for " + song_title + " by " + artist, colspan="2"), Class="text-center") #+ " on the album " + album + ":\n"
-            except:
-                thead <= "Error: Could not get track from the provided id"
+                track_data["danceability"] = int(round(track_data["danceability"]*100, 0))
+                track_data["energy"] = int(round(track_data["energy"]*100, 0))
+                track_data["speechiness"] = int(round(track_data["speechiness"]*100, 0))
+                track_data["acousticness"] = int(round(track_data["acousticness"]*100, 0))
+                track_data["instrumentalness"] = int(round(track_data["instrumentalness"]*100, 0))
+                track_data["liveness"] = int(round(track_data["liveness"]*100, 0))
+                track_data["valence (happiness)"] = int(round(track_data["valence (happiness)"]*100, 0))
 
-            thead <= html.TR(html.TH("Song Attribute") +
-                                 html.TH("Value", Class="text-left"))
-            # for key, value in track_data:
-            #     tbody <= html.TR(html.TD(key) +
-            #                      html.TD(value))
-            # Now we add some style to the table
-            # table.style = {"padding": "5px",
-            #                "backgroundColor": "#aaaaaa",
-            #                "width": "100%"}
-            # Now we add the table to the new div previously created
-            tablediv <= table
-            
-            # except:
-            #     document <= "An error occured"
-            
-            track_data["song popularity"] = str(song_data["popularity"])
+                # All the elements will be inserted in the div with the "container" id
+                container = document.select(".container")[0]
 
-            track_data["artist popularity"] = str(artist_data["popularity"])
-            
-            ##document <= "artist popularity: " + str(artist_data["popularity"])
-
-            if song_data["explicit"] == False:
-                #document <= "explicit: no"
-                track_data["explicit"] = "no"
-            else:
-                #document <= "explicit: yes"
-                track_data["explicit"] = "yes"
-
-            track_data["release date"] = song_data["album"]["release_date"]
-            #document <= "release date: " + song_data["album"]["release_date"]
-            
-            first = True
-            if len(artist_data["genres"]) == 0:
-                track_data["genres"] = "unknown"
-            elif len(artist_data["genres"]) == 1:
-                track_data["genre"] = artist_data["genres"][0]
-            else:
-                genre_string = ""
-                for i in artist_data["genres"]:
-                    if i == artist_data["genres"][-1]:
-                        genre_string = genre_string + i
-                    else:
-                        genre_string = genre_string + i + ", "
-                tbody <= html.TR(html.TD("genres", Class="text-left", style={"max-width":"80px"}) +
-                                 html.TD(genre_string, Class="text-left", style={"max-width":"80px"}))
-            
-            for key in track_data:
-                if key == "key":
-                    for cay in song_key_codes:
-                        if track_data[key] == cay:
-                            track_data[key] = song_key_codes[cay]
-                if key == "mode":
-                    for cay in song_mode_codes:
-                        if track_data[key] == cay:
-                            track_data[key] = song_mode_codes[cay]
-                if key == "type" or key == "uri" or key == "track_href" or key == "analysis_url" or key == "id":
-                    pass
+                if len(document.select("table")) == 0:
+                    sys.stdout.write("makeTable")
+                    #this is the first request and there is no table present
+                    rowdiv = html.DIV(Class = "row")
+                    tablediv = html.DIV(Class = "col")
+                    table = html.TABLE(Class = "table table-dark table-sm table-borderless mx-auto mt-3", style={"max-width":"500px"})
+                    thead = html.THEAD(Class = "border-success border-bottom")
+                    tbody = html.TBODY()
+                    table <= thead
+                    table <= tbody
                 else:
-                    #document <= key + ": " + str(track_data[key])
-                    tbody <= html.TR(html.TD(key, Class="text-left", style={"max-width":"80px"}) +
-                                 html.TD(track_data[key], Class="text-left", style={"max-width":"80px"}))
-            rowdiv <= tablediv
-            container <= rowdiv
+                    print("table exists")
+                    #the table exists already
+                    document.select("table")[0].remove()
+                    rowdiv = html.DIV(Class = "row")
+                    tablediv = html.DIV(Class = "col")
+                    table = html.TABLE(Class = "table table-dark table-sm table-borderless mx-auto mt-3", style={"max-width":"500px"})
+                    thead = html.THEAD(Class = "border-success border-bottom")
+                    tbody = html.TBODY()
+                    table <= thead
+                    table <= tbody
+
+                try:
+                    song_title = song_data["name"]
+                    album = song_data["album"]["name"]
+                    artist = song_data["album"]["artists"][0]["name"]
+                    thead <= html.TR(html.TH("Stats for " + song_title + " by " + artist, colspan="2"), Class="text-center") #+ " on the album " + album + ":\n"
+                except:
+                    thead <= "Error: Could not get track from the provided id"
+
+                thead <= html.TR(html.TH("Song Attribute") +
+                                     html.TH("Value", Class="text-left"))
+                # for key, value in track_data:
+                #     tbody <= html.TR(html.TD(key) +
+                #                      html.TD(value))
+                # Now we add some style to the table
+                # table.style = {"padding": "5px",
+                #                "backgroundColor": "#aaaaaa",
+                #                "width": "100%"}
+                # Now we add the table to the new div previously created
+                tablediv <= table
+                
+                # except:
+                #     document <= "An error occured"
+                
+                track_data["song popularity"] = str(song_data["popularity"])
+
+                track_data["artist popularity"] = str(artist_data["popularity"])
+                
+                ##document <= "artist popularity: " + str(artist_data["popularity"])
+
+                if song_data["explicit"] == False:
+                    #document <= "explicit: no"
+                    track_data["explicit"] = "no"
+                else:
+                    #document <= "explicit: yes"
+                    track_data["explicit"] = "yes"
+
+                track_data["release date"] = song_data["album"]["release_date"]
+                #document <= "release date: " + song_data["album"]["release_date"]
+                
+                first = True
+                if len(artist_data["genres"]) == 0:
+                    track_data["genres"] = "unknown"
+                elif len(artist_data["genres"]) == 1:
+                    track_data["genre"] = artist_data["genres"][0]
+                else:
+                    genre_string = ""
+                    for i in artist_data["genres"]:
+                        if i == artist_data["genres"][-1]:
+                            genre_string = genre_string + i
+                        else:
+                            genre_string = genre_string + i + ", "
+                    tbody <= html.TR(html.TD("genres", Class="text-left", style={"max-width":"80px"}) +
+                                     html.TD(genre_string, Class="text-left", style={"max-width":"80px"}))
+                
+                for key in track_data:
+                    if key == "key":
+                        for cay in song_key_codes:
+                            if track_data[key] == cay:
+                                track_data[key] = song_key_codes[cay]
+                    if key == "mode":
+                        for cay in song_mode_codes:
+                            if track_data[key] == cay:
+                                track_data[key] = song_mode_codes[cay]
+                    if key == "type" or key == "uri" or key == "track_href" or key == "analysis_url" or key == "id":
+                        pass
+                    else:
+                        #document <= key + ": " + str(track_data[key])
+                        tbody <= html.TR(html.TD(key, Class="text-left", style={"max-width":"80px"}) +
+                                     html.TD(track_data[key], Class="text-left", style={"max-width":"80px"}))
+                rowdiv <= tablediv
+                container <= rowdiv
             document["searchbutton"].html = ""
             document["searchbutton"] <= "Show me data!"
             del document["searchbutton"].attrs["disabled"]
