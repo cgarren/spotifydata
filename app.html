@@ -192,7 +192,7 @@
                                     break
                         else:
                             print("No results for that search")
-                            
+                            showAlert("No results for that search")
 
                     elif req.status == 401:
                         #document <= "Error! Please sign in again by going to spotifydata.ml"
@@ -348,17 +348,17 @@
             # send data as a dictionary
             req.send()
 
-        def showAlert():
+        def showAlert(message):
             alert = html.DIV("<strong>Holy guacamole!</strong> You should check in on some of those fields below.", Class = "alert alert-danger alert-dismissible fade show", role="alert")
             button = html.BUTTON(type = "button", Class = "close", data_dismiss = "alert", aria_label = "Close")
-            button <= html.SPAN(&times;, aria_hidden = "true")
+            button <= html.SPAN("&times;", aria_hidden = "true")
             alert <= button
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            '''<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <strong>Holy guacamole!</strong> You should check in on some of those fields below.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
+            </div>'''
 
         def formatData(track_data, song_data, artist_data):
             song_key_codes = {-1 : "Unkown key", 0 : "C", 1 : "C#", 2 : "D", 3 : "D#", 4 : "E", 5 : "F", 6 : "F#", 7 : "G", 8 : "G#", 9 : "A", 10 : "A#", 11 : "B"}
