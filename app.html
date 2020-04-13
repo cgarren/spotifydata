@@ -49,7 +49,7 @@
         <title>Spotify Data</title>
     </head>
 
-    <body class="bg-dark" onload="brython(1)">
+    <body class="bg-dark body" onload="brython(1)">
         <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #1DB954;">
             <a class="navbar-brand" href="https://spotifydata.ml">Spotify Data</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -349,10 +349,15 @@
             req.send()
 
         def showAlert(message):
+            body = document.select(".body")[0]
             alert = html.DIV("<strong>Holy guacamole!</strong> You should check in on some of those fields below.", Class = "alert alert-danger alert-dismissible fade show", role="alert")
             button = html.BUTTON(type = "button", Class = "close", data_dismiss = "alert", aria_label = "Close")
             button <= html.SPAN("&times;", aria_hidden = "true")
             alert <= button
+            body <= alert
+            document["searchbutton"].html = ""
+            document["searchbutton"] <= "Show me data!"
+            del document["searchbutton"].attrs["disabled"]
             '''<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <strong>Holy guacamole!</strong> You should check in on some of those fields below.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
