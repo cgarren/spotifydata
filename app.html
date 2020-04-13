@@ -50,7 +50,6 @@
     </head>
 
     <body class="bg-dark body" onload="brython(1)">
-        <div class="alertdiv"></div>
         <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #1DB954;">
             <a class="navbar-brand" href="https://spotifydata.ml">Spotify Data</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,6 +66,7 @@
                 </ul>
             </div>
         </nav>
+        <div class="alertdiv"></div>
         <div class="container mt-3" id="dataform" style="display: none;">
             <div class="text-light text-center">
                 <h4>Search for a song below to see stats on it using the Spotify API:</h4>
@@ -193,7 +193,7 @@
                                     break
                         else:
                             print("No results for that search")
-                            showAlert("No results for that search")
+                            showAlert("<strong>No songs found for that search!</strong> Try typing the name of the song followed by the artist ans make sure that the song is on Spotify!")
 
                     elif req.status == 401:
                         #document <= "Error! Please sign in again by going to spotifydata.ml"
@@ -351,7 +351,7 @@
 
         def showAlert(message):
             alertdiv = document.select(".alertdiv")[0]
-            alert = html.DIV("<strong>Holy guacamole!</strong> You should check in on some of those fields below.", Class = "alert alert-danger alert-dismissible fade show", role="alert")
+            alert = html.DIV(message, Class = "alert alert-danger alert-dismissible fade show", role="alert")
             button = html.BUTTON(type = "button", Class = "close", data_dismiss = "alert", aria_label = "Close")
             button <= html.SPAN("&times;", aria_hidden = "true")
             alert <= button
