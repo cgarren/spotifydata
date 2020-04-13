@@ -350,6 +350,8 @@
             req.send()
 
         def showAlert(message):
+            def dismissAlert():
+                document.select(".alert")[0].remove()
             alertdiv = document.select(".alertdiv")[0]
             alert = html.DIV(message, Class = "alert alert-danger alert-dismissible fade show", role="alert")
             button = html.BUTTON(type = "button", Class = "close", data_dismiss = "alert", aria_label = "Close")
@@ -359,7 +361,7 @@
             document["searchbutton"].html = ""
             document["searchbutton"] <= "Show me data!"
             del document["searchbutton"].attrs["disabled"]
-            timer.set_timeout(document.select(".alert")[0].remove(), 3000)
+            timer.set_timeout(dismissAlert, 3000)
             '''<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <strong>Holy guacamole!</strong> You should check in on some of those fields below.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
