@@ -13,6 +13,8 @@
 * ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
 * Make numbers in chart easier to read and understand
 * Add a 30 sec preview to track data page using preview_url field
+* Add album art
+* Generally make the page more appealing
 ### Account Stats Page
 * Account Info
 * Top Artists
@@ -27,7 +29,7 @@
 
 ## Author
 
-* Cooper <span style="color:blue">some <em>blue</em> text</span>Garren
+* Cooper Garren
 
 ## License
 
