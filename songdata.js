@@ -47,6 +47,16 @@ function getParamsFromURL() {
     }
 }
 
+function pickHex(color1, color2, weight) {
+    var w1 = weight;
+    var w2 = 1 - w1;
+    var rgb = [Math.round(color1[0] * w1 + color2[0] * w2),
+        Math.round(color1[1] * w1 + color2[1] * w2),
+        Math.round(color1[2] * w1 + color2[2] * w2)
+    ];
+    return rgb;
+}
+
 function convertMilliseconds(millis) {
     millis = Math.floor(millis)
     var seconds = (millis / 1000) % 60;
@@ -248,16 +258,36 @@ function formatData(track_features, track_info, artist_info) {
     track_features["liveness"] = Math.round(track_features["liveness"] * 100)
     track_features["valence (happiness)"] = Math.round(track_features["valence (happiness)"] * 100)
     //console.log(track_features)
-    // All the elements will be inserted in the div with the "container" class
+
+    //Insert player widget
+    /*<iframe src="https://open.spotify.com/embed/track/0NWPxcsf5vdjdiFUI8NgkP" 
+    width="300" height="80" frameborder="0" allowtransparency="true" 
+    allow="encrypted-media"></iframe>*/
+    if ($('#player').length == 0) {
+        //this is the first request and there is no player present
+    } else {
+        //the player exists already
+        $('#player').remove();
+    }
+    var player = document.createElement("iframe");
+    var playerdiv = $("#playerdiv");
+    player.id = "player";
+    player.src = "https://open.spotify.com/embed/track/" + track_info["id"];
+    player.width = "300";
+    player.height = "80";
+    player.frameBorder = "0";
+    player.allowTransparency = "true";
+    player.allow = "encrypted-media";
+    playerdiv.append(player);
+
+    //All the elements will be inserted in the div with the "container" class
+
     var container = $(".container")[0]
 
     if ($('table').length == 0) {
-        //console.log("making table")
         //this is the first request and there is no table present
     } else {
-        //console.log("table already exists")
         //the table exists already
-        //$('table')[0].remove();
         $('#rowdiv').remove();
     }
     var rowdiv = document.createElement("div");
@@ -339,9 +369,9 @@ function formatData(track_features, track_info, artist_info) {
     //var first = true
     //console.log(artist_info["genres"][artist_info["genres"].length-1])
     if (artist_info["genres"].length == 0) {
-        track_features["genres"] = "unknown"
+        genre_string = "unknown"
     } else if (artist_info["genres"].length == 1) {
-        track_features["genre"] = artist_info["genres"][0]
+        genre_string = artist_info["genres"][0]
     } else {
         var genre_string = ""
         for (let i of artist_info["genres"].keys()) {
@@ -402,6 +432,29 @@ function formatData(track_features, track_info, artist_info) {
             tablerow.append(tabledata1)
             tablerow.append(tabledata2)
             tbody.append(tablerow)
+
+            //console.log(key, typeof(track_features[key]))
+
+            val = track_features[key]/100;
+            if (typeof(track_features[key]) == "number" && key != "time signature") {
+              if (val == .5) {
+                  color = [255, 255, 255]
+              } /*else if (val < .5) {
+                  color = pickHex([255, 255, 255], [117, 117, 117], val)
+              } */else {
+                  color = pickHex([255, 0, 0], [255, 255, 255], val)
+              }
+              tabledata2.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")"
+              tabledata1.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")"
+              //console.log(key, val, typeof(val), tabledata2.style.color)
+            }
+              //var hue = Math.floor((100 - val) * 220 / 100);  // go from green to red
+              //var saturation = Math.abs(val - 50)/50;   // fade to white as it approaches 50
+    
+              //console.log($("body")[0].style.backgroundColor, color)
+              //$("body")[0].classList = ""
+              //val = .500000001
+              //$("body")[0].style.backgroundColor = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")" //"hsl(" + hue + ", " + 100 + "%, 50%)"
         }
     }
 
@@ -432,5 +485,3 @@ if (success & localStorage.getItem('received_state') == localStorage.getItem('sp
     $("#errormessage").prop("style", "");
     console.log("2")
 }*/
-
-var track_id = "0rKtyWc8bvkriBthvHKY8d";

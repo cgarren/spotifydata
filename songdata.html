@@ -52,6 +52,7 @@
             <div class="text-center">
                 <button class="btn btn-primary animated pulse infinite" id="searchbutton" type="submit">Show me data!</button>
             </div>
+            <div class="text-center mt-4" id="playerdiv"></div>
         </form>
     </div>
     <div class="container mt-3" id="errormessage" style="display: none;">
@@ -63,11 +64,15 @@
         </div>
     </div>
     <style>
-    .tooltip-inner {
+        .tooltip-inner {
         max-width: 350px;
     }
 
     th {
+        font-size: 1.1em;
+    }
+
+    th, tr {
         font-weight: bold;
     }
 
