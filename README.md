@@ -9,6 +9,7 @@
 ### General
 * ~~Convert to pure javascript~~
 * ~~Style login page~~
+* Make some javascript to deploy navbar html across all pages in common.js
 
 ### Song Info Page
 * ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
@@ -19,8 +20,7 @@
 
 ### Account Stats Page
 * Account Info
-* Top Artists
-* Top tracks
+* Top Artists/Top tracks
 * Recently Played
 * Followers
 * Playlists
@@ -31,14 +31,11 @@
 * New Albums
 
 ## Author
-
 * Cooper Garren
 
 ## License
-
 * This project is distributed without a license. If you would like to use some of its code, please contact the developer.
 
 ## Acknowledgments
-
 * Hat tip to all of those at Spotify and Bootstrap for the great documentation
 * Thanks to google fonts for the stellar landing page font
