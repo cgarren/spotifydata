@@ -9,7 +9,8 @@
 ### General
 * ~~Convert to pure javascript~~
 * ~~Style login page~~
-* Make some javascript to deploy navbar html across all pages in common.js
+* ~~Make some javascript to deploy navbar html across all pages in common.js~~
+* Add Logout button
 
 ### Song Info Page
 * ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
