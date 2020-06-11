@@ -15,7 +15,7 @@
 
     <body class="bg-dark h-100" style="overflow: hidden">
         <nav class="navbar navbar-expand-sm sticky-top navbar-light" style="background-color: #1DB954;">
-            <a class="navbar-brand" href="https://spotifydata.ml">Spotify Data</a>
+            <!--<a class="navbar-brand" href="https://spotifydata.ml">Spotify Data</a>-->
         </nav>
         <div class="container h-100">
             <div class="row justify-content-center align-items-center h-100">
@@ -46,13 +46,13 @@
           document.getElementById('login-button').addEventListener('click', function() {
 
             var client_id = 'fff2634975884bf88e3d3c9c2d77763d'; // Your client id
-            //var redirect_uri = 'https://spotifydata.ml/songdata'; // Your redirect uri
-            var redirect_uri = 'http://localhost:8888/songdata.html'; // Your redirect uri
+            var redirect_uri = 'https://spotifydata.ml/songdata'; // Your redirect uri
+            //var redirect_uri = 'http://localhost:8888/songdata.html'; // Your redirect uri
 
             var state = generateRandomString(16);
 
             localStorage.setItem(stateKey, state);
-            var scope = 'user-read-private user-read-email user-follow-read user-follow-modify user-read-private user-read-email streaming user-read-currently-playing user-modify-playback-state user-library-modify user-library-read user-top-read';
+            var scope = 'user-read-private user-read-email user-follow-read user-follow-modify user-read-private user-read-email streaming user-read-currently-playing user-read-recently-played user-modify-playback-state user-library-modify user-library-read user-top-read';
 
             var url = 'https://accounts.spotify.com/authorize';
             url += '?response_type=token';
@@ -60,6 +60,7 @@
             url += '&scope=' + encodeURIComponent(scope);
             url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
             url += '&state=' + encodeURIComponent(state);
+            url += '&show_dialog=true';
 
             window.location = url;
           }, false);
