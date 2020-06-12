@@ -10,10 +10,13 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-    <script type="text/javascript" src="common.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300;400;500&family=Squada+One&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="profile.js"></script>
+    <script type="text/javascript" src="common.js"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
@@ -21,111 +24,82 @@
 </head>
 
 <body class="bg-dark">
-    <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #1DB954;">
-        <a class="navbar-brand" href="https://spotifydata.ml">Spotify Data</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarToggler">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" id="songdata_link">Song Info</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown userdata_link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account Stats</a>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item active" href="#">Profile</a>
-                        <a class="dropdown-item" href="#">Top Artists and Tracks (tabbed)</a>
-                        <a class="dropdown-item" href="#">Recently Played</a>
-                        <a class="dropdown-item" href="#">Followers/Following</a>
-                        <a class="dropdown-item" href="#">Playlists</a>
-                        <a class="dropdown-item" href="#">Recommendations</a>
+    <div id="content" style="display: none;">
+        <div class="container-fluid">
+            <div class="row">
+                <div id="main_row" class="col-lg-10 col-md-9 text-light">
+                    <div class="row text-center">
+                            <span id="image" class="dot mt-4 m-md-4 mx-auto">
+                                <svg width="75" height="75" fill="#88898D" viewBox="0 0 18 20" xmlns="http://www.w3.org/2000/svg" data-testid="user-icon" style="margin: 37px">
+                                    <path d="M15.216 13.717L12 11.869C11.823 11.768 11.772 11.607 11.757 11.521C11.742 11.435 11.737 11.267 11.869 11.111L13.18 9.57401C14.031 8.58001 14.5 7.31101 14.5 6.00001V5.50001C14.5 3.98501 13.866 2.52301 12.761 1.48601C11.64 0.435011 10.173 -0.0879888 8.636 0.0110112C5.756 0.198011 3.501 2.68401 3.501 5.67101V6.00001C3.501 7.31101 3.97 8.58001 4.82 9.57401L6.131 11.111C6.264 11.266 6.258 11.434 6.243 11.521C6.228 11.607 6.177 11.768 5.999 11.869L2.786 13.716C1.067 14.692 0 16.526 0 18.501V20H1V18.501C1 16.885 1.874 15.385 3.283 14.584L6.498 12.736C6.886 12.513 7.152 12.132 7.228 11.691C7.304 11.251 7.182 10.802 6.891 10.462L5.579 8.92501C4.883 8.11101 4.499 7.07201 4.499 6.00001V5.67101C4.499 3.21001 6.344 1.16201 8.699 1.00901C9.961 0.928011 11.159 1.35601 12.076 2.21501C12.994 3.07601 13.5 4.24301 13.5 5.50001V6.00001C13.5 7.07201 13.117 8.11101 12.42 8.92501L11.109 10.462C10.819 10.803 10.696 11.251 10.772 11.691C10.849 12.132 11.115 12.513 11.503 12.736L14.721 14.585C16.127 15.384 17.001 16.884 17.001 18.501V20H18.001V18.501C18 16.526 16.932 14.692 15.216 13.717Z"></path>
+                                </svg>
+                            </span>
+                        <div class="display-3 font-weight-bolder ml-md-0 mx-auto my-auto"><span id="name"></span><br>
+                            <h5>Spotify ID: <a class="text-light link" id="id" href="#"></a> | <span id="account_type" style="color: #1DB954;">Free</span></h5>
+                        </div>
                     </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="alertdiv"></div>
-    <div class="container mt-3" id="dataform" style="display: none;">
-        <div class="text-light text-center">
-            <h4>Search for a song below to see stats on it using the Spotify API:</h4>
-        </div>
-        <form class="needs-validation mt-3" novalidate>
-            <div class="form-group">
-                <!--<label class="success" for="validationCustom01">Yes</label>-->
-                <input type="text" class="form-control mx-auto" id="validationCustom01" style="max-width: 75%" placeholder="Search for a song..." data-toggle="tooltip" data-placement="top" data-trigger="hover focus" data-template='<div class="tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' title="Search as you normally would on Spotify. Data is only collected for the first result, so be specific!" required>
-                <div class="invalid-feedback text-center">
-                    That's not a vaild search
+                </div>
+                <div class="col-lg-2 col-md-3 text-light text-center">
+                    <a href="#" class="text-light text-decoration-none"><span id="followers" style="font-family: 'Squada One', cursive; font-size: 9em; line-height: .9em;" class="display-2">69</span>
+                        <h3 class="mb-3">Followers</h3>
+                    </a>
+                    <!--<a href="#" class="text-light text-decoration-none"><span id="following" class="display-2">200</span>
+                        <h3 class="mb-3">Following</h3>
+                    </a>-->
+                    <span id="country" style="font-family: 'Squada One', cursive; font-size: 9em; line-height: .9em;" class="display-2">US</span><h3 class="mb-3">Country</h3>
                 </div>
             </div>
-            <div class="text-center">
-                <button class="btn btn-primary animated pulse infinite" id="searchbutton" type="submit">Show me data!</button>
-            </div>
-            <div class="text-center mt-4" id="playerdiv"></div>
-        </form>
-    </div>
-    <div class="container mt-3" id="errormessage" style="display: none;">
-        <div class="text-light text-center">
-            <h4>Invalid access token! Please sign in again.</h4>
-        </div>
-        <div class="text-center">
-            <a class="btn btn-primary" id="loginbutton" href="https://spotifydata.ml">Back to login page</a>
         </div>
     </div>
-    <style>
-        .tooltip-inner {
-        max-width: 350px;
+    <style type="text/css">
+    .dot {
+        height: 150px;
+        width: 150px;
+        background-color: #222327;
+        border-radius: 50%;
+        display: inline-block;
     }
 
-    th {
-        font-size: 1.1em;
+    .cover-container {
+        height: 100%;
+        width: 100%;
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        margin-left: 0;
     }
 
-    th, tr {
-        font-weight: bold;
+    .cover-item {
+        position: relative;
+        display: inline-block;
+        margin: 8px 8px;
+        width: 200px;
+        height: 100%;
+        vertical-align: bottom;
     }
 
-    .dropdown-item:hover {
-        background-color: #343a40;
-        color: white;
+    .art {
+        box-shadow: 1px 1px 8px #000;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 200px;
+        height: 200px;
     }
 
-    .dropdown-item.active {
-        background-color: #343a40;
-        /*color: #1DB954;*/
-        font-weight: bold;
+    .artist {
+        border-radius: 100px;
     }
 
-    .dropdown-item {
-        color: lightgray;
+    .album {
+        border-radius: 2px;
     }
 
-
-    /*
-        *{
-            font-family: sans-serif;
-            font-weight: normal;
-            font-size: 1.1em;
-        }
-        td{
-            background-color: #ccc;
-            padding: 10px 30px 10px 30px;
-            border-radius: 0.2em;
-            text-align: center;
-        }
-        result{
-            border-color: #000;
-            border-width: 1px;
-            border-style: solid;
-            padding: 10px 30px 10px 30px;
-            text-align: right;
-        }*/
+    .link:hover {
+        text-decoration: none;
+        opacity: 70%;
+    }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="userdata.js"></script>
-    <!-- MDB core JavaScript 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js" crossorigin="anonymous"></script>-->
 </body>
 
 </html>

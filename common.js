@@ -52,11 +52,11 @@ $.get('nav.html', function(data){
     $('body').prepend(data);
     $("#songdata_link")[0].href = "https://spotifydata.ml/songdata" + localStorage.getItem('raw_hash')
     $("#userdata_dropdown a:nth-child(1)")[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
-    $("#userdata_dropdown a:nth-child(2)")[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
-    $("#userdata_dropdown a:nth-child(3)")[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
-    $("#userdata_dropdown a:nth-child(4)")[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
-    $("#userdata_dropdown a:nth-child(5)")[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
-    $("#userdata_dropdown a:nth-child(6)")[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
+    $("#userdata_dropdown a:nth-child(2)").hide()//[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
+    $("#userdata_dropdown a:nth-child(3)").hide()//[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
+    $("#userdata_dropdown a:nth-child(4)").hide()//[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
+    $("#userdata_dropdown a:nth-child(5)").hide()//[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
+    $("#userdata_dropdown a:nth-child(6)").hide()//[0].href = "https://spotifydata.ml/profile" + localStorage.getItem('raw_hash')
 });
 
 $(function() {

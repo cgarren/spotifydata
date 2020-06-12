@@ -55,7 +55,7 @@ function displayProfile(req, identifier) {
     $("#country")[0].innerHTML = response["country"]
 }
 
-function generateRow(row_title, art_url, track_name, items, response) {
+function generateRow(row_title, art_url, track_name, items, type, response) {
     //Generate row
     div = document.createElement("div");
     div.classList = "row";
@@ -78,15 +78,21 @@ function generateRow(row_title, art_url, track_name, items, response) {
             return o && o[k];
         }, response);
 
-        var album = document.createElement("div");
+        var art = document.createElement("div");
         var link = document.createElement("a");
         link.href = "#";
         link.classList = "cover-item text-center link";
         if (j == 0) {
             div.style = "margin-left: 0;";
         }
-        album.style.backgroundImage = "url('" + album_url + "')";
-        album.classList = "album";
+        art.style.backgroundImage = "url('" + album_url + "')";
+        if (type == "album") {
+        	art.classList = "art album";
+        	console.log(type)
+        } else {
+        	art.classList = "art artist";
+        	console.log(type)
+        }
         var text = document.createElement("span");
         text.innerHTML = track_name.split('.').reduce(function(o, k) {
             if (k == "j") { k = j; }
@@ -95,7 +101,7 @@ function generateRow(row_title, art_url, track_name, items, response) {
         text.classList = "text-light text-decoration-none";
         text.style.whiteSpace = "normal";
         text.style.wordWrap = "break-word";
-        link.append(album);
+        link.append(art);
         link.append(text);
         albumdiv.append(link);
     }
@@ -109,7 +115,7 @@ function displayRecentlyPlayed(req, identifier) {
         art_url = 'items.j.track.album.images.0.url';
         track_name = 'items.j.track.name';
         items = items = Object.keys(response["items"]).length;
-        generateRow("Recently Played", art_url, track_name, items, response);
+        generateRow("Recently Played", art_url, track_name, items, "album", response);
     }
 }
 
@@ -121,7 +127,7 @@ function displayTopTracks(req, identifier) {
         art_url = 'items.j.album.images.0.url';
         track_name = 'items.j.name';
         items = items = Object.keys(response["items"]).length;
-        generateRow("Top Tracks", art_url, track_name, items, response);
+        generateRow("Top Tracks", art_url, track_name, items, "album", response);
     }
 }
 
@@ -134,6 +140,6 @@ function displayTopArtists(req, identifier) {
         art_url = 'items.j.images.0.url';
         track_name = 'items.j.name';
         items = items = Object.keys(response["items"]).length;
-        generateRow("Top Artists", art_url, track_name, items, response);
+        generateRow("Top Artists", art_url, track_name, items, "artist", response);
     }
 }
