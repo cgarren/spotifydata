@@ -1,21 +1,3 @@
-function getHashParams() {
-    var hashParams = {};
-    var e, r = /([^&;=]+)=?([^&;]*)/g,
-        q = window.location.hash.substring(1);
-    while (e = r.exec(q)) {
-        hashParams[e[1]] = decodeURIComponent(e[2]);
-    }
-    return hashParams;
-}
-
-function dismissAlert() {
-    $('.alert').alert('close')
-}
-
-$(function() {
-    $('[data-toggle="tooltip"]').tooltip()
-})
-
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 function validateField() {
     'use strict';
@@ -33,18 +15,6 @@ function validateField() {
             }, false);
         });
     }, false);
-}
-
-function getParamsFromURL() {
-    try {
-        var hashParams = getHashParams()
-        localStorage.setItem('access_token', hashParams["access_token"]);
-        localStorage.setItem('received_state', hashParams["state"]);
-        return true;
-    } catch (err) {
-        console.log(err.message)
-        return false;
-    }
 }
 
 function pickHex(color1, color2, weight) {
@@ -101,28 +71,6 @@ function showAlert(message) {
     $("#searchbutton")[0].innerHTML = "Show me data!"
     $("#searchbutton").prop("disabled", false);
     window.setTimeout(dismissAlert, 5000)
-}
-
-function loadRequest(url, callbackFunction, identifier) {
-    var xhttp;
-    var oauth_id = localStorage.getItem('access_token');
-    xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            callbackFunction(this, identifier);
-        } else if (this.status == 401) {
-            console.log("401: Access token unauthorized")
-            $("#dataform")[0].style.display = "none"
-            $("#errormessage")[0].style.display = "block"
-        }
-    };
-    xhttp.ontimeout = function(e) {
-        console.log("Request timed out: " + url)
-    }
-    xhttp.open("GET", url, true);
-    xhttp.setRequestHeader("Authorization", "Bearer " + oauth_id)
-    xhttp.timeout = 10000
-    xhttp.send();
 }
 
 function searchForTrack(ev) {
@@ -278,11 +226,12 @@ function formatData(track_features, track_info, artist_info) {
     player.frameBorder = "0";
     player.allowTransparency = "true";
     player.allow = "encrypted-media";
+    player.classList = "shadow"
     playerdiv.append(player);
 
     //All the elements will be inserted in the div with the "container" class
 
-    var container = $(".container")[0]
+    var container = $(".container")[1]
 
     if ($('table').length == 0) {
         //this is the first request and there is no table present
@@ -435,26 +384,28 @@ function formatData(track_features, track_info, artist_info) {
 
             //console.log(key, typeof(track_features[key]))
 
-            val = track_features[key]/100;
+            val = track_features[key] / 100;
             if (typeof(track_features[key]) == "number" && key != "time signature") {
-              if (val == .5) {
-                  color = [255, 255, 255]
-              } /*else if (val < .5) {
-                  color = pickHex([255, 255, 255], [117, 117, 117], val)
-              } */else {
-                  color = pickHex([255, 0, 0], [255, 255, 255], val)
-              }
-              tabledata2.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")"
-              tabledata1.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")"
-              //console.log(key, val, typeof(val), tabledata2.style.color)
+                if (val == .5) {
+                    color = [255, 255, 255]
+                }
+                /*else if (val < .5) {
+                                 color = pickHex([255, 255, 255], [117, 117, 117], val)
+                             } */
+                else {
+                    color = pickHex([255, 0, 0], [255, 255, 255], val)
+                }
+                tabledata2.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")"
+                tabledata1.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")"
+                //console.log(key, val, typeof(val), tabledata2.style.color)
             }
-              //var hue = Math.floor((100 - val) * 220 / 100);  // go from green to red
-              //var saturation = Math.abs(val - 50)/50;   // fade to white as it approaches 50
-    
-              //console.log($("body")[0].style.backgroundColor, color)
-              //$("body")[0].classList = ""
-              //val = .500000001
-              //$("body")[0].style.backgroundColor = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")" //"hsl(" + hue + ", " + 100 + "%, 50%)"
+            //var hue = Math.floor((100 - val) * 220 / 100);  // go from green to red
+            //var saturation = Math.abs(val - 50)/50;   // fade to white as it approaches 50
+
+            //console.log($("body")[0].style.backgroundColor, color)
+            //$("body")[0].classList = ""
+            //val = .500000001
+            //$("body")[0].style.backgroundColor = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")" //"hsl(" + hue + ", " + 100 + "%, 50%)"
         }
     }
 
@@ -467,21 +418,21 @@ function formatData(track_features, track_info, artist_info) {
     searchbutton.disabled = false
 }
 
-var success = getParamsFromURL();
-//temporary, remove in shipped app
-localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'))
-//try {
-if (success & localStorage.getItem('received_state') == localStorage.getItem('spotify_auth_state')) {
-    $("#dataform")[0].style.display = "block"
-    //$("#searchbutton").onclick() = searchForTrack();
-    //console.log($("#searchbutton"))
-    $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
-} else {
-    $("#errormessage")[0].style.display = "block"
-    //console.log(success, localStorage.getItem('received_state'), localStorage.getItem('spotify_auth_state'))
+window.onload = function() {
+    $("#songdata_link").addClass("active");
+    var success = getParamsFromURL();
+    localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'))
+    $("#songdata_link")[0].href = "https://spotifydata.ml/songdata" + localStorage.getItem('raw_hash')
+    //$("#userdata_link")[0].href = "https://spotifydata.ml/userdata" + localStorage.getItem('raw_hash')
+    //try {
+    if (success & localStorage.getItem('received_state') == localStorage.getItem('spotify_auth_state')) {
+        $("#content")[0].style.display = "block"
+        //$("#searchbutton").onclick() = searchForTrack();
+        //console.log($("#searchbutton"))
+        $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
+        if 
+    } else {
+        $("#errormessage")[0].style.display = "block"
+        //console.log(success, localStorage.getItem('received_state'), localStorage.getItem('spotify_auth_state'))
+    }
 }
-//}
-/*catch(err) {
-    $("#errormessage").prop("style", "");
-    console.log("2")
-}*/
