@@ -430,7 +430,7 @@ window.onload = function() {
         //$("#searchbutton").onclick() = searchForTrack();
         //console.log($("#searchbutton"))
         $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
-        if 
+        //if 
     } else {
         $("#errormessage")[0].style.display = "block"
         //console.log(success, localStorage.getItem('received_state'), localStorage.getItem('spotify_auth_state'))
