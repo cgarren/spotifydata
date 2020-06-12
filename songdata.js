@@ -418,7 +418,7 @@ function formatData(track_features, track_info, artist_info) {
     searchbutton.disabled = false
 }
 
-window.onload = function() {
+window.onload = setTimeout(function() {
     $("#songdata_link").addClass("active");
     var success = getParamsFromURL();
     localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'))
@@ -435,4 +435,4 @@ window.onload = function() {
         $("#errormessage")[0].style.display = "block"
         //console.log(success, localStorage.getItem('received_state'), localStorage.getItem('spotify_auth_state'))
     }
-}
+}, 200);
