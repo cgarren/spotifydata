@@ -88,10 +88,10 @@ function generateRow(row_title, art_url, track_name, items, type, response) {
         art.style.backgroundImage = "url('" + album_url + "')";
         if (type == "album") {
         	art.classList = "art album";
-        	console.log(type)
+        	//console.log(type)
         } else {
         	art.classList = "art artist";
-        	console.log(type)
+        	//console.log(type)
         }
         var text = document.createElement("span");
         text.innerHTML = track_name.split('.').reduce(function(o, k) {
@@ -133,7 +133,7 @@ function displayTopTracks(req, identifier) {
 
 function displayTopArtists(req, identifier) {
     var response = JSON.parse(req.responseText);
-    console.log(response)
+    //console.log(response)
     if (Object.keys(response["items"]).length == 0) {
         console.log("Insufficient play history");
     } else {
