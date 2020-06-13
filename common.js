@@ -53,6 +53,7 @@ $.get('nav.html', function(data){
     console.log(localStorage.getItem('raw_hash'))
     $('body').prepend(data);
     if (localStorage.getItem('raw_hash') == null) {
+        console.log("NULL!")
         $("#songdata_link")[0].href = "https://spotifydata.ml/songdata"
         $("#userdata_dropdown a:nth-child(1)")[0].href = "https://spotifydata.ml/profile"
         $("#userdata_dropdown a:nth-child(2)").hide()//[0].href = "https://spotifydata.ml/profile"
