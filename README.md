@@ -30,6 +30,7 @@
 ### New Music Page (filter by user's top artists, maybe a "for you" tab-ML?, using Spotify rec's?)
 * New Singles
 * New Albums
+* Sort new/popular music by attributes (find the most dancable top tracks, see which tracks were mastered the loudest, find out which songns are inn the key of C, etc...)
 
 ## Author
 * Cooper Garren
