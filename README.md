@@ -33,7 +33,6 @@ A web interface for getting song data through the spotify api
 * Sort new/popular/playlist/library music by attributes (find the most danceable tracks, see which tracks were mastered the loudest, find out which songs are in the key of C, etc...)
 
 ### Small link to other cool Spotify sites (at bottom of page)
-#### Sites
 * Kaleidosync
 
 ## Author
