@@ -1,6 +1,6 @@
 # Spotify Data
 
-* A web interface for getting song data through the spotify api
+A web interface for getting song data through the spotify api
 
 ## Website Link
 [spotifydata.ml](https://spotifydata.ml/)
@@ -40,4 +40,4 @@
 
 ## Acknowledgments
 * Thanks to everyone at Spotify and Bootstrap for the great documentation
-* Thanks to Google fonts for the great landing page font
+* Thanks to Google fonts for the awesome landing page and navbar font
