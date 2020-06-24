@@ -5,6 +5,7 @@ window.onload = function() {
     localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'));
     if (success & localStorage.getItem('received_state') == localStorage.getItem('spotify_auth_state')) {
         $("#content")[0].style.display = "block";
+        loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", displayProfile, 1);
         loadRequest("https://api.spotify.com/v1/me", displayProfile, 1);
         loadRequest("https://api.spotify.com/v1/me/player/recently-played?limit=50", displayRecentlyPlayed, 1);
         loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term", displayTopTracks, 1);
@@ -15,44 +16,89 @@ window.onload = function() {
     }
 }
 
+function convertISOTime(date) {
+    var date = new Date(date);
+    var now = new Date();
+    return convertMilliseconds(now - date);
+}
+
+function showImage(imgPath) {
+    var myImage = new Image();
+    myImage.name = imgPath;
+    myImage.src = imgPath;
+    myImage.onload = function findHHandWW() {
+        var imgHeight = this.height;
+        var imgWidth = this.width;
+        if (imgHeight > 150 || imgWidth > 150) {
+            var hratio = imgHeight / 150;
+            var wratio = imgWidth / 150;
+            if (hratio > wratio) {
+                imgHeight = imgHeight / hratio;
+                imgWidth = imgWidth / hratio;
+            } else {
+                imgHeight = imgHeight / wratio;
+                imgWidth = imgWidth / wratio;
+            }
+        }
+        $("#image")[0].innerHTML = "<img height='" + imgHeight + "px' width='" + imgWidth + "pxH' src='" + image_url + "'>";
+        $("#image").removeClass("dot");
+    }
+}
+
+function generateStat(name, value, is_link) {
+    if (is_link == false) {
+        songs = document.createElement("div");
+        songs.style.cursor = "default";
+    } else {
+        songs = document.createElement("a");
+        songs.href = "#";
+    }
+    songs.classList = "text-dark text-body text-decoration-none text-nowrap";
+    span = document.createElement("span");
+    span.style.fontFamily = "'Squada One', cursive";
+    span.style.fontSize = "5vw";
+    span.style.lineHeight = ".9em";
+    //span.classList = "display-3"
+    span.innerHTML = value;
+    label = document.createElement("h3");
+    label.classList = "mb-3 text-black-50 text-wrap"
+    label.innerHTML = name;
+    songs.append(span)
+    songs.append(label)
+    $("#stats").append(songs)
+}
+
+function generateDivider() {
+    divider = document.createElement("div");
+    divider.style.borderBottom = "3px solid green";
+    $("#stats").append(divider);
+}
+
 function displayProfile(req, identifier) {
     var response = JSON.parse(req.responseText);
-    $("#name")[0].innerHTML = response["display_name"];
-    $("#id")[0].innerHTML = response["id"];
-    $("#id")[0].href = response["external_urls"]["spotify"];
-    product = response["product"];
-    $("#account_type")[0].innerHTML = product.charAt(0).toUpperCase() + product.slice(1);
+    if (response["total"]) {
+        generateStat("Liked Songs", response["total"], true);
+        //generateDivider();
+    } else {
+        $("#name")[0].innerHTML = response["display_name"];
+        $("#id")[0].innerHTML = response["id"];
+        $("#id")[0].href = response["external_urls"]["spotify"];
+        product = response["product"];
+        $("#account_type")[0].innerHTML = product.charAt(0).toUpperCase() + product.slice(1);
 
-    function showImage(imgPath) {
-        var myImage = new Image();
-        myImage.name = imgPath;
-        myImage.src = imgPath;
-        myImage.onload = function findHHandWW() {
-            var imgHeight = this.height;
-            var imgWidth = this.width;
-            if (imgHeight > 150 || imgWidth > 150) {
-                var hratio = imgHeight / 150;
-                var wratio = imgWidth / 150;
-                if (hratio > wratio) {
-                    imgHeight = imgHeight / hratio;
-                    imgWidth = imgWidth / hratio;
-                } else {
-                    imgHeight = imgHeight / wratio;
-                    imgWidth = imgWidth / wratio;
-                }
-            }
-            $("#image")[0].innerHTML = "<img height='" + imgHeight + "px' width='" + imgWidth + "pxH' src='" + image_url + "'>";
-            $("#image").removeClass("dot");
+        if (Object.keys(response["images"]).length > 0) {
+            image_url = response["images"][0]["url"];
+            console.log(image_url)
+            showImage(image_url);
         }
+
+        generateStat("Followers", response["followers"]["total"], true);
+        //generateDivider();
+        //generateStat("Following", response["followers"]["total"], true);
+        //generateDivider();
+        generateStat("Country", response["country"], false);
+        //generateDivider();
     }
-    if (Object.keys(response["images"]).length > 0) {
-        image_url = response["images"][0]["url"];
-        console.log(image_url)
-        showImage(image_url);
-    }
-    $("#followers")[0].innerHTML = response["followers"]["total"]
-    //$("#following")[0].innerHTML = "N/A"
-    $("#country")[0].innerHTML = response["country"]
 }
 
 function generateRow(row_title, art_url, track_name, items, type, response) {
@@ -80,30 +126,47 @@ function generateRow(row_title, art_url, track_name, items, type, response) {
 
         var art = document.createElement("div");
         var link = document.createElement("a");
+        var overlay = document.createElement("div");
         link.href = "#";
         link.classList = "cover-item text-center link";
         if (j == 0) {
             div.style = "margin-left: 0;";
         }
         art.style.backgroundImage = "url('" + album_url + "')";
+        overlay.title = j+1;
         if (type == "album") {
-        	art.classList = "art album";
-        	//console.log(type)
+            art.classList = "art album";
+            overlay.classList = "overlay album";
         } else {
-        	art.classList = "art artist";
-        	//console.log(type)
+            art.classList = "art artist";
+            overlay.classList = "overlay artist";
+            //console.log(type)
         }
+        art.append(overlay)
         var text = document.createElement("span");
         text.innerHTML = track_name.split('.').reduce(function(o, k) {
             if (k == "j") { k = j; }
             return o && o[k];
         }, response);
+
         text.classList = "text-light text-decoration-none";
         text.style.whiteSpace = "normal";
         text.style.wordWrap = "break-word";
         link.append(art);
         link.append(text);
         albumdiv.append(link);
+        art.addEventListener("mouseover", function() {
+        	if (event.target.classList.contains("art")) {
+	        	event.target.firstChild.innerHTML = event.target.firstChild.title;
+	        	event.target.firstChild.style.display = "block";
+	            event.target.firstChild.title = "";
+        	}
+        });
+        overlay.addEventListener("mouseout", function() {
+        	event.target.style.display = "none";
+        	event.target.title = event.target.innerHTML;
+            event.target.innerHTML = "";
+        });
     }
 }
 
@@ -116,6 +179,7 @@ function displayRecentlyPlayed(req, identifier) {
         track_name = 'items.j.track.name';
         items = items = Object.keys(response["items"]).length;
         generateRow("Recently Played", art_url, track_name, items, "album", response);
+        generateStat("since end of last song", convertISOTime(response["items"][0]["played_at"]), false);
     }
 }
 
@@ -133,7 +197,6 @@ function displayTopTracks(req, identifier) {
 
 function displayTopArtists(req, identifier) {
     var response = JSON.parse(req.responseText);
-    //console.log(response)
     if (Object.keys(response["items"]).length == 0) {
         console.log("Insufficient play history");
     } else {
