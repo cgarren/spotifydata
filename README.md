@@ -26,6 +26,7 @@ A web interface for getting song data through the spotify api
 * Followers
 * Playlists
 * Reccomendations
+* Insights (like Spotify.me)
 
 ### New Music Page (filter by user's top artists, maybe a "for you" tab-ML?, using Spotify rec's?)
 * New Singles
