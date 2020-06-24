@@ -27,18 +27,6 @@ function pickHex(color1, color2, weight) {
     return rgb;
 }
 
-function convertMilliseconds(millis) {
-    millis = Math.floor(millis)
-    var seconds = (millis / 1000) % 60;
-    seconds = Math.floor(seconds)
-    var minutes = (millis / (1000 * 60)) % 60;
-    minutes = Math.floor(minutes);
-    var hours = (millis / (1000 * 60 * 60)) % 24;
-    hours = Math.floor(hours)
-
-    return hours + "h " + minutes + "m " + seconds + "s";
-}
-
 function keyMap(src, target) {
     target = target || {};
     Object.keys(src).forEach(function(propName) {
@@ -52,29 +40,29 @@ function keyMap(src, target) {
 };
 
 function showAlert(message) {
-    alertdiv = $(".alertdiv")[0]
-    alert = document.createElement("div")
-    alert.innerHTML = message
-    alert.classList = "alert alert-danger alert-dismissible fade show"
-    alert.setAttribute("role", "alert")
-    button = document.createElement("button")
-    button.type = "button"
-    button.classList = "close"
-    button.setAttribute("data-dismiss", "alert")
-    button.setAttribute("aria-label", "Close")
-    close = document.createElement("span")
-    close.innerHTML = "&times;"
-    close.setAttribute("aria-hidden", "true")
-    button.append(close)
-    alert.append(button)
-    alertdiv.append(alert)
-    $("#searchbutton")[0].innerHTML = "Show me data!"
+    alertdiv = $(".alertdiv")[0];
+    alert = document.createElement("div");
+    alert.innerHTML = message;
+    alert.classList = "alert alert-danger alert-dismissible fade show";
+    alert.setAttribute("role", "alert");
+    button = document.createElement("button");
+    button.type = "button";
+    button.classList = "close";
+    button.setAttribute("data-dismiss", "alert");
+    button.setAttribute("aria-label", "Close");
+    close = document.createElement("span");
+    close.innerHTML = "&times;";
+    close.setAttribute("aria-hidden", "true");
+    button.append(close);
+    alert.append(button);
+    alertdiv.append(alert);
+    $("#searchbutton")[0].innerHTML = "Show me data!";
     $("#searchbutton").prop("disabled", false);
-    window.setTimeout(dismissAlert, 5000)
+    window.setTimeout(dismissAlert, 5000);
 }
 
 function searchForTrack(ev) {
-    //console.log("searching...")
+    //console.log("searching...");
     if (localStorage.getItem("track_features")) {
         localStorage.removeItem("track_features");
     }
@@ -85,86 +73,86 @@ function searchForTrack(ev) {
         localStorage.removeItem("artist_info");
     }
     if ($('.form-control:invalid').length == 0) {
-        //console.log("searching...")
+        //console.log("searching...");
         var searchfield = $("#validationCustom01")[0];
         var search = searchfield.value;
-        //console.log(searchfield.value)
+        //console.log(searchfield.value);
         var params = { "q": search, "type": "track", "limit": 1 };
-        //console.log(jQuery.param(params))
-        var url = "https://api.spotify.com/v1/search/?" + jQuery.param(params)
+        //console.log(jQuery.param(params));
+        var url = "https://api.spotify.com/v1/search/?" + jQuery.param(params);
 
-        //url = "https://api.spotify.com/v1/audio-features/3Wv6AagA0qqWH7nRDrkgh7"
-        loadRequest(url, complete_search)
+        //url = "https://api.spotify.com/v1/audio-features/3Wv6AagA0qqWH7nRDrkgh7";
+        loadRequest(url, complete_search);
         // send data as a dictionary
         //Put a loading icon in the button and disable it
-        //spinner = html.SPAN(Class = "spinner-border spinner-border-sm")
+        //spinner = html.SPAN(Class = "spinner-border spinner-border-sm");
         var spinner = document.createElement("span");
-        spinner.classList = "spinner-border spinner-border-sm"
-        var searchbutton = $("#searchbutton")[0]
-        //console.log(searchbutton.innerHTML)
-        searchbutton.innerHTML = ""
-        searchbutton.append(spinner)
-        searchbutton.disabled = true
+        spinner.classList = "spinner-border spinner-border-sm";
+        var searchbutton = $("#searchbutton")[0];
+        //console.log(searchbutton.innerHTML);
+        searchbutton.innerHTML = "";
+        searchbutton.append(spinner);
+        searchbutton.disabled = true;
     }
 }
 
 function complete_search(req) {
-    //console.log(req.responseText)
+    //console.log(req.responseText);
     if (req.status == 200 || req.status == 0) {
-        results = JSON.parse(req.responseText)
+        results = JSON.parse(req.responseText);
         if (results["tracks"]["items"].length > 0) {
             for (i = 0; i < results["tracks"]["items"].length; i++) {
                 try {
-                    console.log(results["tracks"]["items"][i]["name"] + " by " + results["tracks"]["items"][i]["artists"][0]["name"])
-                    var track_id = results["tracks"]["items"][i]["id"]
-                    var artist_id = results["tracks"]["items"][i]["artists"][0]["id"]
-                    var features_url = "https://api.spotify.com/v1/audio-features/" + track_id
-                    var info_url = "https://api.spotify.com/v1/tracks/" + track_id
-                    var artist_url = "https://api.spotify.com/v1/artists/" + artist_id
-                    loadRequest(features_url, saveData, 1)
-                    loadRequest(info_url, saveData, 2)
-                    loadRequest(artist_url, saveData, 3)
-                    //getTrackData(results["tracks"]["items"][i]["id"])
+                    console.log(results["tracks"]["items"][i]["name"] + " by " + results["tracks"]["items"][i]["artists"][0]["name"]);
+                    var track_id = results["tracks"]["items"][i]["id"];
+                    var artist_id = results["tracks"]["items"][i]["artists"][0]["id"];
+                    var features_url = "https://api.spotify.com/v1/audio-features/" + track_id;
+                    var info_url = "https://api.spotify.com/v1/tracks/" + track_id;
+                    var artist_url = "https://api.spotify.com/v1/artists/" + artist_id;
+                    loadRequest(features_url, saveData, 1);
+                    loadRequest(info_url, saveData, 2);
+                    loadRequest(artist_url, saveData, 3);
+                    //getTrackData(results["tracks"]["items"][i]["id"]);
                 } catch (err) {
-                    console.log("Error")
-                    break
+                    console.log("Error");
+                    break;
                 }
             }
         } else {
-            console.log("No results for that search")
-            showAlert("<strong>No songs found for that search!</strong>")
+            console.log("No results for that search");
+            showAlert("<strong>No songs found for that search!</strong>");
         }
     }
 }
 
 function saveData(req, identifier) {
-    //console.log(req.responseText)
-    var response = req.responseText
+    //console.log(req.responseText);
+    var response = req.responseText;
     if (identifier == 1) {
-        localStorage.setItem("track_features", response)
+        localStorage.setItem("track_features", response);
     } else if (identifier == 2) {
-        localStorage.setItem("track_info", response)
+        localStorage.setItem("track_info", response);
     } else if (identifier == 3) {
-        localStorage.setItem("artist_info", response)
+        localStorage.setItem("artist_info", response);
     } else {
-        console.log("Unkown Error")
+        console.log("Unkown Error");
     }
     var track_features = localStorage.getItem("track_features");
-    //console.log(track_features)
+    //console.log(track_features);
     var track_info = localStorage.getItem("track_info");
-    //console.log(track_info)
+    //console.log(track_info);
     var artist_info = localStorage.getItem("artist_info");
-    //console.log(artist_info)
+    //console.log(artist_info);
     if (track_features !== null & track_info !== null & artist_info != null) {
-        //console.log("Data received, formatting")
-        formatData(track_features, track_info, artist_info)
+        //console.log("Data received, formatting");
+        formatData(track_features, track_info, artist_info);
     }
 }
 
 function formatData(track_features, track_info, artist_info) {
-    track_features = JSON.parse(track_features)
-    track_info = JSON.parse(track_info)
-    artist_info = JSON.parse(artist_info)
+    track_features = JSON.parse(track_features);
+    track_info = JSON.parse(track_info);
+    artist_info = JSON.parse(artist_info);
 
     let song_key_codes = new Map([
         [-1, "Unkown key"],
@@ -190,21 +178,21 @@ function formatData(track_features, track_info, artist_info) {
         [1, "major"]
     ]);
 
-    track_features["duration"] = convertMilliseconds(track_features["duration_ms"])
+    track_features["duration"] = convertMilliseconds(track_features["duration_ms"]);
     delete track_features["duration_ms"];
-    track_features["loudness"] = track_features["loudness"].toFixed(1) + " decibels"
-    track_features["valence (happiness)"] = +track_features["valence"].toFixed(2)
-    delete track_features["valence"]
-    track_features["time signature"] = track_features["time_signature"]
-    delete track_features["time_signature"]
-    track_features["tempo"] = Math.round(track_features["tempo"]) + " BPM"
-    track_features["danceability"] = Math.round(track_features["danceability"] * 100)
-    track_features["energy"] = Math.round(track_features["energy"] * 100)
-    track_features["speechiness"] = Math.round(track_features["speechiness"] * 100)
-    track_features["acousticness"] = Math.round(track_features["acousticness"] * 100)
-    track_features["instrumentalness"] = Math.round(track_features["instrumentalness"] * 100)
-    track_features["liveness"] = Math.round(track_features["liveness"] * 100)
-    track_features["valence (happiness)"] = Math.round(track_features["valence (happiness)"] * 100)
+    track_features["loudness"] = track_features["loudness"].toFixed(1) + " decibels";
+    track_features["valence (happiness)"] = +track_features["valence"].toFixed(2);
+    delete track_features["valence"];
+    track_features["time signature"] = track_features["time_signature"];
+    delete track_features["time_signature"];
+    track_features["tempo"] = Math.round(track_features["tempo"]) + " BPM";
+    track_features["danceability"] = Math.round(track_features["danceability"] * 100);
+    track_features["energy"] = Math.round(track_features["energy"] * 100);
+    track_features["speechiness"] = Math.round(track_features["speechiness"] * 100);
+    track_features["acousticness"] = Math.round(track_features["acousticness"] * 100);
+    track_features["instrumentalness"] = Math.round(track_features["instrumentalness"] * 100);
+    track_features["liveness"] = Math.round(track_features["liveness"] * 100);
+    track_features["valence (happiness)"] = Math.round(track_features["valence (happiness)"] * 100);
     //console.log(track_features)
 
     //Insert player widget
@@ -226,12 +214,12 @@ function formatData(track_features, track_info, artist_info) {
     player.frameBorder = "0";
     player.allowTransparency = "true";
     player.allow = "encrypted-media";
-    player.classList = "shadow"
+    player.classList = "shadow";
     playerdiv.append(player);
 
     //All the elements will be inserted in the div with the "container" class
 
-    var container = $(".container")[1]
+    var container = $(".container")[1];
 
     if ($('table').length == 0) {
         //this is the first request and there is no table present
@@ -263,9 +251,9 @@ function formatData(track_features, track_info, artist_info) {
         var tableheader = document.createElement("th");
         tableheader.colSpan = "2";
         tableheader.innerHTML = "Stats for " + song_title + " by " + artist;
-        //html.TH("Stats for " + song_title + " by " + artist, colspan="2") //+ " on the album " + album + ":\n"
-        tablerowh.append(tableheader)
-        thead.append(tablerowh)
+        //html.TH("Stats for " + song_title + " by " + artist, colspan="2"); //+ " on the album " + album + ":\n"
+        tablerowh.append(tableheader);
+        thead.append(tablerowh);
     } catch {
         thead.innerHTML = "Error: Could not get track from the provided id";
     }
@@ -277,9 +265,9 @@ function formatData(track_features, track_info, artist_info) {
     var tableheader2 = document.createElement("th");
     tableheader2.innerHTML = "Value";
     tableheader2.classList = "text-left";
-    tablerowa.append(tableheader1)
-    tablerowa.append(tableheader2)
-    thead.append(tablerowa)
+    tablerowa.append(tableheader1);
+    tablerowa.append(tableheader2);
+    thead.append(tablerowa);
 
     //html.TR(html.TH("Song Attribute") + html.TH("Value", Class="text-left"))
 
@@ -294,66 +282,66 @@ function formatData(track_features, track_info, artist_info) {
     tablediv <= table
         
     except:
-         document <= "An error occured"*/
+         document <= "An error occured";*/
 
-    track_features["song popularity"] = track_info["popularity"]
+    track_features["song popularity"] = track_info["popularity"];
 
-    //console.log(track_info["popularity"])
+    //console.log(track_info["popularity"]);
 
-    track_features["artist popularity"] = artist_info["popularity"]
+    track_features["artist popularity"] = artist_info["popularity"];
 
-    //console.log("artist popularity: " + artist_info["popularity"] + " " + track_features["artist popularity"])
+    //console.log("artist popularity: " + artist_info["popularity"] + " " + track_features["artist popularity"]);
 
     if (track_info["explicit"] == false) {
-        //console.log("explicit: no")
-        track_features["explicit"] = "no"
+        //console.log("explicit: no");
+        track_features["explicit"] = "no";
     } else {
-        //console.log("explicit: yes")
-        track_features["explicit"] = "yes"
+        //console.log("explicit: yes");
+        track_features["explicit"] = "yes";
     }
 
-    track_features["release date"] = track_info["album"]["release_date"]
-    //console.log("release date: " + track_info["album"]["release_date"])
+    track_features["release date"] = track_info["album"]["release_date"];
+    //console.log("release date: " + track_info["album"]["release_date"]);
 
-    //var first = true
-    //console.log(artist_info["genres"][artist_info["genres"].length-1])
+    //var first = true;
+    //console.log(artist_info["genres"][artist_info["genres"].length-1]);
     if (artist_info["genres"].length == 0) {
-        genre_string = "unknown"
+        genre_string = "unknown";
     } else if (artist_info["genres"].length == 1) {
-        genre_string = artist_info["genres"][0]
+        genre_string = artist_info["genres"][0];
     } else {
         var genre_string = ""
         for (let i of artist_info["genres"].keys()) {
-            //console.log(i)
+            //console.log(i);
             if (artist_info["genres"][i] == artist_info["genres"][artist_info["genres"].length - 1]) {
-                genre_string = genre_string + artist_info["genres"][i]
+                genre_string = genre_string + artist_info["genres"][i];
             } else {
-                genre_string = genre_string + artist_info["genres"][i] + ", "
+                genre_string = genre_string + artist_info["genres"][i] + ", ";
             }
         }
     }
     //tbody <= html.TR(html.TD("genres", Class="text-left", style={"max-width":"80px"}) + html.TD(genre_string, Class="text-left", style={"max-width":"80px"}))
     var tablerow = document.createElement("tr");
     var tabledata1 = document.createElement("td");
-    tabledata1.innerHTML = "genres";
+    tabledata1.innerHTML = "artist genres";
     tabledata1.classList = "text-left";
-    tabledata1.style.maxWidth = "80px"
+    tabledata1.style.maxWidth = "80px";
     var tabledata2 = document.createElement("td");
     tabledata2.innerHTML = genre_string;
     tabledata2.classList = "text-left";
-    tabledata2.style.maxWidth = "80px"
-    tablerow.append(tabledata1)
-    tablerow.append(tabledata2)
-    tbody.append(tablerow)
+    tabledata2.style.maxWidth = "80px";
+    tablerow.append(tabledata1);
+    tablerow.append(tabledata2);
+    tbody.append(tablerow);
 
     for (key in track_features) {
         if (key == "key") {
-            //console.log("going into key")
-            //console.log(song_key_codes)
+            //console.log("going into key");
+            //console.log(song_key_codes);
             for (let cay of song_key_codes.keys()) {
-                //console.log(track_features[key] + " " + cay + " hello")
+                //console.log(track_features[key] + " " + cay + " hello");
                 if (track_features[key] == cay) {
-                    track_features[key] = song_key_codes.get(cay)
+                    track_features[key] = song_key_codes.get(cay);
                 }
             }
         }
@@ -361,7 +349,7 @@ function formatData(track_features, track_info, artist_info) {
             //console.log("going into mode")
             for (let cay of song_mode_codes.keys()) {
                 if (track_features[key] == cay) {
-                    track_features[key] = song_mode_codes.get(cay)
+                    track_features[key] = song_mode_codes.get(cay);
                 }
             }
         }
@@ -373,30 +361,30 @@ function formatData(track_features, track_info, artist_info) {
             var tabledata1 = document.createElement("td");
             tabledata1.innerHTML = key;
             tabledata1.classList = "text-left";
-            tabledata1.style.maxWidth = "80px"
+            tabledata1.style.maxWidth = "80px";
             var tabledata2 = document.createElement("td");
             tabledata2.innerHTML = track_features[key];
             tabledata2.classList = "text-left";
-            tabledata2.style.maxWidth = "80px"
-            tablerow.append(tabledata1)
-            tablerow.append(tabledata2)
-            tbody.append(tablerow)
+            tabledata2.style.maxWidth = "80px";
+            tablerow.append(tabledata1);
+            tablerow.append(tabledata2);
+            tbody.append(tablerow);
 
             //console.log(key, typeof(track_features[key]))
 
             val = track_features[key] / 100;
             if (typeof(track_features[key]) == "number" && key != "time signature") {
                 if (val == .5) {
-                    color = [255, 255, 255]
+                    color = [255, 255, 255];
                 }
                 /*else if (val < .5) {
                                  color = pickHex([255, 255, 255], [117, 117, 117], val)
                              } */
                 else {
-                    color = pickHex([255, 0, 0], [255, 255, 255], val)
+                    color = pickHex([255, 0, 0], [255, 255, 255], val);
                 }
-                tabledata2.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")"
-                tabledata1.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")"
+                tabledata2.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
+                tabledata1.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
                 //console.log(key, val, typeof(val), tabledata2.style.color)
             }
             //var hue = Math.floor((100 - val) * 220 / 100);  // go from green to red
@@ -409,13 +397,13 @@ function formatData(track_features, track_info, artist_info) {
         }
     }
 
-    table.append(thead)
-    table.append(tbody)
-    tablediv.append(table)
-    rowdiv.append(tablediv)
-    container.append(rowdiv)
-    searchbutton.innerHTML = "Show me data!"
-    searchbutton.disabled = false
+    table.append(thead);
+    table.append(tbody);
+    tablediv.append(table);
+    rowdiv.append(tablediv);
+    container.append(rowdiv);
+    searchbutton.innerHTML = "Show me data!";
+    searchbutton.disabled = false;
 }
 
 window.onload = setTimeout(function() {

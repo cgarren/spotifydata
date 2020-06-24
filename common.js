@@ -22,6 +22,22 @@ function getHashParams() {
     return hashParams;
 }
 
+function convertMilliseconds(millis) {
+    millis = Math.floor(millis);
+    var seconds = (millis / 1000) % 60;
+    seconds = Math.floor(seconds);
+    var minutes = (millis / (1000 * 60)) % 60;
+    minutes = Math.floor(minutes);
+    var hours = (millis / (1000 * 60 * 60)) % 24;
+    hours = Math.floor(hours);
+
+    if (hours == 0) {
+        return minutes + "m " + seconds + "s";
+    } else {
+        return hours + "h " + minutes + "m " + seconds + "s";
+    }
+}
+
 function loadRequest(url, callbackFunction, identifier) {
     var xhttp;
     var oauth_id = localStorage.getItem('access_token');
@@ -50,10 +66,10 @@ function dismissAlert() {
 
 $.get('nav.html', function(data){
     getParamsFromURL()
-    console.log(localStorage.getItem('raw_hash'))
+    //console.log(localStorage.getItem('raw_hash'))
     $('body').prepend(data);
-    if (localStorage.getItem('raw_hash') == null) {
-        console.log("NULL!")
+    if (localStorage.getItem('raw_hash') == null || localStorage.getItem('raw_hash') == "") {
+        console.log("NULL !")
         $("#songdata_link")[0].href = "https://spotifydata.ml/songdata"
         $("#userdata_dropdown a:nth-child(1)")[0].href = "https://spotifydata.ml/profile"
         $("#userdata_dropdown a:nth-child(2)").hide()//[0].href = "https://spotifydata.ml/profile"
