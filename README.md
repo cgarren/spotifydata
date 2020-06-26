@@ -20,7 +20,7 @@ A web interface for getting song data through the spotify api
 * Generally make the page more appealing
 
 ### Account Stats Page
-* Account Info (minutes listened/tracks played?, add time range slider!!)
+* Account Info (minutes listened/tracks played/time of day most active?, add time range slider!!)
 * Top Artists/Top tracks
 * Recently Played
 * Followers
