@@ -20,7 +20,7 @@ A web interface for getting song data through the spotify api
 * Generally make the page more appealing
 
 ### Account Stats Page
-* Account Info (minutes listened/tracks played?, add time range slider)
+* Account Info (minutes listened/tracks played?, add time range slider!!)
 * Top Artists/Top tracks
 * Recently Played
 * Followers
@@ -35,6 +35,10 @@ A web interface for getting song data through the spotify api
 
 ### Small link to other cool Spotify sites (at bottom of page)
 * Kaleidosync
+
+### Queue Manager
+* Ability to save current/different queues and batch add songs to queue
+* 
 
 ## Author
 * Cooper Garren
