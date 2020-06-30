@@ -26,7 +26,7 @@ A web interface for getting song data through the spotify api, plus much more!
 * Followers
 * Playlists/Library (Click on a a playlist or library to get stats on it- genre %, avg duration, tempo, valence, etc..., Add in a way to reorder based on attributes)
 * Reccomendations
-* Insights (like Spotify.me)
+* Insights (like Spotify.me, deeper than just stats, perhaps observations about general listening, reccomendartions on how to use spotify better, listen better)
 
 ### New Music Page (filter by user's top artists, maybe a "for you" tab-ML?, using Spotify rec's?)
 * New Singles
