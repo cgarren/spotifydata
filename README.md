@@ -1,6 +1,6 @@
 # Spotify Data
 
-A web interface for getting song data through the spotify api, plus much more!
+A web interface for getting song data through the Spotify API, plus much more!
 
 ## Website Link
 [spotifydata.ml](https://spotifydata.ml/)
