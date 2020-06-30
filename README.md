@@ -18,6 +18,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * ~~Add a 30 sec preview to track data page using preview_url field~~
 * ~~Add album art~~
 * Generally make the page more appealing
+* Add to queue button for song
 
 ### Account Stats Page
 * Account Info (minutes listened/tracks played/time of day most active?, number of playlists, avg number of songs per playlist?, popularity of top artists, add time range slider/button group!!)
