@@ -53,15 +53,17 @@ function generateStat(name, value, is_link) {
         songs = document.createElement("a");
         songs.href = "#";
     }
-    songs.classList = "text-dark text-body text-decoration-none text-nowrap";
+    songs.classList = "text-decoration-none text-light text-nowrap display-3";
     span = document.createElement("span");
     span.style.fontFamily = "'Squada One', cursive";
-    span.style.fontSize = "5vw";
-    span.style.lineHeight = ".9em";
+    //span.style.color = "#1DB954"
+    //span.style.fontSize = "5vw";
+    span.style.lineHeight = ".7em";
     //span.classList = "display-3"
     span.innerHTML = value;
     label = document.createElement("h3");
-    label.classList = "mb-3 text-black-50 text-wrap"
+    label.classList = "mb-3 text-white-50 text-wrap"
+    //label.style.color = "#1d9146"
     label.innerHTML = name;
     songs.append(span)
     songs.append(label)
