@@ -14,6 +14,18 @@ window.onload = function() {
     } else {
         $("#errormessage")[0].style.display = "block";
     }
+    var slider = new Slider('#ex1', {
+        formatter: function(value) {
+        	if (value == 1) {
+        		value = "6 Weeks";
+        	} else if (value == 2) {
+        		value = "6 Months"; 
+        	} else {
+        		value = "Years"
+        	}
+            return value;
+        }
+    });
 }
 
 function convertISOTime(date) {
@@ -135,7 +147,7 @@ function generateRow(row_title, art_url, track_name, items, type, response) {
             div.style = "margin-left: 0;";
         }
         art.style.backgroundImage = "url('" + album_url + "')";
-        overlay.title = j+1;
+        overlay.title = j + 1;
         if (type == "album") {
             art.classList = "art album";
             overlay.classList = "overlay album";
@@ -158,15 +170,15 @@ function generateRow(row_title, art_url, track_name, items, type, response) {
         link.append(text);
         albumdiv.append(link);
         art.addEventListener("mouseover", function() {
-        	if (event.target.classList.contains("art")) {
-	        	event.target.firstChild.innerHTML = event.target.firstChild.title;
-	        	event.target.firstChild.style.display = "block";
-	            event.target.firstChild.title = "";
-        	}
+            if (event.target.classList.contains("art")) {
+                event.target.firstChild.innerHTML = event.target.firstChild.title;
+                event.target.firstChild.style.display = "block";
+                event.target.firstChild.title = "";
+            }
         });
         overlay.addEventListener("mouseout", function() {
-        	event.target.style.display = "none";
-        	event.target.title = event.target.innerHTML;
+            event.target.style.display = "none";
+            event.target.title = event.target.innerHTML;
             event.target.innerHTML = "";
         });
     }
