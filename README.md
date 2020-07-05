@@ -19,10 +19,10 @@ A web interface for getting song data through the Spotify API, plus much more!
 * ~~Add album art~~
 * Generally make the page more appealing
 * Add to queue button for song
-* Lyrics on page/link to them (Musixmatch api integration? Possibly a widget?)
+* Lyrics on page/link to them (Musixmatch api integration? Possibly a widget? Genius lyrics/facts about the song?)
 
 ### Account Stats Page
-* Account Info (minutes listened/tracks played/time of day most active?, number of playlists, avg number of songs per playlist?, popularity of top artists, add time range slider/button group!!)
+* Account Info (minutes listened/tracks played/time of day most active?, number of playlists, avg number of songs per playlist?, popularity of top artists, ~~add time range slider/button group!!~~)
 * Top Artists/Top tracks
 * Recently Played
 * Followers
