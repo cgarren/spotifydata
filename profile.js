@@ -8,22 +8,34 @@ window.onload = function() {
         loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", displayProfile, 1);
         loadRequest("https://api.spotify.com/v1/me", displayProfile, 1);
         loadRequest("https://api.spotify.com/v1/me/player/recently-played?limit=50", displayRecentlyPlayed, 1);
-        loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term", displayTopTracks, 1);
-        loadRequest("https://api.spotify.com/v1/me/top/artists?limit=50&time_range=long_term", displayTopArtists, 1);
+        loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term", displayTopTracks, 1);
+        loadRequest("https://api.spotify.com/v1/me/top/artists?limit=50&time_range=medium_term", displayTopArtists, 1);
         //loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=30&time_range=long_term", displayTopTracks, 1);
     } else {
         $("#errormessage")[0].style.display = "block";
     }
     var slider = new Slider('#ex1', {
         formatter: function(value) {
-        	if (value == 1) {
-        		value = "6 Weeks";
-        	} else if (value == 2) {
-        		value = "6 Months"; 
-        	} else {
-        		value = "Years"
-        	}
+            if (value == 1) {
+                value = "6 Weeks";
+            } else if (value == 2) {
+                value = "6 Months";
+            } else {
+                value = "Years";
+            }
             return value;
+        }
+    });
+    slider.on("change", function() {
+        if (slider.getValue() == 1) {
+            loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=short_term", displayTopTracks, 1);
+            loadRequest("https://api.spotify.com/v1/me/top/artists?limit=50&time_range=short_term", displayTopArtists, 1);
+        } else if (slider.getValue() == 2) {
+            loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term", displayTopTracks, 1);
+            loadRequest("https://api.spotify.com/v1/me/top/artists?limit=50&time_range=medium_term", displayTopArtists, 1);
+        } else {
+            loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term", displayTopTracks, 1);
+            loadRequest("https://api.spotify.com/v1/me/top/artists?limit=50&time_range=long_term", displayTopArtists, 1);
         }
     });
 }
@@ -31,7 +43,24 @@ window.onload = function() {
 function convertISOTime(date) {
     var date = new Date(date);
     var now = new Date();
-    return convertMilliseconds(now - date);
+    var millis = Math.floor(now - date);
+    var seconds = (millis / 1000) % 60;
+    seconds = Math.floor(seconds);
+    var minutes = (millis / (1000 * 60)) % 60;
+    minutes = Math.floor(minutes);
+    var hours = (millis / (1000 * 60 * 60)) % 24;
+    hours = Math.floor(hours);
+    var days = Math.floor(millis / (1000 * 60 * 60) / 24);
+
+    if (minutes == 0) {
+        return seconds + "s";
+    } else if (hours == 0) {
+        return minutes + "m " + seconds + "s";
+    } else if (days == 0) {
+        return hours + "h " + minutes + "m";
+    } else {
+        return days + "d " + hours + "h";
+    }
 }
 
 function showImage(imgPath) {
@@ -115,10 +144,16 @@ function displayProfile(req, identifier) {
     }
 }
 
-function generateRow(row_title, art_url, track_name, items, type, response) {
+function generateRow(row_title, art_url, track_name, popularity, items, type, response) {
+    console.log(response)
+    let row_id = row_title.replace(/\s+/g, '');
+    if ($("#" + row_id.length)) {
+        $("#" + row_id).remove();
+    }
     //Generate row
     div = document.createElement("div");
     div.classList = "row";
+    div.id = row_id;
     title = document.createElement("div");
     title.classList = "col h2";
     title.innerHTML = row_title;
@@ -129,9 +164,10 @@ function generateRow(row_title, art_url, track_name, items, type, response) {
     col.append(albumdiv);
     div.append(title);
     div.append(col);
-    $("#main_row").append(div);
+    $("#" + row_id + "div").append(div);
 
     //Fill content
+    var avgpop = 0;
     for (var j = 0; j < items; j = j + 1) {
         var album_url = art_url.split('.').reduce(function(o, k) {
             if (k == "j") { k = j; }
@@ -162,6 +198,10 @@ function generateRow(row_title, art_url, track_name, items, type, response) {
             if (k == "j") { k = j; }
             return o && o[k];
         }, response);
+        avgpop = avgpop + popularity.split('.').reduce(function(o, k) {
+            if (k == "j") { k = j; }
+            return o && o[k];
+        }, response);
 
         text.classList = "text-light text-decoration-none";
         text.style.whiteSpace = "normal";
@@ -182,6 +222,10 @@ function generateRow(row_title, art_url, track_name, items, type, response) {
             event.target.innerHTML = "";
         });
     }
+    avgpopularity = document.createElement("span");
+    avgpopularity.innerHTML = " Avg popularity: " + avgpop/50;
+    avgpopularity.classList = "text-white-50 h5"
+    title.append(avgpopularity);
 }
 
 function displayRecentlyPlayed(req, identifier) {
@@ -191,8 +235,9 @@ function displayRecentlyPlayed(req, identifier) {
     } else {
         art_url = 'items.j.track.album.images.0.url';
         track_name = 'items.j.track.name';
+        popularity = 'items.j.track.popularity';
         items = items = Object.keys(response["items"]).length;
-        generateRow("Recently Played", art_url, track_name, items, "album", response);
+        generateRow("Recently Played", art_url, track_name, popularity, items, "album", response);
         generateStat("since end of last song", convertISOTime(response["items"][0]["played_at"]), false);
     }
 }
@@ -204,8 +249,9 @@ function displayTopTracks(req, identifier) {
     } else {
         art_url = 'items.j.album.images.0.url';
         track_name = 'items.j.name';
+        popularity = 'items.j.popularity';
         items = items = Object.keys(response["items"]).length;
-        generateRow("Top Tracks", art_url, track_name, items, "album", response);
+        generateRow("Top Tracks", art_url, track_name, popularity, items, "album", response);
     }
 }
 
@@ -216,7 +262,8 @@ function displayTopArtists(req, identifier) {
     } else {
         art_url = 'items.j.images.0.url';
         track_name = 'items.j.name';
+        popularity = 'items.j.popularity';
         items = items = Object.keys(response["items"]).length;
-        generateRow("Top Artists", art_url, track_name, items, "artist", response);
+        generateRow("Top Artists", art_url, track_name, popularity, items, "artist", response);
     }
 }
