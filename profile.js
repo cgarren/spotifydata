@@ -10,7 +10,6 @@ window.onload = function() {
         loadRequest("https://api.spotify.com/v1/me/player/recently-played?limit=50", displayRecentlyPlayed, 1);
         loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term", displayTopTracks, 1);
         loadRequest("https://api.spotify.com/v1/me/top/artists?limit=50&time_range=medium_term", displayTopArtists, 1);
-        //loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=30&time_range=long_term", displayTopTracks, 1);
     } else {
         $("#errormessage")[0].style.display = "block";
     }
@@ -145,7 +144,6 @@ function displayProfile(req, identifier) {
 }
 
 function generateRow(row_title, art_url, track_name, popularity, items, type, response) {
-    console.log(response)
     let row_id = row_title.replace(/\s+/g, '');
     if ($("#" + row_id.length)) {
         $("#" + row_id).remove();

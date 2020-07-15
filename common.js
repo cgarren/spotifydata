@@ -64,6 +64,7 @@ function dismissAlert() {
     $('.alert').alert('close')
 }
 
+//put this in a window.onload function
 $.get('nav.html', function(data){
     getParamsFromURL()
     //console.log(localStorage.getItem('raw_hash'))

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Material Design Bootstrap -->
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/css/mdb.min.css" rel="stylesheet">-->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300;400;500&family=Squada+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/coliff/bootstrap-rfs/bootstrap-rfs.css" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
+    <script type="text/javascript" src="playlists.js"></script>
+    <script type="text/javascript" src="common.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <title>Spotify Data</title>
+</head>
+
+<body class="bg-dark">
+    <div id="content" style="display: none;">
+        <div class="container-fluid mx-md-auto px-md-auto">
+            <div class="row m-0">
+                <div class="px-0 col-lg-9 col-md-8 text-light">
+                    <div id="main_row" class="col px-0">
+                        <div class="row text-center m-0 mb-3">
+                            <!--<span id="image" class="dot mt-4 ml-md-0 mr-md-4 mx-auto">
+                                <svg width="80" height="81" color="#88898D" viewBox="0 0 80 81" xmlns="http://www.w3.org/2000/svg" style="margin: 35px">
+                                    <title>Playlist Icon</title>
+                                    <path d="M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z" fill="currentColor" fill-rule="evenodd"></path>
+                                </svg>
+                            </span>-->
+                            <div class="display-3 text-md-left font-weight-bolder ml-md-0 mx-auto my-auto"><span id="name">Library and Playlists</span>
+                            </div>
+                        </div>
+                        <div id="PLaylistdiv" class="">
+                            <table class="table table-dark table-borderless">
+                                <thead class="border-bottom">
+                                    <tr>
+                                        <th scope="col">Playlist</th>
+                                        <th scope="col">Songs</th>
+                                        <th scope="col">Public?</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="Playlisttable">
+                                    <tr>
+                                        <td class="
+                                        text-nowrap"><span id="image" class="dot ml-md-0 mr-2">
+                                                <svg width="40" height="40.5" color="#88898D" viewBox="0 0 80 81" xmlns="http://www.w3.org/2000/svg" style="margin: 18px">
+                                                    <title>Playlist Icon</title>
+                                                    <path d="M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z" fill="currentColor" fill-rule="evenodd"></path>
+                                                </svg>
+                                            </span>Liked Songs</td>
+                                        <td class="align-middle">5116</td>
+                                        <td class="align-middle">120 hours</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="stats" class=" d-inline-flex flex-column col-lg-3 col-md-4 text-body text-center mt-2 h-100 mx-auto" style="border-radius: 40px; width: 90%">
+                    <!--background-color: #1DB954;-->
+                    <!--<a href="#" class="text-light text-decoration-none"><span id="following" class="display-2">200</span>
+                        <h3 class="mb-3">Following</h3>
+                    </a>-->
+                    <!--<span id="country" style="font-family: 'Squada One', cursive; font-size: 9vw; line-height: .9em;" class="display-2">US</span>
+                    <h3 class="mb-3 text-black-50">Country</h3>
+                    <div class="border-bottom"></div>
+                    <div style="height: 150px">
+                        <span id="genre" style="font-family: 'Squada One', cursive; font-size: 6vw; line-height: .9em;" class="display-2">Hip Hop</span>
+                        <h3 class="mb-3 text-black-50">Top Genre</h3>
+                    </div>
+                    <div class="border-bottom"></div>
+                    <div style="height: 150px">
+                        <span id="genre" style="font-family: 'Squada One', cursive; height: 100px; font-size: 9vw; line-height: .9em;" class="display-2">US</span>
+                        <h3 class="mb-3 text-black-50">Country</h3>
+                    </div>-->
+                    <!--<a href="#" class="text-dark text-body text-decoration-none"><span id="followers" style="font-family: 'Squada One', cursive; font-size: 9vw; line-height: .9em;" class="display-2">69</span>
+                        <h3 class="mb-3 text-black-50">Followers</h3>
+                    </a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+    .dot {
+        height: 80px;
+        width: 80px;
+        background-color: #222327;
+        border-radius: 0%;
+        display: inline-block;
+    }
+
+    #ex1Slider {
+        width: 55%;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    #ex1Slider .slider-selection {
+        background: #1DB954;
+    }
+
+    #ex1Slider .slider-handle {
+        background: #1DB954;
+    }
+
+    #ex1Slider .slider-tick {
+        background: white;
+        opacity: 1;
+    }
+
+    #ex1Slider .in-selection {
+        background: #1DB954;
+        opacity: 1;
+    }
+
+    #ex1Slider .slider-track-high {
+        background: white;
+    }
+
+    .cover-container {
+        height: 100%;
+        width: 100%;
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        margin-left: 0;
+    }
+
+    .cover-item {
+        position: relative;
+        display: inline-block;
+        margin: 8px 8px;
+        width: 200px;
+        height: 100%;
+        vertical-align: bottom;
+    }
+
+    .art {
+        box-shadow: 1px 1px 8px #000;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 200px;
+        height: 200px;
+        font-size: 9em;
+        color: white;
+        padding: 0;
+        line-height: 200px;
+    }
+
+    .artist {
+        border-radius: 100px;
+    }
+
+    .album {
+        border-radius: 2px;
+    }
+
+    .link:hover {
+        text-decoration: none;
+        /*opacity: 30%;*/
+    }
+
+    .overlay {
+        display: none;
+        background-color: rgba(0, 0, 0, 0.75);
+        font-family: 'Righteous', cursive;
+    }
+    </style>
+</body>
+
+</html>
