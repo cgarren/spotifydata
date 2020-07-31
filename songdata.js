@@ -410,8 +410,8 @@ window.onload = setTimeout(function() {
     $("#songdata_link").addClass("active");
     var success = getParamsFromURL();
     localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'))
-    $("#songdata_link")[0].href = "https://spotifydata.ml/songdata" + localStorage.getItem('raw_hash')
-    //$("#userdata_link")[0].href = "https://spotifydata.ml/userdata" + localStorage.getItem('raw_hash')
+    $("#songdata_link")[0].href = "https://spotifydata.com/songdata" + localStorage.getItem('raw_hash')
+    //$("#userdata_link")[0].href = "https://spotifydata.com/userdata" + localStorage.getItem('raw_hash')
     //try {
     if (success & localStorage.getItem('received_state') == localStorage.getItem('spotify_auth_state')) {
         $("#content")[0].style.display = "block"
