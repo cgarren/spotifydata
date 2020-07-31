@@ -10,6 +10,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * ~~Convert to pure javascript~~
 * ~~Style login page~~
 * ~~Make some javascript to deploy navbar html across all pages in common.js~~
+* Stop using the url to keep params (store locally then clear url for other things)
 * Add Logout button (clears tokens and such)
 
 ### Song Info Page
