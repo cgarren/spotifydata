@@ -3,7 +3,7 @@
 A web interface for getting song data through the Spotify API, plus much more!
 
 ## Website Link
-[spotifydata.ml](https://spotifydata.ml/)
+[spotifydata.com](https://spotifydata.com/)
 
 ## TODO
 ### General
