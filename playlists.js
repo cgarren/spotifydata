@@ -35,6 +35,7 @@ function showImage(imgPath, row) {
 
 function generateRow(playlist_image, playlist_name, playlist_songs, playlist_public) {
     var image_size = "80px";
+    var image = document.createElement("span");
     if (playlist_image != null) {
         var myImage = new Image();
         myImage.name = playlist_image["url"];
@@ -53,73 +54,56 @@ function generateRow(playlist_image, playlist_name, playlist_songs, playlist_pub
                     imgWidth = imgWidth / wratio;
                 }
             }*/
-            var table = $("#Playlisttable")[0];
-            var row = document.createElement("tr");
-            //var imgHTML = "<img height='" + imgHeight + "px' width='" + imgWidth + "pxH' src='" + playlist_image["url"] + "'>";
-            var name = document.createElement("td");
-            name.classList = "align-middle";
-            name.innerHTML = playlist_name;
-            var songs = document.createElement("td");
-            songs.classList = "align-middle";
-            var span = document.createElement("span");
-            songs.innerHTML = playlist_songs;
-            var public = document.createElement("td");
-            public.classList = "align-middle";
-            if (playlist_public == true) {
-                public.innerHTML = "yes";
-            } else {
-                public.innerHTML = "no";
-            }
-
-            var image = document.createElement("span");
             image.style.backgroundImage = 'url("' + playlist_image["url"] + '")';
             image.style.backgroundRepeat = "no-repeat";
             //image.style.backgroundAttachment = "fixed";
             image.style.backgroundPosition = "center";
             image.style.backgroundSize = "cover";
 
-            image.classList = "dot ml-md-0 mr-2";
+            image.classList = "dot ml-md-0 mr-2 float-left";
             image.style.height = image_size;
             image.style.width = image_size;
-            name.prepend(image);
-            row.append(name);
-            row.append(songs);
-            row.append(public);
-            table.append(row);
         }
     } else {
-        var table = $("#Playlisttable")[0];
-        var row = document.createElement("tr");
-        var image = document.createElement("span");
         image.id = "image";
-        image.classList = "dot ml-md-0 mr-2";
+        image.classList = "dot ml-md-0 mr-2 float-left";
         image.innerHTML = "<svg width='40' height='40.5' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 18px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg>";
         //"<span id='image' class='dot ml-md-0 mr-2'><svg width='40' height='40.5' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 18px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg></span>";
-        var name = document.createElement("td");
-        name.classList = "align-middle";
-        name.innerHTML = playlist_name;
-        var songs = document.createElement("td");
-        songs.classList = "align-middle";
-        songs.innerHTML = playlist_songs;
-        var public = document.createElement("td");
-        public.classList = "align-middle";
-        if (playlist_public == true) {
-            public.innerHTML = "yes";
-        } else {
-            public.innerHTML = "no";
-        }
-
-        name.prepend(image);
-        row.append(name);
-        row.append(songs);
-        row.append(public);
-        table.append(row);
     }
+    var table = $("#Playlisttable")[0];
+    var row = document.createElement("tr");
+    var holder = document.createElement("td");
+    holder.classList = "holder"
+    //holder.bind("click", )
+    var name = document.createElement("div");
+    name.classList = "align-middle h5 font-weight-bold";
+    name.innerHTML = playlist_name;
+    var songs = document.createElement("div");
+    songs.classList = "align-middle text-secondary font-weight-normal";
+    if (playlist_songs == 1) {
+        songs.innerHTML = playlist_songs + " song";
+    } else {
+        songs.innerHTML = playlist_songs + " songs";
+    }
+    var public = document.createElement("div");
+    public.classList = "align-middle text-secondary font-weight-normal";
+    if (playlist_public == true) {
+        public.innerHTML = "Public";
+    } else {
+        public.innerHTML = "Private";
+    }
+
+    holder.prepend(image);
+    holder.append(name)
+    holder.append(songs);
+    holder.append(public);
+    row.append(holder);
+    table.append(row);
 }
 
 function displayPlaylists(req, identifier) {
     var response = JSON.parse(req.responseText);
-    console.log(response)
+    //console.log(response)
     if (response["total"] > 100 && identifier == 1) {
         loadRequest("https://api.spotify.com/v1/me/playlists?limit=50&offset=50", displayPlaylists, 2);
         loadRequest("https://api.spotify.com/v1/me/playlists?limit=50&offset=100", displayPlaylists, 3);
@@ -128,7 +112,7 @@ function displayPlaylists(req, identifier) {
     }
 
     for (i in response["items"]) {
-        console.log(i)
+        //console.log(i)
         generateRow(response["items"][i]["images"][0], response["items"][i]["name"], response["items"][i]["tracks"]["total"], response["items"][i]["public"]);
     }
     /*product = response["product"];

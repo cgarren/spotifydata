@@ -52,7 +52,7 @@
             var state = generateRandomString(16);
 
             localStorage.setItem(stateKey, state);
-            var scope = 'user-read-private user-read-email user-follow-read user-follow-modify user-read-private user-read-email streaming user-read-currently-playing user-read-recently-played user-modify-playback-state user-library-modify user-library-read user-top-read';
+            var scope = 'user-read-private user-read-email user-follow-read user-follow-modify user-read-private user-read-email streaming user-read-currently-playing user-read-recently-played user-modify-playback-state user-library-modify user-library-read user-top-read user-modify-private';
 
             var url = 'https://accounts.spotify.com/authorize';
             url += '?response_type=token';
