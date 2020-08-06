@@ -406,11 +406,11 @@ function formatData(track_features, track_info, artist_info) {
     searchbutton.disabled = false;
 }
 
-window.onload = setTimeout(function() {
+function init() {
     $("#songdata_link").addClass("active");
     var success = getParamsFromURL();
     localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'))
-    $("#songdata_link")[0].href = "https://spotifydata.com/songdata" + localStorage.getItem('raw_hash')
+    //$("#songdata_link")[0].href = "https://spotifydata.com/songdata" + localStorage.getItem('raw_hash')
     //$("#userdata_link")[0].href = "https://spotifydata.com/userdata" + localStorage.getItem('raw_hash')
     //try {
     if (success & localStorage.getItem('received_state') == localStorage.getItem('spotify_auth_state')) {
@@ -423,4 +423,6 @@ window.onload = setTimeout(function() {
         $("#errormessage")[0].style.display = "block"
         //console.log(success, localStorage.getItem('received_state'), localStorage.getItem('spotify_auth_state'))
     }
-}, 200);
+}
+
+addLoadEvent(init);
