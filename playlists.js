@@ -3,7 +3,7 @@ function init() {
     $("#userdata_dropdown a:nth-child(1)").addClass("active");
     $("#content")[0].style.display = "block";
     loadRequest("https://api.spotify.com/v1/me/playlists?limit=50", displayPlaylists, 1);
-    console.log(getHashParams()["raw_hash"])
+    //console.log(getHashParams()["raw_hash"])
 }
 
 addLoadEvent(init);

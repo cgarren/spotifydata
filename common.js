@@ -90,7 +90,7 @@ function load() {
             $("#userdata_dropdown a:nth-child(2)").hide() //[0].href = "https://spotifydata.com/profile";
             $("#userdata_dropdown a:nth-child(3)").hide() //[0].href = "https://spotifydata.com/profile";
             $("#userdata_dropdown a:nth-child(4)").hide() //[0].href = "https://spotifydata.com/profile";
-            $("#userdata_dropdown a:nth-child(5)").hide() //[0].href = "https://spotifydata.com/profile";
+            $("#userdata_dropdown a:nth-child(5)")[0].href = "https://spotifydata.com/playlists";
             $("#userdata_dropdown a:nth-child(6)").hide() //[0].href = "https://spotifydata.com/profile";
         } else {
             $("#songdata_link")[0].href = "https://spotifydata.com/songdata"// + localStorage.getItem('raw_hash');
@@ -98,7 +98,7 @@ function load() {
             $("#userdata_dropdown a:nth-child(2)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
             $("#userdata_dropdown a:nth-child(3)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
             $("#userdata_dropdown a:nth-child(4)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
-            $("#userdata_dropdown a:nth-child(5)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
+            $("#userdata_dropdown a:nth-child(5)")[0].href = "https://spotifydata.com/playlists"// + localStorage.getItem('raw_hash');
             $("#userdata_dropdown a:nth-child(6)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
         }
     });
