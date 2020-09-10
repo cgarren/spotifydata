@@ -198,6 +198,7 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
         text.classList = "text-light text-decoration-none";
         text.style.whiteSpace = "normal";
         text.style.wordWrap = "break-word";
+        $clamp(text, {clamp: 2});
         link.append(art);
         link.append(text);
         albumdiv.append(link);
@@ -215,8 +216,10 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
         });
     }
     avgpopularity = document.createElement("span");
-    avgpopularity.innerHTML = " Avg popularity: " + avgpop / 50;
+    avgpopularity.innerHTML = "Avg popularity: " + avgpop / 50;
     avgpopularity.classList = "text-white-50 h5"
+    title.append(document.createElement("br"))
+    title.style.lineHeight = ".7em";
     title.append(avgpopularity);
 }
 
