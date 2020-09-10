@@ -44,6 +44,47 @@ function convertMilliseconds(millis) {
     }
 }
 
+function showAlert(message, type, time) {
+    //message can be HTML
+    //time = 0 means alert never expires, in ms
+    /*  TYPES OF ALERTS
+    alert-danger
+    alert-primary
+    alert-secondary
+    alert-success
+    alert-warning
+    alert-info
+    alert-light
+    alert-dark
+    */
+    alertdiv = $(".alertdiv")[0];
+    alert = document.createElement("div");
+    alert.innerHTML = message;
+    alert.classList = "alert alert-dismissible fade show";
+    alert.classList.add(type)
+    alert.setAttribute("role", "alert");
+    button = document.createElement("button");
+    button.type = "button";
+    button.classList = "close";
+    button.setAttribute("data-dismiss", "alert");
+    button.setAttribute("aria-label", "Close");
+    close = document.createElement("span");
+    close.innerHTML = "&times;";
+    close.setAttribute("aria-hidden", "true");
+    button.append(close);
+    alert.append(button);
+    alertdiv.append(alert);
+    try {
+        $("#searchbutton")[0].innerHTML = "Show me data!";
+        $("#searchbutton").prop("disabled", false);
+    } catch {
+
+    }
+    if (time != 0) {
+        window.setTimeout(dismissAlert, time);
+    }
+}
+
 function loadRequest(url, callbackFunction, identifier) {
     var xhttp;
     var oauth_id = localStorage.getItem('access_token');

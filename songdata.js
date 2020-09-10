@@ -36,28 +36,6 @@ function keyMap(src, target) {
     return target;
 };
 
-function showAlert(message) {
-    alertdiv = $(".alertdiv")[0];
-    alert = document.createElement("div");
-    alert.innerHTML = message;
-    alert.classList = "alert alert-danger alert-dismissible fade show";
-    alert.setAttribute("role", "alert");
-    button = document.createElement("button");
-    button.type = "button";
-    button.classList = "close";
-    button.setAttribute("data-dismiss", "alert");
-    button.setAttribute("aria-label", "Close");
-    close = document.createElement("span");
-    close.innerHTML = "&times;";
-    close.setAttribute("aria-hidden", "true");
-    button.append(close);
-    alert.append(button);
-    alertdiv.append(alert);
-    $("#searchbutton")[0].innerHTML = "Show me data!";
-    $("#searchbutton").prop("disabled", false);
-    window.setTimeout(dismissAlert, 5000);
-}
-
 function searchForTrack(ev) {
     //console.log("searching...");
     if (localStorage.getItem("track_features")) {
