@@ -33,8 +33,6 @@ function init() {
     });
 }
 
-addLoadEvent(init);
-
 function convertISOTime(date) {
     var date = new Date(date);
     var now = new Date();

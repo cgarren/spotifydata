@@ -1,10 +1,14 @@
-function getParamsFromURL() {
+function getParamsFromURL(new_url) {
     try {
         var hashParams = getHashParams()
-        localStorage.setItem('access_token', hashParams["access_token"]);
-        localStorage.setItem('received_state', hashParams["state"]);
-        localStorage.setItem('raw_hash', hashParams["raw_hash"])
-        var myNewURL = "songdata";//the new URL
+        if (hashParams["raw_hash"] == '') {
+
+        } else {
+            localStorage.setItem('access_token', hashParams["access_token"]);
+            localStorage.setItem('received_state', hashParams["state"]);
+            localStorage.setItem('raw_hash', hashParams["raw_hash"]);
+        }
+        var myNewURL = new_url;//the new URL
         window.history.replaceState({}, document.title, "/" + myNewURL );
         return true;
     } catch (err) {
@@ -101,6 +105,7 @@ function load() {
             $("#userdata_dropdown a:nth-child(5)")[0].href = "https://spotifydata.com/playlists"// + localStorage.getItem('raw_hash');
             $("#userdata_dropdown a:nth-child(6)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
         }
+        init();
     });
 }
 

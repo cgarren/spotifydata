@@ -6,8 +6,6 @@ function init() {
     //console.log(getHashParams()["raw_hash"])
 }
 
-addLoadEvent(init);
-
 function showImage(imgPath, row) {
     var myImage = new Image();
     myImage.name = imgPath;

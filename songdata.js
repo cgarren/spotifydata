@@ -1,21 +1,18 @@
 // Example starter JavaScript for disabling form submissions if there are invalid fields
-function validateField() {
-    'use strict';
-    window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, false);
-}
+window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+}, false);
 
 function pickHex(color1, color2, weight) {
     var w1 = weight;
@@ -408,21 +405,19 @@ function formatData(track_features, track_info, artist_info) {
 
 function init() {
     $("#songdata_link").addClass("active");
-    var success = getParamsFromURL();
-    localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'))
+    var success = getParamsFromURL("songdata");
+    //localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'))
     //$("#songdata_link")[0].href = "https://spotifydata.com/songdata" + localStorage.getItem('raw_hash')
     //$("#userdata_link")[0].href = "https://spotifydata.com/userdata" + localStorage.getItem('raw_hash')
     //try {
     if (success & localStorage.getItem('received_state') == localStorage.getItem('spotify_auth_state')) {
-        $("#content")[0].style.display = "block"
+        $("#content")[0].style.display = "block";
         //$("#searchbutton").onclick() = searchForTrack();
         //console.log($("#searchbutton"))
         $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
         //if 
     } else {
-        $("#errormessage")[0].style.display = "block"
-        //console.log(success, localStorage.getItem('received_state'), localStorage.getItem('spotify_auth_state'))
+        $("#errormessage")[0].style.display = "block";
+        console.log(success, localStorage.getItem('received_state'), localStorage.getItem('spotify_auth_state'))
     }
 }
-
-addLoadEvent(init);
