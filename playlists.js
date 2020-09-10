@@ -6,6 +6,28 @@ function init() {
     //console.log(getHashParams()["raw_hash"])
 }
 
+jQuery(document).ready(function($) {
+
+  if (window.history && window.history.pushState) {
+
+    $(window).on('popstate', function() {
+      var hashLocation = location.hash;
+      var hashSplit = hashLocation.split("#!/");
+      var hashName = hashSplit[1];
+
+      if (hashName !== '') {
+        var hash = window.location.hash;
+        if (hash === '') {
+          location.reload();
+        }
+      }
+    });
+
+    window.history.pushState('forward', null, './playlists');
+  }
+
+});
+
 function showImage(imgPath, row) {
     var myImage = new Image();
     myImage.name = imgPath;
@@ -156,6 +178,8 @@ function generateSongRow(data, i) {
     console.log(data);
     console.log(data["track"]["artists"].length);
     var table = $("#Songtable")[0];
+    var $table = $("#Songtable")[0];
+    $table.bootstrapTable('refresh');
     var row = document.createElement("tr");
     row.id = data["track"]["id"];
     var name = document.createElement("td");
