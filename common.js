@@ -107,6 +107,10 @@ function load() {
         }
         init();
     });
+    $.get('footer.html', function(data) {
+        console.log(data);
+        $('body').append(data);
+    });
 }
 
 addLoadEvent(load);
