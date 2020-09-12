@@ -20,6 +20,8 @@ add more stats to pages with sidebars
 
 generate Beat/Bar/Tatum graph for each searched song
 
+male it so that logout presents the option to sign in with a new account (probably need localstorage or cookie)
+
 ### Song Info Page
 * ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
 * Make numbers in chart easier to read and understand
