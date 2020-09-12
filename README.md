@@ -13,6 +13,12 @@ A web interface for getting song data through the Spotify API, plus much more!
 * Stop using the url to keep params (store locally then clear url for other things)
 * Add Logout button (clears tokens and such)
 
+add a way to see how manu songs you have saved from a particular artist
+
+add more stats to pages with sidebars
+
+generate Beat/Bar/Tatum graph for each searched song
+
 ### Song Info Page
 * ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
 * Make numbers in chart easier to read and understand
