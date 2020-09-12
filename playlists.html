@@ -17,9 +17,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css">
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://browser.sentry-cdn.com/5.20.1/bundle.min.js" integrity="sha384-O8HdAJg1h8RARFowXd2J/r5fIWuinSBtjhwQoPesfVILeXzGpJxvyY/77OaPPXUo" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css">
+    <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
-    <script type="text/javascript" src="playlists.js"></script>
     <script type="text/javascript" src="common.js"></script>
+    <script type="text/javascript" src="playlists.js"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
@@ -29,7 +33,7 @@
 <body class="bg-dark">
     <div id="content" style="display: none;">
         <div class="container-fluid mx-md-auto px-md-auto">
-            <div class="row m-0">
+            <div class="row m-0" id="list">
                 <div class="px-0 col-lg-9 col-md-8 text-light">
                     <div id="main_row" class="col px-0">
                         <div class="row text-center m-0 mb-3">
@@ -39,7 +43,17 @@
                                     <path d="M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z" fill="currentColor" fill-rule="evenodd"></path>
                                 </svg>
                             </span>-->
-                            <div class="display-3 text-md-left font-weight-bolder ml-md-0 mx-auto my-auto"><span id="name">Library and Playlists</span>
+                            <div class="display-3 text-md-left font-weight-bolder ml-md-0 mx-auto my-auto">
+                                <span id="name">
+                                    <!--<svg class="mr-2" width="40" height="40" viewBox="0 0 8.4666665 8.4666669">
+                                        <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-288.53332)">
+                                            <path inkscape:connector-curvature="0" id="path8057" d="m 3.8859141,290.31736 -2.5116107,4.36789 a 0.40014058,0.39764426 0 0 0 0.3474193,0.59495 l 5.0232213,0 a 0.40014058,0.39764426 0 0 0 0.3474191,-0.59495 l -2.5116103,-4.36789 a 0.40014058,0.39764426 0 0 0 -0.6948387,0 z" style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+                                            <path style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458335px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 4.2333334,291.77454 8e-7,1.78395" id="path8059" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" />
+                                            <path id="circle8061" d="m 4.3656251,294.08947 a 0.13229167,0.13228111 0 0 1 -0.1322917,0.13227 0.13229167,0.13228111 0 0 1 -0.1322917,-0.13227 0.13229167,0.13228111 0 0 1 0.1322917,-0.13229 0.13229167,0.13228111 0 0 1 0.1322917,0.13229 z" style="opacity:1;fill:#f77707;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" inkscape:connector-curvature="0" />
+                                        </g>
+                                    </svg>-->
+                                    Library and Playlists
+                                </span>
                             </div>
                         </div>
                         <div id="PLaylistdiv" class="">
@@ -88,6 +102,37 @@
                     <!--<a href="#" class="text-dark text-body text-decoration-none"><span id="followers" style="font-family: 'Squada One', cursive; font-size: 9vw; line-height: .9em;" class="display-2">69</span>
                         <h3 class="mb-3 text-black-50">Followers</h3>
                     </a>-->
+                </div>
+            </div>
+            <div class="row m-0" id="playlist" style="display: none;">
+                <div class="pt-1 px-0 col-lg-9 col-md-8 text-light">
+                    <div class="display-3 text-md-left font-weight-bolder ml-md-0 mx-auto my-auto">
+                        <div id="pic"></div><span id="playlist_name">name</span>
+                        <h5 class=""><a class="text-light link" id="songs" href="#"></a> <span class="d-sm-inline-block d-none">|</span> <span id="public" style="color: #1DB954;">Private</span></h5>
+                    </div>
+                    <table data-show-refresh="true" data-toggle="table" data-height="1000" data-sort-reset="true" data-show-columns="true" data-classes="table table-dark table-borderless table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th data-title-tooltip="Song title" data-title="Title" data-sortable="true"></th>
+                                <th data-title-tooltip="Artist" data-title="Artist" data-sortable="true"></th>
+                                <th data-title-tooltip="Duration" data-title="Duration" data-sortable="true"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="Songtable">
+                            <!--<tr>
+                                <td>1</td>
+                                <td>Item 1</td>
+                                <td>$1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Item 2</td>
+                                <td>$2</td>
+                            </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="playlist_stats" class=" d-inline-flex flex-column col-lg-3 col-md-4 text-body text-center mt-2 h-100 mx-auto" style="border-radius: 40px; width: 90%">
                 </div>
             </div>
         </div>
@@ -180,7 +225,7 @@
     }
 
     .holder:hover {
-        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
         cursor: pointer;
     }
     </style>

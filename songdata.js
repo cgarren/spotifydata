@@ -1,21 +1,18 @@
 // Example starter JavaScript for disabling form submissions if there are invalid fields
-function validateField() {
-    'use strict';
-    window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, false);
-}
+window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+}, false);
 
 function pickHex(color1, color2, weight) {
     var w1 = weight;
@@ -39,38 +36,16 @@ function keyMap(src, target) {
     return target;
 };
 
-function showAlert(message) {
-    alertdiv = $(".alertdiv")[0];
-    alert = document.createElement("div");
-    alert.innerHTML = message;
-    alert.classList = "alert alert-danger alert-dismissible fade show";
-    alert.setAttribute("role", "alert");
-    button = document.createElement("button");
-    button.type = "button";
-    button.classList = "close";
-    button.setAttribute("data-dismiss", "alert");
-    button.setAttribute("aria-label", "Close");
-    close = document.createElement("span");
-    close.innerHTML = "&times;";
-    close.setAttribute("aria-hidden", "true");
-    button.append(close);
-    alert.append(button);
-    alertdiv.append(alert);
-    $("#searchbutton")[0].innerHTML = "Show me data!";
-    $("#searchbutton").prop("disabled", false);
-    window.setTimeout(dismissAlert, 5000);
-}
-
 function searchForTrack(ev) {
     //console.log("searching...");
-    if (localStorage.getItem("track_features")) {
-        localStorage.removeItem("track_features");
+    if (sessionStorage.getItem("track_features")) {
+        sessionStorage.removeItem("track_features");
     }
-    if (localStorage.getItem("track_info")) {
-        localStorage.removeItem("track_info");
+    if (sessionStorage.getItem("track_info")) {
+        sessionStorage.removeItem("track_info");
     }
-    if (localStorage.getItem("artist_info")) {
-        localStorage.removeItem("artist_info");
+    if (sessionStorage.getItem("artist_info")) {
+        sessionStorage.removeItem("artist_info");
     }
     if ($('.form-control:invalid').length == 0) {
         //console.log("searching...");
@@ -82,7 +57,7 @@ function searchForTrack(ev) {
         var url = "https://api.spotify.com/v1/search/?" + jQuery.param(params);
 
         //url = "https://api.spotify.com/v1/audio-features/3Wv6AagA0qqWH7nRDrkgh7";
-        loadRequest(url, complete_search);
+        loadRequest(url, complete_search, 1);
         // send data as a dictionary
         //Put a loading icon in the button and disable it
         //spinner = html.SPAN(Class = "spinner-border spinner-border-sm");
@@ -120,7 +95,7 @@ function complete_search(req) {
             }
         } else {
             console.log("No results for that search");
-            showAlert("<strong>No songs found for that search!</strong>");
+            showAlert("<strong>No songs found for that search!</strong>", "alert-danger", 5000);
         }
     }
 }
@@ -129,19 +104,19 @@ function saveData(req, identifier) {
     //console.log(req.responseText);
     var response = req.responseText;
     if (identifier == 1) {
-        localStorage.setItem("track_features", response);
+        sessionStorage.setItem("track_features", response);
     } else if (identifier == 2) {
-        localStorage.setItem("track_info", response);
+        sessionStorage.setItem("track_info", response);
     } else if (identifier == 3) {
-        localStorage.setItem("artist_info", response);
+        sessionStorage.setItem("artist_info", response);
     } else {
         console.log("Unkown Error");
     }
-    var track_features = localStorage.getItem("track_features");
+    var track_features = sessionStorage.getItem("track_features");
     //console.log(track_features);
-    var track_info = localStorage.getItem("track_info");
+    var track_info = sessionStorage.getItem("track_info");
     //console.log(track_info);
-    var artist_info = localStorage.getItem("artist_info");
+    var artist_info = sessionStorage.getItem("artist_info");
     //console.log(artist_info);
     if (track_features !== null & track_info !== null & artist_info != null) {
         //console.log("Data received, formatting");
@@ -214,12 +189,12 @@ function formatData(track_features, track_info, artist_info) {
     player.frameBorder = "0";
     player.allowTransparency = "true";
     player.allow = "encrypted-media";
-    player.classList = "shadow";
+    player.classList = "shadow rounded-lg";
     playerdiv.append(player);
 
     //All the elements will be inserted in the div with the "container" class
 
-    var container = $(".container")[1];
+    var container = $(".container")[0];
 
     if ($('table').length == 0) {
         //this is the first request and there is no table present
@@ -233,7 +208,7 @@ function formatData(track_features, track_info, artist_info) {
     var tablediv = document.createElement("div");
     tablediv.classList = "col";
     var table = document.createElement("table");
-    table.classList = "table table-dark table-sm table-borderless mx-auto mt-3";
+    table.classList = "table table-dark table-sm table-borderless mx-auto mt-3 p-2 rounded-lg shadow";
     table.style.maxWidth = "500px";
     var thead = document.createElement("thead");
     thead.classList = "border-success border-bottom";
@@ -402,25 +377,41 @@ function formatData(track_features, track_info, artist_info) {
     tablediv.append(table);
     rowdiv.append(tablediv);
     container.append(rowdiv);
+
+    /*if ($('table').length == 0) {
+        //this is the first request and there is no table present
+    } else {
+        //the table exists already
+        $('#rowdiv').remove();
+    }
+    var rowdiv = document.createElement("div");
+    rowdiv.classList = "row";
+    rowdiv.id = "rowdiv";
+    var tablediv = document.createElement("div");
+    tablediv.classList = "col";
+    var table = document.createElement("table");
+    table.classList = "table table-dark table-sm table-borderless mx-auto mt-3 p-2 rounded-lg shadow";
+    table.style.maxWidth = "500px";*/
+
     searchbutton.innerHTML = "Show me data!";
     searchbutton.disabled = false;
 }
 
-window.onload = setTimeout(function() {
+function init() {
     $("#songdata_link").addClass("active");
-    var success = getParamsFromURL();
-    localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'))
-    $("#songdata_link")[0].href = "https://spotifydata.com/songdata" + localStorage.getItem('raw_hash')
-    //$("#userdata_link")[0].href = "https://spotifydata.com/userdata" + localStorage.getItem('raw_hash')
+    var success = getParamsFromURL("songdata");
+    //sessionStorage.setItem('spotify_auth_state', sessionStorage.getItem('received_state'))
+    //$("#songdata_link")[0].href = "https://spotifydata.com/songdata" + sessionStorage.getItem('raw_hash')
+    //$("#userdata_link")[0].href = "https://spotifydata.com/userdata" + sessionStorage.getItem('raw_hash')
     //try {
-    if (success & localStorage.getItem('received_state') == localStorage.getItem('spotify_auth_state')) {
-        $("#content")[0].style.display = "block"
+    if (success & sessionStorage.getItem('received_state') == sessionStorage.getItem('spotify_auth_state')) {
+        $("#content")[0].style.display = "block";
         //$("#searchbutton").onclick() = searchForTrack();
         //console.log($("#searchbutton"))
         $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
         //if 
     } else {
-        $("#errormessage")[0].style.display = "block"
-        //console.log(success, localStorage.getItem('received_state'), localStorage.getItem('spotify_auth_state'))
+        $("#errormessage")[0].style.display = "block";
+        console.log(success, sessionStorage.getItem('received_state'), sessionStorage.getItem('spotify_auth_state'))
     }
-}, 200);
+}

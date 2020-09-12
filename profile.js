@@ -1,18 +1,12 @@
-window.onload = function() {
+function init() {
     $("#userdata_link").addClass("active");
     $("#userdata_dropdown a:nth-child(1)").addClass("active");
-    var success = getParamsFromURL();
-    localStorage.setItem('spotify_auth_state', localStorage.getItem('received_state'));
-    if (success & localStorage.getItem('received_state') == localStorage.getItem('spotify_auth_state')) {
-        $("#content")[0].style.display = "block";
-        loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", displayProfile, 1);
-        loadRequest("https://api.spotify.com/v1/me", displayProfile, 1);
-        loadRequest("https://api.spotify.com/v1/me/player/recently-played?limit=50", displayRecentlyPlayed, 1);
-        loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term", displayTopTracks, 1);
-        loadRequest("https://api.spotify.com/v1/me/top/artists?limit=50&time_range=medium_term", displayTopArtists, 1);
-    } else {
-        $("#errormessage")[0].style.display = "block";
-    }
+    $("#content")[0].style.display = "block";
+    loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", displayProfile, 1);
+    loadRequest("https://api.spotify.com/v1/me", displayProfile, 1);
+    loadRequest("https://api.spotify.com/v1/me/player/recently-played?limit=50", displayRecentlyPlayed, 1);
+    loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term", displayTopTracks, 1);
+    loadRequest("https://api.spotify.com/v1/me/top/artists?limit=50&time_range=medium_term", displayTopArtists, 1);
     var slider = new Slider('#ex1', {
         formatter: function(value) {
             if (value == 1) {
@@ -204,6 +198,7 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
         text.classList = "text-light text-decoration-none";
         text.style.whiteSpace = "normal";
         text.style.wordWrap = "break-word";
+        $clamp(text, {clamp: 2});
         link.append(art);
         link.append(text);
         albumdiv.append(link);
@@ -221,8 +216,10 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
         });
     }
     avgpopularity = document.createElement("span");
-    avgpopularity.innerHTML = " Avg popularity: " + avgpop/50;
+    avgpopularity.innerHTML = "Avg popularity: " + avgpop / 50;
     avgpopularity.classList = "text-white-50 h5"
+    title.append(document.createElement("br"))
+    title.style.lineHeight = ".7em";
     title.append(avgpopularity);
 }
 
