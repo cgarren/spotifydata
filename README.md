@@ -44,7 +44,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 
 ### Queue Manager
 * Ability to save current/different queues and batch add songs to queue
-* 
+* Probably not possible or useful with the current API implementation
 
 ## Author
 * Cooper Garren
