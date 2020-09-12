@@ -77,8 +77,7 @@ function showAlert(message, type, time) {
     try {
         $("#searchbutton")[0].innerHTML = "Show me data!";
         $("#searchbutton").prop("disabled", false);
-    } catch {
-
+    } catch {;
     }
     if (time != 0) {
         window.setTimeout(dismissAlert, time);
@@ -110,8 +109,7 @@ function loadRequest(url, callbackFunction, identifier) {
 function dismissAlert() {
     try {
         $('.alert').alert('close');
-    } catch {
-        console.log("No alert to dismiss !");
+    } catch {;
     }
 }
 
@@ -133,24 +131,29 @@ function getName(req) {
     if (req.status == 200 || req.status == 0) {
         results = JSON.parse(req.responseText);
         sessionStorage.setItem("user_name", results["display_name"]);
-        formatName(results["display_name"]);
+        $("#user_name")[0].innerHTML = results["display_name"];
     } else {
-        console.log("Error getting user's name")
+        console.log("Error getting user's name");
     }
-}
-
-function formatName(name) {
-    console.log(name)
-    $("#user_name")[0].innerHTML = name;
 }
 
 function logout() {
     const user_name = sessionStorage.getItem("user_name");
     sessionStorage.clear();
     localStorage.clear();
-    console.log(user_name + " logged out successfully" + window.status)
-    window.location.href = "https://spotifydata.com/"
+    console.log(user_name + " logged out successfully" + window.status);
+    window.location.href = "https://spotifydata.com/";
 }
+
+function footerAlign() {
+    var footerHeight = $('footer').outerHeight();
+    $('body').css('margin-bottom', footerHeight);
+    $('footer').css('height', footerHeight);
+}
+
+$(window).resize(function() {
+    footerAlign();
+});
 
 function load() {
     //Sentry.init({ dsn: 'https://a9b82693f9054fa0b17303176592ca64@o429548.ingest.sentry.io/5376381' });
@@ -176,11 +179,12 @@ function load() {
         init();
         $.get('footer.html', function(data) {
             $('body').append(data);
+            footerAlign();
         });
         if (sessionStorage.getItem("user_name") == null) {
             loadRequest("https://api.spotify.com/v1/me", getName, 1);
         } else {
-            formatName(sessionStorage.getItem("user_name"));
+            $("#user_name")[0].innerHTML = sessionStorage.getItem("user_name");
         }
     });
 }

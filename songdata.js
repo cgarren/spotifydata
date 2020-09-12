@@ -189,12 +189,12 @@ function formatData(track_features, track_info, artist_info) {
     player.frameBorder = "0";
     player.allowTransparency = "true";
     player.allow = "encrypted-media";
-    player.classList = "shadow";
+    player.classList = "shadow rounded-lg";
     playerdiv.append(player);
 
     //All the elements will be inserted in the div with the "container" class
 
-    var container = $(".container")[1];
+    var container = $(".container")[0];
 
     if ($('table').length == 0) {
         //this is the first request and there is no table present
@@ -208,7 +208,7 @@ function formatData(track_features, track_info, artist_info) {
     var tablediv = document.createElement("div");
     tablediv.classList = "col";
     var table = document.createElement("table");
-    table.classList = "table table-dark table-sm table-borderless mx-auto mt-3";
+    table.classList = "table table-dark table-sm table-borderless mx-auto mt-3 p-2 rounded-lg shadow";
     table.style.maxWidth = "500px";
     var thead = document.createElement("thead");
     thead.classList = "border-success border-bottom";
@@ -377,6 +377,22 @@ function formatData(track_features, track_info, artist_info) {
     tablediv.append(table);
     rowdiv.append(tablediv);
     container.append(rowdiv);
+
+    /*if ($('table').length == 0) {
+        //this is the first request and there is no table present
+    } else {
+        //the table exists already
+        $('#rowdiv').remove();
+    }
+    var rowdiv = document.createElement("div");
+    rowdiv.classList = "row";
+    rowdiv.id = "rowdiv";
+    var tablediv = document.createElement("div");
+    tablediv.classList = "col";
+    var table = document.createElement("table");
+    table.classList = "table table-dark table-sm table-borderless mx-auto mt-3 p-2 rounded-lg shadow";
+    table.style.maxWidth = "500px";*/
+
     searchbutton.innerHTML = "Show me data!";
     searchbutton.disabled = false;
 }
