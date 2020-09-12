@@ -3,7 +3,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarToggler">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarToggler">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" id="songdata_link">Song Info</a>
@@ -26,6 +26,8 @@
                 </div>
             </li>
         </ul>
+        <!--<div class="navbar-collapse justify-content-end mr-2 font-weight-bold" id="user_name"></div>-->
+        <button onclick="logout()" class="nav-link btn btn-danger my-2 my-sm-0 font-weight-bold" type="button">Logout <span class="" id="user_name"></span></button>
     </div>
 </nav>
 <div class="alertdiv"></div>

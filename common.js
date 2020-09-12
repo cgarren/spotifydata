@@ -4,12 +4,12 @@ function getParamsFromURL(new_url) {
         if (hashParams["raw_hash"] == '') {
 
         } else {
-            localStorage.setItem('access_token', hashParams["access_token"]);
-            localStorage.setItem('received_state', hashParams["state"]);
-            localStorage.setItem('raw_hash', hashParams["raw_hash"]);
+            sessionStorage.setItem('access_token', hashParams["access_token"]);
+            sessionStorage.setItem('received_state', hashParams["state"]);
+            sessionStorage.setItem('raw_hash', hashParams["raw_hash"]);
         }
-        var myNewURL = new_url;//the new URL
-        window.history.replaceState({}, document.title, "/" + myNewURL );
+        var myNewURL = new_url; //the new URL
+        window.history.replaceState({}, document.title, "/" + myNewURL);
         return true;
     } catch (err) {
         console.log(err.message)
@@ -87,7 +87,7 @@ function showAlert(message, type, time) {
 
 function loadRequest(url, callbackFunction, identifier) {
     var xhttp;
-    var oauth_id = localStorage.getItem('access_token');
+    var oauth_id = sessionStorage.getItem('access_token');
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -108,21 +108,48 @@ function loadRequest(url, callbackFunction, identifier) {
 }
 
 function dismissAlert() {
-    $('.alert').alert('close')
+    try {
+        $('.alert').alert('close');
+    } catch {
+        console.log("No alert to dismiss !");
+    }
 }
 
 function addLoadEvent(func) {
-  var oldonload = window.onload;
-  if (typeof window.onload != 'function') {
-    window.onload = func;
-  } else {
-    window.onload = function() {
-      if (oldonload) {
-        oldonload();
-      }
-      func();
+    var oldonload = window.onload;
+    if (typeof window.onload != 'function') {
+        window.onload = func;
+    } else {
+        window.onload = function() {
+            if (oldonload) {
+                oldonload();
+            }
+            func();
+        }
     }
-  }
+}
+
+function getName(req) {
+    if (req.status == 200 || req.status == 0) {
+        results = JSON.parse(req.responseText);
+        sessionStorage.setItem("user_name", results["display_name"]);
+        formatName(results["display_name"]);
+    } else {
+        console.log("Error getting user's name")
+    }
+}
+
+function formatName(name) {
+    console.log(name)
+    $("#user_name")[0].innerHTML = name;
+}
+
+function logout() {
+    const user_name = sessionStorage.getItem("user_name");
+    sessionStorage.clear();
+    localStorage.clear();
+    console.log(user_name + " logged out successfully" + window.status)
+    window.location.href = "https://spotifydata.com/"
 }
 
 function load() {
@@ -138,19 +165,23 @@ function load() {
             $("#userdata_dropdown a:nth-child(5)")[0].href = "https://spotifydata.com/playlists";
             $("#userdata_dropdown a:nth-child(6)").hide() //[0].href = "https://spotifydata.com/profile";
         } else {
-            $("#songdata_link")[0].href = "https://spotifydata.com/songdata"// + localStorage.getItem('raw_hash');
-            $("#userdata_dropdown a:nth-child(1)")[0].href = "https://spotifydata.com/profile"// + localStorage.getItem('raw_hash');
-            $("#userdata_dropdown a:nth-child(2)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
-            $("#userdata_dropdown a:nth-child(3)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
-            $("#userdata_dropdown a:nth-child(4)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
-            $("#userdata_dropdown a:nth-child(5)")[0].href = "https://spotifydata.com/playlists"// + localStorage.getItem('raw_hash');
-            $("#userdata_dropdown a:nth-child(6)").hide() //[0].href = "https://spotifydata.com/profile" + localStorage.getItem('raw_hash');
+            $("#songdata_link")[0].href = "https://spotifydata.com/songdata" // + sessionStorage.getItem('raw_hash');
+            $("#userdata_dropdown a:nth-child(1)")[0].href = "https://spotifydata.com/profile" // + sessionStorage.getItem('raw_hash');
+            $("#userdata_dropdown a:nth-child(2)").hide() //[0].href = "https://spotifydata.com/profile" + sessionStorage.getItem('raw_hash');
+            $("#userdata_dropdown a:nth-child(3)").hide() //[0].href = "https://spotifydata.com/profile" + sessionStorage.getItem('raw_hash');
+            $("#userdata_dropdown a:nth-child(4)").hide() //[0].href = "https://spotifydata.com/profile" + sessionStorage.getItem('raw_hash');
+            $("#userdata_dropdown a:nth-child(5)")[0].href = "https://spotifydata.com/playlists" // + sessionStorage.getItem('raw_hash');
+            $("#userdata_dropdown a:nth-child(6)").hide() //[0].href = "https://spotifydata.com/profile" + sessionStorage.getItem('raw_hash');
         }
         init();
-    });
-    $.get('footer.html', function(data) {
-        console.log(data);
-        $('body').append(data);
+        $.get('footer.html', function(data) {
+            $('body').append(data);
+        });
+        if (sessionStorage.getItem("user_name") == null) {
+            loadRequest("https://api.spotify.com/v1/me", getName, 1);
+        } else {
+            formatName(sessionStorage.getItem("user_name"));
+        }
     });
 }
 
