@@ -14,13 +14,11 @@ A web interface for getting song data through the Spotify API, plus much more!
 * ~~Add Logout button (clears tokens and such)~~
 * Add footer to index page
 
-add a way to see how manu songs you have saved from a particular artist
-
-add more stats to pages with sidebars
-
-generate Beat/Bar/Tatum graph for each searched song
-
-male it so that logout presents the option to sign in with a new account (probably need localstorage or cookie)
+### Feedback
+* add a way to see how many songs you have saved from a particular artist
+* add more stats to pages with sidebars
+* generate Beat/Bar/Tatum graph for each searched song
+* make it so that logout presents the option to sign in with a new account (probably need localstorage or cookie)
 
 ### Song Info Page
 * ADD A WAY TO SEARCH BY TRACK DATA!!! (If possible)
