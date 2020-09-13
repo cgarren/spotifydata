@@ -92,17 +92,17 @@ function loadRequest(url, callbackFunction, identifier) {
         if (this.readyState == 4 && this.status == 200) {
             callbackFunction(this, identifier);
         } else if (this.status == 401) {
-            console.log("401: Access token unauthorized")
-            $("#content")[0].style.display = "none"
-            $("#errormessage")[0].style.display = "block"
+            console.log("401: Access token unauthorized");
+            $("#content")[0].style.display = "none";
+            $("#errormessage")[0].style.display = "block";
         }
     };
     xhttp.ontimeout = function(e) {
-        console.log("Request timed out: " + url)
+        console.log("Request timed out: " + url);
     }
     xhttp.open("GET", url, true);
-    xhttp.setRequestHeader("Authorization", "Bearer " + oauth_id)
-    xhttp.timeout = 10000
+    xhttp.setRequestHeader("Authorization", "Bearer " + oauth_id);
+    xhttp.timeout = 10000;
     xhttp.send();
 }
 

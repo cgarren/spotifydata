@@ -56,7 +56,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div id="PLaylistdiv" class="">
+                        <div id="Playlistdiv" class="">
                             <table class="table table-dark table-borderless">
                                 <thead class="border-bottom">
                                     <tr>
@@ -110,16 +110,18 @@
                         <div id="pic"></div><span id="playlist_name">name</span>
                         <h5 class=""><a class="text-light link" id="songs" href="#"></a> <span class="d-sm-inline-block d-none">|</span> <span id="public" style="color: #1DB954;">Private</span></h5>
                     </div>
-                    <table data-show-refresh="true" data-toggle="table" data-height="1000" data-sort-reset="true" data-show-columns="true" data-classes="table table-dark table-borderless table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th data-title-tooltip="Song title" data-title="Title" data-sortable="true"></th>
-                                <th data-title-tooltip="Artist" data-title="Artist" data-sortable="true"></th>
-                                <th data-title-tooltip="Duration" data-title="Duration" data-sortable="true"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="Songtable">
-                            <!--<tr>
+                    <div id="tablediv" class=font-weight-normal>
+                        <table id="table" data-height="500px" data-sort-reset="true" data-sortable="true" data-buttons-class="success" data-toggle="table" data-classes="table table-dark table-borderless table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th data-sortable="true" data-field="track.name">Title</th>
+                                    <th data-sortable="true" data-field="track.artists.0.name">Artist</th>
+                                    <th data-sortable="true" data-field="track.duration_ms">Duration</th>
+                                    <th data-sortable="true" data-field="track.popularity">Popularity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="Songtable">
+                                <!--<tr>
                                 <td>1</td>
                                 <td>Item 1</td>
                                 <td>$1</td>
@@ -129,8 +131,18 @@
                                 <td>Item 2</td>
                                 <td>$2</td>
                             </tr>-->
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--<table id="table" data-toggle="table" data-pagination="true" data-side-pagination="server">
+                        <thead>
+                            <tr>
+                                <th data-field="id">ID</th>
+                                <th data-field="name">Item Name</th>
+                                <th data-field="price">Item Price</th>
+                            </tr>
+                        </thead>
+                    </table>-->
                 </div>
                 <div id="playlist_stats" class=" d-inline-flex flex-column col-lg-3 col-md-4 text-body text-center mt-2 h-100 mx-auto" style="border-radius: 40px; width: 90%">
                 </div>
@@ -227,6 +239,10 @@
     .holder:hover {
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
         cursor: pointer;
+    }
+
+    .fixed-height {
+        height: 800px;
     }
     </style>
 </body>
