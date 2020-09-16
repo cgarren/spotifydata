@@ -18,6 +18,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * Make a Spotify/Music Data FAQ page (with most popular searches taking into account SEO)
 * Make pages more static/template based for SEO
 * Create sitemap and submit to search console
+* Put in alt text for all images
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
