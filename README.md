@@ -15,6 +15,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * ~~Add footer to index page~~
 * Simple about page maybe with venmo/donation button
 * Make the 404 page appealing
+* Make a Spotify/Music Data FAQ page (with most popular searches taking into account SEO)
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
