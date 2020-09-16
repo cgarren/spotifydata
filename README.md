@@ -14,6 +14,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * ~~Add Logout button (clears tokens and such)~~
 * ~~Add footer to index page~~
 * Simple about page maybe with venmo/donation button
+* Make the 404 page appealing
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
