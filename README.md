@@ -20,6 +20,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * Create sitemap and submit to search console
 * Put in alt text for all images
 * Add title tags and meta descriptions (150-300 characters) to all pages and optimize them
+* Figure out url stuff so a user can authenticate from google and go right to a certain page
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
