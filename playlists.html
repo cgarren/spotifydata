@@ -111,13 +111,17 @@
                         <h5 class=""><a class="text-light link" id="songs" href="#"></a> <span class="d-sm-inline-block d-none">|</span> <span id="public" style="color: #1DB954;">Private</span></h5>
                     </div>
                     <div id="tablediv" class=font-weight-normal>
-                        <table id="table" data-height="500px" data-sort-reset="true" data-sortable="true" data-buttons-class="success" data-toggle="table" data-classes="table table-dark table-borderless table-hover table-striped">
+                        <table id="table" data-show-columns="true" data-loading-template="loadingTemplate" data-height="500px" data-sort-reset="true" data-sortable="true" data-buttons-class="success" data-toggle="table" data-classes="table table-sm table-dark table-borderless table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th data-sortable="true" data-field="track.name">Title</th>
-                                    <th data-sortable="true" data-field="track.artists.0.name">Artist</th>
-                                    <th data-sortable="true" data-field="track.duration_ms">Duration</th>
-                                    <th data-sortable="true" data-field="track.popularity">Popularity</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.name" switchable="false">Title</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.artists.0.name">Artist</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.duration_ms">Duration</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.popularity">Popularity</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="added_at">Date Added</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.explicit">Explicit</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.acousticness">Acousticness</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.danceability">Danceability</th>
                                 </tr>
                             </thead>
                             <tbody id="Songtable">
@@ -250,6 +254,10 @@
     
     .fixed-table-body {
         max-height: 1000px;
+    }
+
+    .dropdown-menu-right {
+        background-color: black;
     }
     </style>
 </body>

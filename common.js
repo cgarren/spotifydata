@@ -28,6 +28,34 @@ function getHashParams() {
     return hashParams;
 }
 
+function convertISOTime(date, time_since) {
+    var date = new Date(date);
+    if (time_since == true) {
+        var now = new Date();
+        var millis = Math.floor(now - date);
+    } else {
+        var millis = Math.floor(date);
+        return date
+    }
+    var seconds = (millis / 1000) % 60;
+    seconds = Math.floor(seconds);
+    var minutes = (millis / (1000 * 60)) % 60;
+    minutes = Math.floor(minutes);
+    var hours = (millis / (1000 * 60 * 60)) % 24;
+    hours = Math.floor(hours);
+    var days = Math.floor(millis / (1000 * 60 * 60) / 24);
+
+    if (minutes == 0) {
+        return seconds + "s";
+    } else if (hours == 0) {
+        return minutes + "m " + seconds + "s";
+    } else if (days == 0) {
+        return hours + "h " + minutes + "m";
+    } else {
+        return days + "d " + hours + "h";
+    }
+}
+
 function convertMilliseconds(millis) {
     millis = Math.floor(millis);
     var seconds = (millis / 1000) % 60;
@@ -176,11 +204,11 @@ function load() {
             $("#userdata_dropdown a:nth-child(5)")[0].href = "https://spotifydata.com/playlists" // + sessionStorage.getItem('raw_hash');
             $("#userdata_dropdown a:nth-child(6)").hide() //[0].href = "https://spotifydata.com/profile" + sessionStorage.getItem('raw_hash');
         }
-        init();
         $.get('footer.html', function(data) {
             $('body').append(data);
             footerAlign();
         });
+        init();
         if (sessionStorage.getItem("user_name") == null) {
             loadRequest("https://api.spotify.com/v1/me", getName, 1);
         } else {

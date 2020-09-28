@@ -33,29 +33,6 @@ function init() {
     });
 }
 
-function convertISOTime(date) {
-    var date = new Date(date);
-    var now = new Date();
-    var millis = Math.floor(now - date);
-    var seconds = (millis / 1000) % 60;
-    seconds = Math.floor(seconds);
-    var minutes = (millis / (1000 * 60)) % 60;
-    minutes = Math.floor(minutes);
-    var hours = (millis / (1000 * 60 * 60)) % 24;
-    hours = Math.floor(hours);
-    var days = Math.floor(millis / (1000 * 60 * 60) / 24);
-
-    if (minutes == 0) {
-        return seconds + "s";
-    } else if (hours == 0) {
-        return minutes + "m " + seconds + "s";
-    } else if (days == 0) {
-        return hours + "h " + minutes + "m";
-    } else {
-        return days + "d " + hours + "h";
-    }
-}
-
 function showImage(imgPath) {
     var myImage = new Image();
     myImage.name = imgPath;
@@ -233,7 +210,7 @@ function displayRecentlyPlayed(req, identifier) {
         popularity = 'items.j.track.popularity';
         items = items = Object.keys(response["items"]).length;
         generateRow("Recently Played", art_url, track_name, popularity, items, "album", response);
-        generateStat("since end of last song", convertISOTime(response["items"][0]["played_at"]), false);
+        generateStat("since end of last song", convertISOTime(response["items"][0]["played_at"], true), false);
     }
 }
 
