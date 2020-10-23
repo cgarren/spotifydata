@@ -2,9 +2,18 @@ function init() {
     $("#userdata_link").addClass("active");
     $("#userdata_dropdown a:nth-child(5)").addClass("active");
     $("#content")[0].style.display = "block";
-    loadRequest("https://api.spotify.com/v1/me/playlists?limit=50", displayPlaylists, 1);
-    //console.log(getHashParams()["raw_hash"])
-    showAlert('<svg class="mr-2" width="40" height="40" viewBox="0 0 8.4666665 8.4666669"><g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-288.53332)"><path inkscape:connector-curvature="0" id="path8057" d="m 3.8859141,290.31736 -2.5116107,4.36789 a 0.40014058,0.39764426 0 0 0 0.3474193,0.59495 l 5.0232213,0 a 0.40014058,0.39764426 0 0 0 0.3474191,-0.59495 l -2.5116103,-4.36789 a 0.40014058,0.39764426 0 0 0 -0.6948387,0 z" style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" /><path style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458335px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 4.2333334,291.77454 8e-7,1.78395" id="path8059" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" /><path id="circle8061" d="m 4.3656251,294.08947 a 0.13229167,0.13228111 0 0 1 -0.1322917,0.13227 0.13229167,0.13228111 0 0 1 -0.1322917,-0.13227 0.13229167,0.13228111 0 0 1 0.1322917,-0.13229 0.13229167,0.13228111 0 0 1 0.1322917,0.13229 z" style="opacity:1;fill:#f77707;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" inkscape:connector-curvature="0" /></g></svg> This page is currently under contruction. Check back soon for new features!', "alert-warning", 0);
+    loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", function(req, identifier) {
+        var response = JSON.parse(req.responseText);
+        generateImage("80px", {
+            "height": null,
+            "url": "https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png",
+            "width": null
+        }, "Liked Songs", response["total"], false, null, 1);
+        loadRequest("https://api.spotify.com/v1/me/playlists?limit=50", displayPlaylists, 1);
+    }, 1)
+    if (getHashParams()["raw_hash"] == "") {
+        showAlert('<svg class="mr-2" width="40" height="40" viewBox="0 0 8.4666665 8.4666669"><g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-288.53332)"><path inkscape:connector-curvature="0" id="path8057" d="m 3.8859141,290.31736 -2.5116107,4.36789 a 0.40014058,0.39764426 0 0 0 0.3474193,0.59495 l 5.0232213,0 a 0.40014058,0.39764426 0 0 0 0.3474191,-0.59495 l -2.5116103,-4.36789 a 0.40014058,0.39764426 0 0 0 -0.6948387,0 z" style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" /><path style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458335px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 4.2333334,291.77454 8e-7,1.78395" id="path8059" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" /><path id="circle8061" d="m 4.3656251,294.08947 a 0.13229167,0.13228111 0 0 1 -0.1322917,0.13227 0.13229167,0.13228111 0 0 1 -0.1322917,-0.13227 0.13229167,0.13228111 0 0 1 0.1322917,-0.13229 0.13229167,0.13228111 0 0 1 0.1322917,0.13229 z" style="opacity:1;fill:#f77707;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" inkscape:connector-curvature="0" /></g></svg> Caution: With large libraries and playlists, loading times can be very long!', "alert-warning", 0);
+    }
 
     var options = $('#table').bootstrapTable('getOptions');
     options.height = window.innerHeight - (26 + 58); //subtract footer and table controls
@@ -127,6 +136,7 @@ function callback(image, playlist_image, playlist_name, playlist_songs, playlist
     holder.classList = "holder";
     holder.id = playlist_name;
     holder.addEventListener("click", function(params) {
+        dismissAlert();
         generateImage("120px", playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id, 2);
     }, false)
     var name = document.createElement("div");
@@ -173,11 +183,15 @@ function displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_publ
     } else {
         $("#songs").html(playlist_songs + " songs");
     }
-
-    if (playlist_public == true) {
-        $("#public").html("Public");
+    if (playlist_id != null) {
+        if (playlist_public == true) {
+            $("#public").html("Public");
+        } else {
+            $("#public").html("Private");
+        }
     } else {
-        $("#public").html("Private");
+        $("#divider")[0].style.display = "none!important";
+        $("#public")[0].style.display = "none!important";
     }
     $("#pic").append(image);
     var newURL = "playlists#" + playlist_name;
@@ -203,7 +217,7 @@ function displayData(playlist_id, playlist_songs) {
     $table.bootstrapTable('showLoading');
     $("#loadingmessage")[0].innerHTML = "Loading 0/" + playlist_songs + " songs";
 
-    function getData(url) {
+    function getData(url, increment) {
         $("#loadingmessage")[0].innerHTML = "Loading " + j + "/" + playlist_songs + " songs";
         //console.log(url);
         if (url != null) {
@@ -223,23 +237,77 @@ function displayData(playlist_id, playlist_songs) {
                         //console.log(response["items"][i])
                     }
                     //response["items"].forEach(element => data.push(element))
-                    j = j + 100;
+                    j = j + increment;
                     //console.log(j, 2)
-                    getData(response["next"]);
+                    getData(response["next"], increment);
                 }, 1);
                 //$('#table').bootstrapTable('append', JSON.parse(res.responseText)["items"]);
             }, 1);
         } else {
-            console.log(data);
             formatted_data = formatData(data);
-            //NEED CUSTOM SORT RULE FOR DURATION
+            console.log(formatted_data);
             $table.bootstrapTable('load', formatted_data);
             $table.bootstrapTable('hideLoading');
             displayPlaylistStats(data, playlist_id);
         }
     }
+    if (playlist_id != null) {
+        getData("https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks?offset=0&limit=100", 100);
+    } else {
+        getData("https://api.spotify.com/v1/me/tracks?offset=0&limit=50", 50);
+    }
+}
 
-    getData("https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks?offset=0&limit=100");
+function durationSorter(a, b) {
+    var letters = ["d", "h", "m", "s"]
+    var aa = a.split(" ");
+    var bb = b.split(" ");
+    //console.log(a, b)
+    for (i of letters) {
+        a = false
+        b = false
+        for (j in aa) {
+            if (aa[j].includes(i)) {
+                a = true
+                var asp = j
+                aa[j] = aa[j].replace(i, '');
+            }
+        }
+        for (k in bb) {
+            if (bb[k].includes(i)) {
+                b = true
+                var bsp = k
+                bb[k] = bb[k].replace(i, '')
+            }
+        }
+        //console.log(a, b, i)
+        if (a == true && b == false) {
+            return 1
+        } else if (a == false && b == true) {
+            return -1
+        } else if (a == true && b == true) {
+            if (parseInt(aa[asp]) > parseInt(bb[bsp])) {
+                //console.log("ret2 ", 1, aa[asp], bb[bsp])
+                return 1
+            } else if (parseInt(aa[asp]) < parseInt(bb[bsp])) {
+                //console.log("ret2 ", -1, aa[asp], bb[bsp])
+                return -1
+            }
+        }
+    }
+    return 0
+}
+
+function dateSorter(a, b) {
+    a = Date.parse(a)
+    b = Date.parse(b)
+    if (a > b) {
+        return 1
+    } else if (a < b) {
+        return -1
+    } else {
+        return 0
+    }
 }
 
 function formatData(data) {
@@ -300,8 +368,8 @@ function formatData(data) {
 
             //set numerical stats to more readable values
             song["loudness"] = song["loudness"].toFixed(1);
-            song["valence (happiness)"] = +song["valence"].toFixed(2);
-            song["valence (happiness)"] = Math.round(song["valence (happiness)"] * 100);
+            song["valence"] = +song["valence"].toFixed(2);
+            song["valence"] = Math.round(song["valence"] * 100);
             song["tempo"] = Math.round(song["tempo"]);
             song["danceability"] = Math.round(song["danceability"] * 100);
             song["energy"] = Math.round(song["energy"] * 100);
@@ -328,7 +396,9 @@ function pickHex(color1, color2, weight) {
 
 function cellStyle(value, row, index, field) {
     if (isNumber(value) && field != "track.time_signature" && field != "track.name" && field != "track.artists.0.name" && field != "track.duration_ms") {
-        if (true) {
+        if (field == "track.tempo") {
+            val = value / 225;
+        } else {
             val = value / 100;
         }
         if (val == .5) {
@@ -392,24 +462,19 @@ function generateSongRow(data, i) {
 
 function displayPlaylists(req, identifier) {
     var response = JSON.parse(req.responseText);
-    //console.log(response)
-    if (response["total"] > 100 && identifier == 1) {
-        loadRequest("https://api.spotify.com/v1/me/playlists?limit=50&offset=50", displayPlaylists, 2);
-        loadRequest("https://api.spotify.com/v1/me/playlists?limit=50&offset=100", displayPlaylists, 3);
-    } else if (response["total"] > 50 && identifier == 1) {
-        loadRequest("https://api.spotify.com/v1/me/playlists?limit=50&offset=50", displayPlaylists, 2);
-    }
-
     for (i in response["items"]) {
         //console.log(i)
         generateImage("80px", response["items"][i]["images"][0], response["items"][i]["name"], response["items"][i]["tracks"]["total"], response["items"][i]["public"], response["items"][i]["id"], 1);
     }
-    /*product = response["product"];
-    $("#account_type")[0].innerHTML = product.charAt(0).toUpperCase() + product.slice(1);
+    if (response["next"] != null) {
+        loadRequest(response["next"], displayPlaylists, 1);
+        /*product = response["product"];
+        $("#account_type")[0].innerHTML = product.charAt(0).toUpperCase() + product.slice(1);
 
-    if (Object.keys(response["images"]).length > 0) {
-        image_url = response["images"][0]["url"];
-        console.log(image_url)
-        showImage(image_url);
-    }*/
+        if (Object.keys(response["images"]).length > 0) {
+            image_url = response["images"][0]["url"];
+            console.log(image_url)
+            showImage(image_url);
+        }*/
+    }
 }

@@ -169,6 +169,7 @@ function logout() {
     const user_name = sessionStorage.getItem("user_name");
     sessionStorage.clear();
     localStorage.clear();
+    localStorage.setItem("logged out", "true");
     console.log(user_name + " logged out successfully" + window.status);
     window.location.href = "https://spotifydata.com/";
 }
@@ -209,11 +210,11 @@ function load() {
             footerAlign();
         });
         init();
-        if (sessionStorage.getItem("user_name") == null) {
+        /*if (sessionStorage.getItem("user_name") == null) {
             loadRequest("https://api.spotify.com/v1/me", getName, 1);
         } else {
             $("#user_name")[0].innerHTML = sessionStorage.getItem("user_name");
-        }
+        }*/
     });
 }
 

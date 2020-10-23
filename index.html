@@ -30,6 +30,7 @@
         </div>
         <script>
         (function() {
+            console.log(localStorage.getItem("logged out"))
 
             var stateKey = 'spotify_auth_state';
 
@@ -60,7 +61,10 @@
                 url += '&scope=' + encodeURIComponent(scope);
                 url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
                 url += '&state=' + encodeURIComponent(state);
-                //url += '&show_dialog=true';
+                if (localStorage.getItem("logged out") == "true") {
+                    url += '&show_dialog=true';
+                    localStorage.setItem("logged out", "false")
+                }
 
                 window.location = url;
             }, false);

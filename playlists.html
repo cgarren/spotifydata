@@ -108,20 +108,30 @@
                 <div class="pt-1 px-0 col-lg-9 col-md-8 text-light">
                     <div class="display-3 text-md-left font-weight-bolder ml-md-0 mx-auto my-auto">
                         <div id="pic"></div><span id="playlist_name">name</span>
-                        <h5 class=""><a class="text-light link" id="songs" href="#"></a> <span class="d-sm-inline-block d-none">|</span> <span id="public" style="color: #1DB954;">Private</span></h5>
+                        <h5 class=""><a class="text-light link" id="songs" href="#"></a> <span id="divider" class="d-sm-inline-block d-none">|</span> <span id="public" style="color: #1DB954;">Private</span></h5>
                     </div>
                     <div id="tablediv" class=font-weight-normal>
-                        <table id="table" data-show-columns="true" data-loading-template="loadingTemplate" data-height="500px" data-sort-reset="true" data-sortable="true" data-buttons-class="success" data-toggle="table" data-classes="table table-sm table-dark table-borderless table-hover table-striped">
+                        <table id="table" data-show-columns-toggle-all="true" data-show-fullscreen="true" data-search="true" data-search-highlight="true" data-show-columns="true" data-loading-template="loadingTemplate" data-height="500px" data-sort-reset="true" data-sortable="true" data-buttons-class="success" data-toggle="table" data-classes="table table-sm table-dark table-borderless table-hover table-striped w-100">
                             <thead>
                                 <tr>
                                     <th data-sortable="true" data-cell-style="cellStyle" data-field="track.name" switchable="false">Title</th>
                                     <th data-sortable="true" data-cell-style="cellStyle" data-field="track.artists.0.name">Artist</th>
-                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.duration_ms">Duration</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.duration_ms" data-sorter="durationSorter">Duration</th>
                                     <th data-sortable="true" data-cell-style="cellStyle" data-field="track.popularity">Popularity</th>
-                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="added_at">Date Added</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="added_at" data-sorter="dateSorter">Date Added</th>
                                     <th data-sortable="true" data-cell-style="cellStyle" data-field="track.explicit">Explicit</th>
                                     <th data-sortable="true" data-cell-style="cellStyle" data-field="track.acousticness">Acousticness</th>
                                     <th data-sortable="true" data-cell-style="cellStyle" data-field="track.danceability">Danceability</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.energy">Energy</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.liveness">Liveness</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.loudness">Loudness</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.key">Key</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.mode">Mode</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.speechiness">Speechiness</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.instrumentalness">Instrumentalness</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.tempo">Tempo</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.time_signature">Time Signature</th>
+                                    <th data-sortable="true" data-cell-style="cellStyle" data-field="track.valence">Happiness</th>
                                 </tr>
                             </thead>
                             <tbody id="Songtable">
@@ -247,11 +257,11 @@
 
     .fixed-height {
         max-height: 1000px;
-        padding-bottom: 0!important;
+        padding-bottom: 0 !important;
         margin-bottom: 50px;
-        border-bottom: 0!important;
+        border-bottom: 0 !important;
     }
-    
+
     .fixed-table-body {
         max-height: 1000px;
     }
