@@ -12,7 +12,7 @@ function init() {
         loadRequest("https://api.spotify.com/v1/me/playlists?limit=50", displayPlaylists, 1);
     }, 1)
     if (getHashParams()["raw_hash"] == "") {
-        showAlert('<svg class="mr-2" width="40" height="40" viewBox="0 0 8.4666665 8.4666669"><g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-288.53332)"><path inkscape:connector-curvature="0" id="path8057" d="m 3.8859141,290.31736 -2.5116107,4.36789 a 0.40014058,0.39764426 0 0 0 0.3474193,0.59495 l 5.0232213,0 a 0.40014058,0.39764426 0 0 0 0.3474191,-0.59495 l -2.5116103,-4.36789 a 0.40014058,0.39764426 0 0 0 -0.6948387,0 z" style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" /><path style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458335px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 4.2333334,291.77454 8e-7,1.78395" id="path8059" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" /><path id="circle8061" d="m 4.3656251,294.08947 a 0.13229167,0.13228111 0 0 1 -0.1322917,0.13227 0.13229167,0.13228111 0 0 1 -0.1322917,-0.13227 0.13229167,0.13228111 0 0 1 0.1322917,-0.13229 0.13229167,0.13228111 0 0 1 0.1322917,0.13229 z" style="opacity:1;fill:#f77707;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" inkscape:connector-curvature="0" /></g></svg> Caution: With large libraries and playlists, loading times can be very long!', "alert-warning", 0);
+        showAlert('<svg class="mr-2" width="40" height="40" viewBox="0 0 8.4666665 8.4666669"><g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-288.53332)"><path inkscape:connector-curvature="0" id="path8057" d="m 3.8859141,290.31736 -2.5116107,4.36789 a 0.40014058,0.39764426 0 0 0 0.3474193,0.59495 l 5.0232213,0 a 0.40014058,0.39764426 0 0 0 0.3474191,-0.59495 l -2.5116103,-4.36789 a 0.40014058,0.39764426 0 0 0 -0.6948387,0 z" style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" /><path style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458335px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 4.2333334,291.77454 8e-7,1.78395" id="path8059" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" /><path id="circle8061" d="m 4.3656251,294.08947 a 0.13229167,0.13228111 0 0 1 -0.1322917,0.13227 0.13229167,0.13228111 0 0 1 -0.1322917,-0.13227 0.13229167,0.13228111 0 0 1 0.1322917,-0.13229 0.13229167,0.13228111 0 0 1 0.1322917,0.13229 z" style="opacity:1;fill:#f77707;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" inkscape:connector-curvature="0" /></g></svg> Caution: With large libraries and playlists, load times can be very long!', "alert-warning", 0);
     }
 
     var options = $('#table').bootstrapTable('getOptions');
@@ -99,7 +99,7 @@ function generateImage(image_size, playlist_image, playlist_name, playlist_songs
             image.style.backgroundPosition = "center";
             image.style.backgroundSize = "cover";
 
-            image.classList = "dot ml-md-0 mr-2 float-left";
+            image.classList = "ml-md-0 mr-2 float-left";
             image.style.height = image_size;
             image.style.width = image_size;
             if (num == 1) {
@@ -114,12 +114,14 @@ function generateImage(image_size, playlist_image, playlist_name, playlist_songs
         }
     } else {
         image.id = "image";
-        image.classList = "dot ml-md-0 mr-2 float-left";
-        image.innerHTML = "<svg width='40' height='40.5' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 18px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg>";
         //"<span id='image' class='dot ml-md-0 mr-2'><svg width='40' height='40.5' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 18px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg></span>";
         if (num == 1) {
+            image.classList = "dot ml-md-0 mr-2 float-left";
+            image.innerHTML = "<svg width='40' height='40.5' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 18px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg>";
             callback(image, playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id);
         } else if (num == 2) {
+            image.classList = "dot-profile ml-md-0 mr-2 float-left";
+            image.innerHTML = "<svg width='60' height='60' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 30px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg>";
             displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_public, playlist_id);
             //loadRequest("https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks", displaySongs, 1);
             displayData(playlist_id, playlist_songs);
@@ -133,12 +135,16 @@ function callback(image, playlist_image, playlist_name, playlist_songs, playlist
     var table = $("#Playlisttable")[0];
     var row = document.createElement("tr");
     var holder = document.createElement("td");
-    holder.classList = "holder";
-    holder.id = playlist_name;
-    holder.addEventListener("click", function(params) {
-        dismissAlert();
-        generateImage("120px", playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id, 2);
-    }, false)
+    if (playlist_songs != 0) {
+        holder.classList = "holder";
+        holder.id = playlist_name;
+        holder.addEventListener("click", function(params) {
+            dismissAlert();
+            generateImage("120px", playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id, 2);
+        }, false)
+    } else {
+        ;
+    }
     var name = document.createElement("div");
     name.classList = "align-middle h5 font-weight-bold";
     name.innerHTML = playlist_name;
@@ -199,14 +205,81 @@ function displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_publ
 }
 
 function displayStats(feature_data, playlist_id) {
-    loadRequest("https://api.spotify.com/v1/playlists/" + playlist_id, function() {
-        response = JSON.parse(res.responseText);
+    loadRequest("https://api.spotify.com/v1/playlists/" + playlist_id, function(req, identifier) {
+        response = JSON.parse(req.responseText);
+        console.log(response)
+        console.log(feature_data)
+        //generate averages
+        let averages = {}
+        for (i of feature_data) {
+            console.log(typeof(i["track"]))
+            for (j in i["track"]) {
+                if (isNumber(i["track"][j]) && j != "time_signature" && j != "name") {
+                    if (averages[j] == undefined) {
+                        averages[j] = parseFloat(i["track"][j]);
+                        averages[j + "_count"] = 1;
+                    } else {
+                        averages[j] = averages[j] + parseFloat(i["track"][j]);
+                        averages[j + "_count"] = averages[j + "_count"] + 1
+                    }
+                }
+            }
+        }
+        for (i in averages) {
+            averages[i] = Math.round(averages[i] / averages[i + "_count"]);
+            delete averages[i + "_count"];
+        }
+
+        //find last added to date
+        let latest = 0;
+        for (i of feature_data) {
+            let date = Date.parse(i["added_at"]);
+            if (date > latest) {
+                latest = date;
+            }
+        }
+
+        //Followers
+        generateLargeStat("Followers", response["followers"]["total"], false, "playlist-stats");
+
+        //Average stats
+        var averagesdiv = document.createElement("div");
+        averagesdiv.id = "averagesdiv";
+        averagesdiv.classList = "shadow px-2 pt-2"
+        $("#playlist-stats").append(averagesdiv);
+        var header = document.createElement("h2");
+        header.classList = "font-weight-bold text-light text-center mb-3 text-wrap";
+        header.innerHTML = "Playlist Averages";
+        averagesdiv.append(header);
+        generateSmallStat("Popularity", averages["popularity"], false, "averagesdiv", cellStyle(averages["popularity"])["css"]["color"]);
+        generateSmallStat("Happiness", averages["valence"], false, "averagesdiv", cellStyle(averages["valence"])["css"]["color"]);
+        generateSmallStat("Energy", averages["energy"], false, "averagesdiv", cellStyle(averages["energy"])["css"]["color"]);
+        generateSmallStat("Tempo", averages["tempo"] + " BPM", false, "averagesdiv", cellStyle(averages["tempo"], "", "", "track.tempo")["css"]["color"]);
+        generateSmallStat("Danceability", averages["danceability"], false, "averagesdiv", cellStyle(averages["danceability"])["css"]["color"]);
+        generateSmallStat("Acousticness", averages["acousticness"], false, "averagesdiv", cellStyle(averages["acousticness"])["css"]["color"]);
+        generateSmallStat("Instrumentalness", averages["instrumentalness"], false, "averagesdiv", cellStyle(averages["instrumentalness"])["css"]["color"]);
+        generateSmallStat("Liveness", averages["liveness"], false, "averagesdiv", cellStyle(averages["liveness"])["css"]["color"]);
+        generateSmallStat("Loudness", averages["loudness"], false, "averagesdiv", cellStyle(averages["loudness"])["css"]["color"]);
+        generateSmallStat("Position on album", ordinal_suffix_of(averages["track_number"]), false, "averagesdiv", cellStyle(averages["track_number"])["css"]["color"]);
+
+        //Time since last added to/updated
+        generateLargeStat("since last updated", convertISOTime(latest, true), false, "playlist-stats");
+
+        //Avg time between updates
+
+        //Average add date
+
+        //mood calculation-correlated with emojis?
+
+        //number of contributors
+
         //followers, average popularity, average basic stat everything, average track playlist recency/adding trends, average creation date of songs, mood (based on a few factors like danceability and stuff), # of contributing users
+
     })
 }
 
-function displayPlaylistStats(playlist_name, playlist_songs, playlist_public, playlist_id) {
-
+function displayStatsAllPlaylists(playlist_name, playlist_songs, playlist_public, playlist_id) {
+    console.log(2)
 }
 
 function displayData(playlist_id, playlist_songs) {
@@ -248,7 +321,7 @@ function displayData(playlist_id, playlist_songs) {
             console.log(formatted_data);
             $table.bootstrapTable('load', formatted_data);
             $table.bootstrapTable('hideLoading');
-            displayPlaylistStats(data, playlist_id);
+            displayStats(data, playlist_id);
         }
     }
     if (playlist_id != null) {
@@ -382,8 +455,6 @@ function formatData(data) {
     return data;
 }
 
-function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
-
 function pickHex(color1, color2, weight) {
     var w1 = weight;
     var w2 = 1 - w1;
@@ -419,7 +490,7 @@ function cellStyle(value, row, index, field) {
     }
     return {}
 }
-
+/*
 function displaySongs(req, identifier) {
     var response = JSON.parse(req.responseText);
     console.log(response);
@@ -443,6 +514,7 @@ function generateSongRow(data, i) {
     /*holder.addEventListener("click", function(params) {
         generateImage("120px", playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id, 2)
     }, false)*/
+/*
     var artist = document.createElement("td");
     var artists = data["track"]["artists"][0]["name"];
     if (data["track"]["artists"].length > 1) {
@@ -459,6 +531,7 @@ function generateSongRow(data, i) {
     row.append(duration);
     table.append(row);
 }
+*/
 
 function displayPlaylists(req, identifier) {
     var response = JSON.parse(req.responseText);

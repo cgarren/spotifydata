@@ -28,9 +28,9 @@ function getHashParams() {
     return hashParams;
 }
 
-function convertISOTime(date, time_since) {
+function convertISOTime(date, compute_time_since) {
     var date = new Date(date);
-    if (time_since == true) {
+    if (compute_time_since == true) {
         var now = new Date();
         var millis = Math.floor(now - date);
     } else {
@@ -139,6 +139,77 @@ function dismissAlert() {
         $('.alert').alert('close');
     } catch {;
     }
+}
+
+function generateLargeStat(name, value, is_link, div_id) {
+    if (is_link == false) {
+        songs = document.createElement("div");
+        songs.style.cursor = "default";
+    } else {
+        songs = document.createElement("a");
+        songs.href = "#";
+    }
+    songs.classList = "text-decoration-none text-light text-nowrap display-3 shadow";
+    span = document.createElement("span");
+    span.style.fontFamily = "'Squada One', cursive";
+    //span.style.color = "#1DB954"
+    //span.style.fontSize = "5vw";
+    span.style.lineHeight = ".7em";
+    //span.classList = "display-3"
+    span.innerHTML = value;
+    label = document.createElement("h3");
+    label.classList = "mb-3 text-white-50 text-wrap"
+    //label.style.color = "#1d9146"
+    label.innerHTML = name;
+    songs.append(span)
+    songs.append(label)
+    $("#" + div_id).append(songs)
+}
+
+function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
+
+function ordinal_suffix_of(i) {
+    var j = i % 10,
+        k = i % 100;
+    if (j == 1 && k != 11) {
+        return i + "st";
+    }
+    if (j == 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j == 3 && k != 13) {
+        return i + "rd";
+    }
+    return i + "th";
+}
+
+function generateSmallStat(name, value, is_link, div_id, custom_value_color) {
+    if (is_link == false) {
+        songs = document.createElement("div");
+        songs.style.cursor = "default";
+    } else {
+        songs = document.createElement("a");
+        songs.href = "#";
+    }
+    songs.classList = "text-decoration-none text-light text-nowrap display-3 text-right";
+    /*span = document.createElement("span");
+    span.style.fontFamily = "'Squada One', cursive";
+    //span.style.color = "#1DB954"
+    //span.style.fontSize = "5vw";
+    span.style.lineHeight = ".7em";
+    //span.classList = "display-3"
+    span.innerHTML = value;*/
+    label = document.createElement("h3");
+    label.classList = "mb-3 text-wrap text-left";
+    span = document.createElement("span");
+    span.classList = "text-right";
+    span.style.color = custom_value_color;
+    //label.style.color = "#1d9146"
+    label.innerHTML = name + ": ";
+    span.innerHTML = value;
+    label.append(span)
+    songs.append(label);
+    $("#" + div_id).append(songs)
 }
 
 function addLoadEvent(func) {

@@ -21,6 +21,8 @@
     </script>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css">
     <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js"></script>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.18.0/extensions/fixed-columns/bootstrap-table-fixed-columns.min.css" integrity="sha512-fd+nd5BwbcU8z/DcCwNWqKZBxM5tRDkCs9lCqz/8ISFG0fvO4Rye9+oF+vEm+pFIQLSSAjJ5tNFZXgUaXlzPvA==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.18.0/extensions/fixed-columns/bootstrap-table-fixed-columns.min.js" integrity="sha512-xR2R8+Hh8ieJlnEwKCz8lwWeUA1LeI5gQ2kJ6D0gikZQ1RTzGjQFkSaANSb6Y0WM06iRxXDlS1yDtHBpzo1alA==" crossorigin="anonymous"></script>-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
     <script type="text/javascript" src="common.js"></script>
     <script type="text/javascript" src="playlists.js"></script>
@@ -158,7 +160,7 @@
                         </thead>
                     </table>-->
                 </div>
-                <div id="playlist_stats" class=" d-inline-flex flex-column col-lg-3 col-md-4 text-body text-center mt-2 h-100 mx-auto" style="border-radius: 40px; width: 90%">
+                <div id="playlist-stats" class=" d-inline-flex flex-column col-lg-3 col-md-4 text-body text-center mt-2 h-100 mx-auto" style="border-radius: 40px; width: 90%">
                 </div>
             </div>
         </div>
@@ -167,6 +169,14 @@
     .dot {
         height: 80px;
         width: 80px;
+        background-color: #222327;
+        border-radius: 0%;
+        display: inline-block;
+    }
+
+    .dot-profile {
+        height: 120px;
+        width: 120px;
         background-color: #222327;
         border-radius: 0%;
         display: inline-block;
@@ -268,6 +278,10 @@
 
     .dropdown-menu-right {
         background-color: black;
+    }
+
+    .fixed-table-toolbar {
+        background-color: #343a40;
     }
     </style>
 </body>

@@ -56,31 +56,6 @@ function showImage(imgPath) {
     }
 }
 
-function generateStat(name, value, is_link) {
-    if (is_link == false) {
-        songs = document.createElement("div");
-        songs.style.cursor = "default";
-    } else {
-        songs = document.createElement("a");
-        songs.href = "#";
-    }
-    songs.classList = "text-decoration-none text-light text-nowrap display-3";
-    span = document.createElement("span");
-    span.style.fontFamily = "'Squada One', cursive";
-    //span.style.color = "#1DB954"
-    //span.style.fontSize = "5vw";
-    span.style.lineHeight = ".7em";
-    //span.classList = "display-3"
-    span.innerHTML = value;
-    label = document.createElement("h3");
-    label.classList = "mb-3 text-white-50 text-wrap"
-    //label.style.color = "#1d9146"
-    label.innerHTML = name;
-    songs.append(span)
-    songs.append(label)
-    $("#stats").append(songs)
-}
-
 function generateDivider() {
     divider = document.createElement("div");
     divider.style.borderBottom = "3px solid green";
@@ -90,7 +65,7 @@ function generateDivider() {
 function displayProfile(req, identifier) {
     var response = JSON.parse(req.responseText);
     if (response["total"]) {
-        generateStat("Liked Songs", response["total"], true);
+        generateLargeStat("Liked Songs", response["total"], true, "stats");
         //generateDivider();
     } else {
         $("#name")[0].innerHTML = response["display_name"];
@@ -105,11 +80,11 @@ function displayProfile(req, identifier) {
             showImage(image_url);
         }
 
-        generateStat("Followers", response["followers"]["total"], true);
+        generateLargeStat("Followers", response["followers"]["total"], true, "stats");
         //generateDivider();
-        //generateStat("Following", response["followers"]["total"], true);
+        //generateLargeStat("Following", response["followers"]["total"], true, "stats");
         //generateDivider();
-        generateStat("Country", response["country"], false);
+        generateLargeStat("Country", response["country"], false, "stats");
         //generateDivider();
     }
 }
@@ -210,7 +185,7 @@ function displayRecentlyPlayed(req, identifier) {
         popularity = 'items.j.track.popularity';
         items = items = Object.keys(response["items"]).length;
         generateRow("Recently Played", art_url, track_name, popularity, items, "album", response);
-        generateStat("since end of last song", convertISOTime(response["items"][0]["played_at"], true), false);
+        generateLargeStat("since end of last song", convertISOTime(response["items"][0]["played_at"], true), false, "stats");
     }
 }
 
