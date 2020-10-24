@@ -8,7 +8,7 @@ function init() {
             "height": null,
             "url": "https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png",
             "width": null
-        }, "Liked Songs", response["total"], false, null, 1);
+        }, "Liked Songs", response["total"], false, "liked_songs", 1);
         loadRequest("https://api.spotify.com/v1/me/playlists?limit=50", displayPlaylists, 1);
     }, 1)
     if (getHashParams()["raw_hash"] == "") {
@@ -142,8 +142,7 @@ function callback(image, playlist_image, playlist_name, playlist_songs, playlist
             dismissAlert();
             generateImage("120px", playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id, 2);
         }, false)
-    } else {
-        ;
+    } else {;
     }
     var name = document.createElement("div");
     name.classList = "align-middle h5 font-weight-bold";
@@ -176,7 +175,6 @@ function callback(image, playlist_image, playlist_name, playlist_songs, playlist
 }*/
 
 function loadingTemplate(message) {
-    console.log(message)
     return '<i class="fa fa-spinner fa-spin fa-fw fa-2x"></i><br><div id="loadingmessage">Loading your music</div>'
 }
 
@@ -189,7 +187,7 @@ function displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_publ
     } else {
         $("#songs").html(playlist_songs + " songs");
     }
-    if (playlist_id != null) {
+    if (playlist_id != "liked_songs") {
         if (playlist_public == true) {
             $("#public").html("Public");
         } else {
@@ -204,78 +202,76 @@ function displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_publ
     window.history.pushState({}, document.title, "/" + newURL);
 }
 
-function displayStats(feature_data, playlist_id) {
-    loadRequest("https://api.spotify.com/v1/playlists/" + playlist_id, function(req, identifier) {
+function displayStats(feature_data, playlist_response) {
+    if (playlist_response != null) {
         response = JSON.parse(req.responseText);
         console.log(response)
-        console.log(feature_data)
-        //generate averages
-        let averages = {}
-        for (i of feature_data) {
-            console.log(typeof(i["track"]))
-            for (j in i["track"]) {
-                if (isNumber(i["track"][j]) && j != "time_signature" && j != "name") {
-                    if (averages[j] == undefined) {
-                        averages[j] = parseFloat(i["track"][j]);
-                        averages[j + "_count"] = 1;
-                    } else {
-                        averages[j] = averages[j] + parseFloat(i["track"][j]);
-                        averages[j + "_count"] = averages[j + "_count"] + 1
-                    }
+        //Followers
+        generateLargeStat("Followers", response["followers"]["total"], false, "playlist-stats");
+    }
+    //generate averages
+    let averages = {}
+    for (i of feature_data) {
+        for (j in i["track"]) {
+            if (isNumber(i["track"][j]) && j != "time_signature" && j != "name") {
+                if (averages[j] == undefined) {
+                    averages[j] = parseFloat(i["track"][j]);
+                    averages[j + "_count"] = 1;
+                } else {
+                    averages[j] = averages[j] + parseFloat(i["track"][j]);
+                    averages[j + "_count"] = averages[j + "_count"] + 1
                 }
             }
         }
-        for (i in averages) {
-            averages[i] = Math.round(averages[i] / averages[i + "_count"]);
-            delete averages[i + "_count"];
+    }
+    for (i in averages) {
+        averages[i] = Math.round(averages[i] / averages[i + "_count"]);
+        delete averages[i + "_count"];
+    }
+
+    //find last added to date
+    let latest = 0;
+    for (i of feature_data) {
+        let date = Date.parse(i["added_at"]);
+        if (date > latest) {
+            latest = date;
         }
+    }
 
-        //find last added to date
-        let latest = 0;
-        for (i of feature_data) {
-            let date = Date.parse(i["added_at"]);
-            if (date > latest) {
-                latest = date;
-            }
-        }
+    //Average stats
+    var averagesdiv = document.createElement("div");
+    averagesdiv.id = "averagesdiv";
+    averagesdiv.classList = "shadow px-2 pt-2"
+    $("#playlist-stats").append(averagesdiv);
+    var header = document.createElement("h2");
+    header.classList = "font-weight-bold text-light text-center mb-3 text-wrap";
+    header.innerHTML = "Playlist Averages";
+    averagesdiv.append(header);
+    generateSmallStat("Popularity", averages["popularity"], false, "averagesdiv", cellStyle(averages["popularity"])["css"]["color"]);
+    generateSmallStat("Happiness", averages["valence"], false, "averagesdiv", cellStyle(averages["valence"])["css"]["color"]);
+    generateSmallStat("Energy", averages["energy"], false, "averagesdiv", cellStyle(averages["energy"])["css"]["color"]);
+    generateSmallStat("Tempo", averages["tempo"] + " BPM", false, "averagesdiv", cellStyle(averages["tempo"], "", "", "track.tempo")["css"]["color"]);
+    generateSmallStat("Danceability", averages["danceability"], false, "averagesdiv", cellStyle(averages["danceability"])["css"]["color"]);
+    generateSmallStat("Acousticness", averages["acousticness"], false, "averagesdiv", cellStyle(averages["acousticness"])["css"]["color"]);
+    generateSmallStat("Instrumentalness", averages["instrumentalness"], false, "averagesdiv", cellStyle(averages["instrumentalness"])["css"]["color"]);
+    generateSmallStat("Liveness", averages["liveness"], false, "averagesdiv", cellStyle(averages["liveness"])["css"]["color"]);
+    generateSmallStat("Loudness", averages["loudness"], false, "averagesdiv", cellStyle(averages["loudness"])["css"]["color"]);
+    generateSmallStat("Position on album", ordinal_suffix_of(averages["track_number"]), false, "averagesdiv", cellStyle(averages["track_number"])["css"]["color"]);
 
-        //Followers
-        generateLargeStat("Followers", response["followers"]["total"], false, "playlist-stats");
+    //Time since last added to/updated
+    generateLargeStat("since a song was added", convertISOTime(latest, true), false, "playlist-stats");
 
-        //Average stats
-        var averagesdiv = document.createElement("div");
-        averagesdiv.id = "averagesdiv";
-        averagesdiv.classList = "shadow px-2 pt-2"
-        $("#playlist-stats").append(averagesdiv);
-        var header = document.createElement("h2");
-        header.classList = "font-weight-bold text-light text-center mb-3 text-wrap";
-        header.innerHTML = "Playlist Averages";
-        averagesdiv.append(header);
-        generateSmallStat("Popularity", averages["popularity"], false, "averagesdiv", cellStyle(averages["popularity"])["css"]["color"]);
-        generateSmallStat("Happiness", averages["valence"], false, "averagesdiv", cellStyle(averages["valence"])["css"]["color"]);
-        generateSmallStat("Energy", averages["energy"], false, "averagesdiv", cellStyle(averages["energy"])["css"]["color"]);
-        generateSmallStat("Tempo", averages["tempo"] + " BPM", false, "averagesdiv", cellStyle(averages["tempo"], "", "", "track.tempo")["css"]["color"]);
-        generateSmallStat("Danceability", averages["danceability"], false, "averagesdiv", cellStyle(averages["danceability"])["css"]["color"]);
-        generateSmallStat("Acousticness", averages["acousticness"], false, "averagesdiv", cellStyle(averages["acousticness"])["css"]["color"]);
-        generateSmallStat("Instrumentalness", averages["instrumentalness"], false, "averagesdiv", cellStyle(averages["instrumentalness"])["css"]["color"]);
-        generateSmallStat("Liveness", averages["liveness"], false, "averagesdiv", cellStyle(averages["liveness"])["css"]["color"]);
-        generateSmallStat("Loudness", averages["loudness"], false, "averagesdiv", cellStyle(averages["loudness"])["css"]["color"]);
-        generateSmallStat("Position on album", ordinal_suffix_of(averages["track_number"]), false, "averagesdiv", cellStyle(averages["track_number"])["css"]["color"]);
+    //Avg time between updates
 
-        //Time since last added to/updated
-        generateLargeStat("since last updated", convertISOTime(latest, true), false, "playlist-stats");
+    //Average add date
 
-        //Avg time between updates
+    //mood calculation-correlated with emojis?
 
-        //Average add date
+    //number of contributors
 
-        //mood calculation-correlated with emojis?
+    //followers, average popularity, average basic stat everything, average track playlist recency/adding trends, average creation date of songs, mood (based on a few factors like danceability and stuff), # of contributing users
 
-        //number of contributors
 
-        //followers, average popularity, average basic stat everything, average track playlist recency/adding trends, average creation date of songs, mood (based on a few factors like danceability and stuff), # of contributing users
-
-    })
 }
 
 function displayStatsAllPlaylists(playlist_name, playlist_songs, playlist_public, playlist_id) {
@@ -321,10 +317,16 @@ function displayData(playlist_id, playlist_songs) {
             console.log(formatted_data);
             $table.bootstrapTable('load', formatted_data);
             $table.bootstrapTable('hideLoading');
-            displayStats(data, playlist_id);
+            if (playlist_id == "liked_songs") {
+                displayStats(data, null);
+            } else {
+                loadRequest("https://api.spotify.com/v1/playlists/" + playlist_id, function(req, identifier) {
+                    displayStats(data, req);
+                });
+            }
         }
     }
-    if (playlist_id != null) {
+    if (playlist_id != "liked_songs") {
         getData("https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks?offset=0&limit=100", 100);
     } else {
         getData("https://api.spotify.com/v1/me/tracks?offset=0&limit=50", 50);
