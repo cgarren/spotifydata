@@ -204,7 +204,7 @@ function displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_publ
 
 function displayStats(feature_data, playlist_response) {
     if (playlist_response != null) {
-        response = JSON.parse(req.responseText);
+        response = JSON.parse(playlist_response.responseText);
         console.log(response)
         //Followers
         generateLargeStat("Followers", response["followers"]["total"], false, "playlist-stats");
