@@ -378,6 +378,8 @@ function formatData(track_features, track_info, artist_info) {
     rowdiv.append(tablediv);
     container.append(rowdiv);
 
+    generateChart(track_features);
+
     /*if ($('table').length == 0) {
         //this is the first request and there is no table present
     } else {
@@ -395,6 +397,62 @@ function formatData(track_features, track_info, artist_info) {
 
     searchbutton.innerHTML = "Show me data!";
     searchbutton.disabled = false;
+}
+
+function generateChart(track_features) {
+    let labels = [];
+    let song_data = [];
+    for (i in track_features) {
+        if (isNumber(track_features[i]) == false || i == "time signature" || i == "release date") {
+            delete track_features[i];
+        } else {
+            track_features[i] = parseFloat(track_features[i]);
+            labels.push(capitalize(i));
+            song_data.push(track_features[i]);
+        }
+    }
+    console.log(track_features)
+    var container = $(".container")[0];
+    var rowdiv = document.createElement("div");
+    rowdiv.classList = "row";
+    rowdiv.innerHTML = '<canvas id="myChart"></canvas>';
+    container.append(rowdiv);
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'radar',
+
+        // The data for our dataset
+        data: {
+            labels: labels, //['Popularity', 'Artist Popularity', 'Danceability', 'Energy', 'Happiness', 'Accousticness', 'Liveness', 'Loudness', 'Instrumentalness']
+            datasets: [{
+                backgroundColor: '#1DB95433',
+                borderColor: '#1DB954',
+                borderDash: [],
+                pointBackgroundColor: '#1DB954',
+                data: song_data //[0, 10, 5, 2, 20, 30, 45, 46, 87]
+            }]
+        },
+
+        // Configuration options go here
+        options: {
+            legend: {
+                display: false
+            },
+            scale: {
+                pointLabels: {
+                    fontColor: 'white',
+                    fontSize: '14'
+                },
+                ticks: {
+                    beginAtZero: true,
+                    max: 100,
+                    stepSize: 20
+                }
+            }
+        }
+    });
 }
 
 function init() {

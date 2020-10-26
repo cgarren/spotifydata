@@ -10,7 +10,7 @@ function init() {
     var slider = new Slider('#ex1', {
         formatter: function(value) {
             if (value == 1) {
-                value = "6 Weeks";
+                value = "4 Weeks";
             } else if (value == 2) {
                 value = "6 Months";
             } else {

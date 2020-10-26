@@ -141,6 +141,10 @@ function dismissAlert() {
     }
 }
 
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function generateLargeStat(name, value, is_link, div_id) {
     if (is_link == false) {
         songs = document.createElement("div");
