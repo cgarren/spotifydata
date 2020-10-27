@@ -358,8 +358,9 @@ function formatData(track_features, track_info, artist_info) {
                 else {
                     color = pickHex([255, 0, 0], [255, 255, 255], val);
                 }
-                tabledata2.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
-                tabledata1.style.color = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
+                colorstring = "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
+                tabledata2.style.color = colorstring;
+                tabledata1.style.color = colorstring;
                 //console.log(key, val, typeof(val), tabledata2.style.color)
             }
             //var hue = Math.floor((100 - val) * 220 / 100);  // go from green to red
@@ -411,17 +412,34 @@ function generateChart(track_features) {
             song_data.push(track_features[i]);
         }
     }
-    console.log(track_features)
+    //console.log(track_features)
+    if ($('#chartdiv')) {
+        $('#chartdiv').remove();
+    }
     var container = $(".container")[0];
+    var chartcontainer = document.createElement("div");
+    chartcontainer.style.maxWidth = "500px";
+    chartcontainer.style.width = $("table")[0].offsetWidth;
+    console.log($("table")[0].offsetWidth);
+    chartcontainer.classList = "mx-auto mt-3 p-2 rounded-lg shadow";
+    chartcontainer.id = "chartcontainer";
+    var col = document.createElement("div");
+    col.classList = "col";
     var rowdiv = document.createElement("div");
     rowdiv.classList = "row";
-    rowdiv.innerHTML = '<canvas id="myChart"></canvas>';
+    rowdiv.id = "chartdiv";
+    chartcontainer.innerHTML = '<canvas id="myChart"></canvas>';
+    col.append(chartcontainer);
+    rowdiv.append(col);
     container.append(rowdiv);
-
     var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
+    ctx.canvas.width = $('#chartcontainer')[0].offsetWidth; // resize to parent width
+    //ctx.canvas.height = $('#chartcontainer').height(); // resize to parent height
+
+    //var ctx = document.getElementById('myChart').getContext('2d');
+    /*var chart = new Chart(ctx, {
         // The type of chart we want to create
-        type: 'radar',
+        type: 'bar',
 
         // The data for our dataset
         data: {
@@ -452,7 +470,61 @@ function generateChart(track_features) {
                 }
             }
         }
+    });*/
+
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'horizontalBar',
+
+        // The data for our dataset
+        data: {
+            labels: labels, //['Popularity', 'Artist Popularity', 'Danceability', 'Energy', 'Happiness', 'Accousticness', 'Liveness', 'Loudness', 'Instrumentalness']
+            datasets: [{
+                //backgroundColor: '#1DB954',
+                backgroundColor: function(context) {
+                    console.log(context);
+                    val = context.dataset.data[context.dataIndex]/100;
+                    if (val == .5) {
+                        color = [255, 255, 255];
+                    }
+                    /*else if (val < .5) {
+                                     color = pickHex([255, 255, 255], [117, 117, 117], val)
+                                 } */
+                    else {
+                        color = pickHex([255, 0, 0], [255, 255, 255], val);
+                    }
+                    return "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
+                }, //['red', 'blue', 'green', 'brown', 'black', 'orange', 'purple', 'yellow', 'gray'],
+                //borderColor: '#1DB954',
+                minBarLength: 2,
+                //pointBackgroundColor: '#1DB954',
+                data: song_data //[0, 10, 5, 2, 20, 30, 45, 46, 87]
+            }]
+        },
+
+        // Configuration options go here
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        fontColor: "#FFFFFF",
+                        fontSize: 17
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        suggestedMax: 100,
+                        fontColor: "#FFFFFF",
+                        fontSize: 17
+                    }
+                }]
+            }
+        }
     });
+    chart.update();
 }
 
 function init() {
