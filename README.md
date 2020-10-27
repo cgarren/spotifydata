@@ -14,14 +14,16 @@ A web interface for getting song data through the Spotify API, plus much more!
 * ~~Add Logout button (clears tokens and such)~~
 * ~~Add footer to index page~~
 * Simple about page maybe with venmo/donation button
-* Make the 404 page appealing
+* ~~Make the 404 page appealing~~
 * Make a Spotify/Music Data FAQ page (with most popular searches taking into account SEO)
 * Make pages more static/template based for SEO
 * Create sitemap and submit to search console
 * Put in alt text for all images
 * Add title tags and meta descriptions (150-300 characters) to all pages and optimize them
 * Figure out url stuff so a user can authenticate from google and go right to a certain page
-* Recommend one song per day (could be history blind), curated by me
+* Recommend one song per day (could be history blind), curated by me - "Song of the Day"
+* Make a song comparison page
+* Song Battles? Picking higher song in categories minigame?
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
@@ -34,7 +36,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * Make numbers in chart easier to read and understand
 * ~~Add a 30 sec preview to track data page using preview_url field~~
 * ~~Add album art~~
-* Generally make the page more appealing
+* Generally make the page more appealing-Maybe put in moving/stationary emotes for categories with cards (dancing, happy, speech, loudness) -Maybe toggle between stats view and visually appealing emote view?
 * Add to queue button for song
 * Lyrics on page/link to them (Musixmatch api integration? Possibly a widget? Genius lyrics/facts about the song?)
 * Move from artist genres to album genres for more precision-NOT FEASABLE RIGHT NOW
