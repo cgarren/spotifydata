@@ -24,6 +24,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * Recommend one song per day (could be history blind), curated by me - "Song of the Day"
 * Make a song comparison page
 * Song Battles? Picking higher song in categories minigame?
+* Chacge song info page to be more appealing, possiblly toogle for cards/stats
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
