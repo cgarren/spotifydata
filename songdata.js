@@ -483,7 +483,7 @@ function generateChart(track_features) {
                 //backgroundColor: '#1DB954',
                 backgroundColor: function(context) {
                     console.log(context);
-                    val = context.dataset.data[context.dataIndex]/100;
+                    val = context.dataset.data[context.dataIndex] / 100;
                     if (val == .5) {
                         color = [255, 255, 255];
                     }
@@ -538,6 +538,12 @@ function init() {
         $("#content")[0].style.display = "block";
         //$("#searchbutton").onclick() = searchForTrack();
         //console.log($("#searchbutton"))
+        $("#validationCustom01").submit(function(e) {
+            e.preventDefault();
+            console.log("done")
+            return false
+        });
+
         $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
         //if 
     } else {
