@@ -344,8 +344,8 @@ function load() {
             $('body').append(data);
             footerAlign();
         });
-        var checkLoginInterval = window.setInterval(loadRequest("https://api.spotify.com/v1/me", getName, 1), 60000);
         init();
+        var checkLoginInterval = window.setInterval(loadRequest("https://api.spotify.com/v1/me", getName, 1), 60000);
     });
 }
 
