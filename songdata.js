@@ -420,7 +420,7 @@ function generateChart(track_features) {
     var chartcontainer = document.createElement("div");
     chartcontainer.style.maxWidth = "500px";
     chartcontainer.style.width = $("table")[0].offsetWidth;
-    console.log($("table")[0].offsetWidth);
+    //console.log($("table")[0].offsetWidth);
     chartcontainer.classList = "mx-auto mt-3 p-2 rounded-lg shadow";
     chartcontainer.id = "chartcontainer";
     var col = document.createElement("div");
@@ -482,7 +482,7 @@ function generateChart(track_features) {
             datasets: [{
                 //backgroundColor: '#1DB954',
                 backgroundColor: function(context) {
-                    console.log(context);
+                    //console.log(context);
                     val = context.dataset.data[context.dataIndex] / 100;
                     if (val == .5) {
                         color = [255, 255, 255];
@@ -510,8 +510,7 @@ function generateChart(track_features) {
             scales: {
                 yAxes: [{
                     ticks: {
-                        fontColor: "#FFFFFF",
-                        fontSize: 17
+                        fontColor: "#FFFFFF"
                     }
                 }],
                 xAxes: [{
@@ -521,7 +520,11 @@ function generateChart(track_features) {
                         fontSize: 17
                     }
                 }]
-            }
+            }/*,
+            animation: {
+                easing: "easeInBounce",
+                duration: 2000
+            }*/
         }
     });
     chart.update();
@@ -536,12 +539,14 @@ function init() {
     //try {
     if (success & sessionStorage.getItem('received_state') == sessionStorage.getItem('spotify_auth_state')) {
         $("#content")[0].style.display = "block";
-        //$("#searchbutton").onclick() = searchForTrack();
-        //console.log($("#searchbutton"))
-        $("#validationCustom01").submit(function(e) {
-            e.preventDefault();
-            console.log("done")
-            return false
+
+        $("#validationCustom01").keypress(function(e) {
+            if (e.which == 13) {
+                e.preventDefault();
+                if ($("#searchbutton")[0].disabled == false) {
+                    searchForTrack();
+                }
+            }
         });
 
         $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });

@@ -118,10 +118,13 @@ function loadRequest(url, callbackFunction, identifier) {
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            callbackFunction(this, identifier);
+            if (callbackFunction != null) {
+                callbackFunction(this, identifier);
+            }
         } else if (this.status == 401) {
             console.log("401: Access token unauthorized");
             $("#content")[0].style.display = "none";
+            $("#feedbackButton")[0].style.display = "none";
             $("#errormessage")[0].style.display = "block";
         }
     };
@@ -142,7 +145,7 @@ function dismissAlert() {
 }
 
 function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function generateLargeStat(name, value, is_link, div_id) {
@@ -162,12 +165,63 @@ function generateLargeStat(name, value, is_link, div_id) {
     //span.classList = "display-3"
     span.innerHTML = value;
     label = document.createElement("h3");
-    label.classList = "mb-3 text-white-50 text-wrap"
+    label.classList = "mb-3 text-white-50 text-wrap";
     //label.style.color = "#1d9146"
     label.innerHTML = name;
-    songs.append(span)
-    songs.append(label)
-    $("#" + div_id).append(songs)
+    songs.append(span);
+    songs.append(label);
+    $("#" + div_id).append(songs);
+}
+
+function openFeedbackModal() {
+    $('#feedbackModal').modal('show');
+}
+
+function sendFeedback() {
+    $('#feedback-submit').html("Submitting...");
+    name = $('#feedback-name').val();
+    message = $('#feedback-message-text').val();
+
+    feedback = { 
+        "name": name, 
+        "message": message, 
+        "user_name": sessionStorage.getItem("user_name"),
+        "user_id": sessionStorage.getItem("user_id"),
+        "email": sessionStorage.getItem("email"),
+        "product": sessionStorage.getItem("product"),
+        "account_type": sessionStorage.getItem("account_type"),
+        "country": sessionStorage.getItem("country")
+    };
+
+    feedback = JSON.stringify(feedback);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            $('#feedback-name').val("");
+            $('#feedback-message-text').val("");
+            $('.modal-form').hide();
+            $('.modal-success').show();
+            setTimeout(function() {
+                $('#feedbackModal').modal('hide');
+                setTimeout(() => {
+                    $('#feedback-submit').html("Send message");
+                    $('.modal-form').show();
+                    $('.modal-success').hide();
+                }, 2000)
+            }, 2500);
+        } else if (this.status == 401) {
+            console.log("Error: Status 401");
+            showAlert("Uh Oh, There was an error submitting your feedback! Please try again", "alert-danger", 5000);
+        }
+    };
+    xhttp.ontimeout = function(e) {
+        console.log("Request timed out: " + url);
+        showAlert("Uh Oh, There was an error submitting your feedback! Please try again", "alert-danger", 5000);
+    }
+    xhttp.open("POST", "https://q89isgseci.execute-api.us-east-1.amazonaws.com/feedback", true);
+    xhttp.timeout = 10000;
+    xhttp.send(feedback);
 }
 
 function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
@@ -234,8 +288,14 @@ function getName(req) {
     if (req.status == 200 || req.status == 0) {
         results = JSON.parse(req.responseText);
         sessionStorage.setItem("user_name", results["display_name"]);
-        $("#user_name")[0].innerHTML = results["display_name"];
+        sessionStorage.setItem("user_id", results["id"]);
+        sessionStorage.setItem("email", results["email"]);
+        sessionStorage.setItem("product", results["product"]);
+        sessionStorage.setItem("account_type", results["type"]);
+        sessionStorage.setItem("country", results["country"]);
+        //$("#user_name")[0].innerHTML = results["display_name"];
     } else {
+        sessionStorage.setItem("user_name", null);
         console.log("Error getting user's name");
     }
 }
@@ -284,12 +344,8 @@ function load() {
             $('body').append(data);
             footerAlign();
         });
+        var checkLoginInterval = window.setInterval(loadRequest("https://api.spotify.com/v1/me", getName, 1), 60000);
         init();
-        /*if (sessionStorage.getItem("user_name") == null) {
-            loadRequest("https://api.spotify.com/v1/me", getName, 1);
-        } else {
-            $("#user_name")[0].innerHTML = sessionStorage.getItem("user_name");
-        }*/
     });
 }
 
