@@ -536,7 +536,7 @@ function generateChart(track_features) {
 function init() {
     $("#songdata_link").addClass("active");
     var success = getParamsFromURL("songdata");
-    sessionStorage.setItem('spotify_auth_state', "test") //sessionStorage.getItem('received_state'))
+    //sessionStorage.setItem('spotify_auth_state', "test") //sessionStorage.getItem('received_state'))
     //$("#songdata_link")[0].href = "https://spotifydata.com/songdata" + sessionStorage.getItem('raw_hash')
     //$("#userdata_link")[0].href = "https://spotifydata.com/userdata" + sessionStorage.getItem('raw_hash')
     //try {
