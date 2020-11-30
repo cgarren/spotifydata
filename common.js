@@ -111,6 +111,7 @@ function showAlert(message, type, time) {
 }
 
 function showErrorMessage() {
+    dismissAlert();
     $("#content")[0].style.display = "none";
     $("#feedbackButton")[0].style.display = "none";
     $("#errormessage")[0].style.display = "block";
