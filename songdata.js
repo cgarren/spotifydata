@@ -96,6 +96,8 @@ function complete_search(req) {
         } else {
             console.log("No results for that search");
             showAlert("<strong>No songs found for that search!</strong>", "alert-danger", 5000);
+            $("#searchbutton")[0].innerHTML = "Show me data!";
+            $("#searchbutton").prop("disabled", false);
         }
     }
 }
@@ -520,11 +522,12 @@ function generateChart(track_features) {
                         fontSize: 17
                     }
                 }]
-            }/*,
-            animation: {
-                easing: "easeInBounce",
-                duration: 2000
-            }*/
+            }
+            /*,
+                        animation: {
+                            easing: "easeInBounce",
+                            duration: 2000
+                        }*/
         }
     });
     chart.update();
@@ -533,13 +536,11 @@ function generateChart(track_features) {
 function init() {
     $("#songdata_link").addClass("active");
     var success = getParamsFromURL("songdata");
-    //sessionStorage.setItem('spotify_auth_state', sessionStorage.getItem('received_state'))
+    sessionStorage.setItem('spotify_auth_state', "test") //sessionStorage.getItem('received_state'))
     //$("#songdata_link")[0].href = "https://spotifydata.com/songdata" + sessionStorage.getItem('raw_hash')
     //$("#userdata_link")[0].href = "https://spotifydata.com/userdata" + sessionStorage.getItem('raw_hash')
     //try {
     if (success & sessionStorage.getItem('received_state') == sessionStorage.getItem('spotify_auth_state')) {
-        $("#content")[0].style.display = "block";
-
         $("#validationCustom01").keypress(function(e) {
             if (e.which == 13) {
                 e.preventDefault();
@@ -552,7 +553,7 @@ function init() {
         $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
         //if 
     } else {
-        $("#errormessage")[0].style.display = "block";
+        showErrorMessage()
         console.log(success, sessionStorage.getItem('received_state'), sessionStorage.getItem('spotify_auth_state'))
     }
 }

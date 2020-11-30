@@ -73,6 +73,7 @@ function convertMilliseconds(millis) {
 }
 
 function showAlert(message, type, time) {
+    dismissAlert()
     //message can be HTML
     //time = 0 means alert never expires, in ms
     /*  TYPES OF ALERTS
@@ -89,6 +90,8 @@ function showAlert(message, type, time) {
     alert = document.createElement("div");
     alert.innerHTML = message;
     alert.classList = "alert alert-dismissible fade show";
+    id = "alert" + Math.floor((Math.random() * 10000000) + 1);
+    alert.id = id
     alert.classList.add(type)
     alert.setAttribute("role", "alert");
     button = document.createElement("button");
@@ -102,14 +105,15 @@ function showAlert(message, type, time) {
     button.append(close);
     alert.append(button);
     alertdiv.append(alert);
-    try {
-        $("#searchbutton")[0].innerHTML = "Show me data!";
-        $("#searchbutton").prop("disabled", false);
-    } catch {;
-    }
     if (time != 0) {
-        window.setTimeout(dismissAlert, time);
+        window.setTimeout(function() { dismissAlert(id); }, time);
     }
+}
+
+function showErrorMessage() {
+    $("#content")[0].style.display = "none";
+    $("#feedbackButton")[0].style.display = "none";
+    $("#errormessage")[0].style.display = "block";
 }
 
 function loadRequest(url, callbackFunction, identifier) {
@@ -123,9 +127,7 @@ function loadRequest(url, callbackFunction, identifier) {
             }
         } else if (this.status == 401) {
             console.log("401: Access token unauthorized");
-            $("#content")[0].style.display = "none";
-            $("#feedbackButton")[0].style.display = "none";
-            $("#errormessage")[0].style.display = "block";
+            showErrorMessage()
         }
     };
     xhttp.ontimeout = function(e) {
@@ -137,10 +139,14 @@ function loadRequest(url, callbackFunction, identifier) {
     xhttp.send();
 }
 
-function dismissAlert() {
+function dismissAlert(id) {
     try {
-        $('.alert').alert('close');
-    } catch {;
+        if (id) {
+            $('#' + id).alert('close');
+        } else
+            $('.alert').alert('close');
+    } catch {
+        console.log("Error!!!");
     }
 }
 
@@ -182,9 +188,9 @@ function sendFeedback() {
     name = $('#feedback-name').val();
     message = $('#feedback-message-text').val();
 
-    feedback = { 
-        "name": name, 
-        "message": message, 
+    feedback = {
+        "name": name,
+        "message": message,
         "user_name": sessionStorage.getItem("user_name"),
         "user_id": sessionStorage.getItem("user_id"),
         "email": sessionStorage.getItem("email"),
@@ -320,6 +326,7 @@ $(window).resize(function() {
 });
 
 function load() {
+    $('head').prepend('<script type="application/ld+json">{"isAccessibleForFree": "False", "hasPart": {"@type": "WebPageElement","isAccessibleForFree": "False","cssSelector": "#content"}}</script>');
     //Sentry.init({ dsn: 'https://a9b82693f9054fa0b17303176592ca64@o429548.ingest.sentry.io/5376381' });
     $.get('nav.html', function(data) {
         $('body').prepend(data);
