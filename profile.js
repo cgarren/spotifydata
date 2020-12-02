@@ -2,7 +2,9 @@ function init() {
     $("#userdata_link").addClass("active");
     $("#userdata_dropdown a:nth-child(1)").addClass("active");
     $("#content")[0].style.display = "block";
-    $(".link").style.color = properties.TEXT_COLOR;
+    $("body")[0].style.color = properties.TEXT_COLOR;
+    $("#id")[0].style.color = properties.TEXT_COLOR;
+    createClass('.art:hover .overlay{ box-shadow: 0 0rem 1rem ' + properties.SELECTED_COLOR + '; display: block;}'); //background-color: ' + properties.SELECTED_COLOR + ' }')
     loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", displayProfile, 2);
     loadRequest("https://api.spotify.com/v1/me", displayProfile, 1);
     loadRequest("https://api.spotify.com/v1/me/player/recently-played?limit=50", displayRecentlyPlayed, 1);
@@ -142,12 +144,13 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
         var link = document.createElement("a");
         var overlay = document.createElement("div");
         link.href = "#";
-        link.classList = "cover-item text-center link";
+        link.classList = "cover-item text-center text-decoration-none";
         if (j == 0) {
             div.style = "margin-left: 0;";
         }
         art.style.backgroundImage = "url('" + album_url + "')";
-        overlay.title = j + 1;
+        //overlay.title = j + 1;
+        overlay.innerHTML = j + 1;
         if (type == "album") {
             art.classList = "art album";
             overlay.classList = "overlay album";
@@ -176,7 +179,7 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
         link.append(art);
         link.append(text);
         albumdiv.append(link);
-        art.addEventListener("mouseover", function() {
+        /*art.addEventListener("mouseover", function() {
             if (event.target.classList.contains("art")) {
                 event.target.firstChild.innerHTML = event.target.firstChild.title;
                 event.target.firstChild.style.display = "block";
@@ -187,7 +190,7 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
             event.target.style.display = "none";
             event.target.title = event.target.innerHTML;
             event.target.innerHTML = "";
-        });
+        });*/
     }
     avgpopularity = document.createElement("span");
     avgpopularity.innerHTML = "Avg popularity: " + avgpop / 50;

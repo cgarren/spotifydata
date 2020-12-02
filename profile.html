@@ -40,7 +40,7 @@
                                 </svg>
                             </span>
                             <div class="display-3 text-md-left font-weight-bolder ml-md-0 mx-auto my-auto"><span id="name"></span>
-                                <h5 class="text-center">Spotify ID: <a class="link" id="id" href="#"></a> <span class="d-sm-inline-block d-none">|</span> <span id="account_type" style="color: #1DB954;">Free</span></h5>
+                                <h5 class="text-center">Spotify ID: <a class="link text-decoration-none" id="id" href="#"></a> <span class="d-sm-inline-block d-none">|</span> <span id="account_type" style="color: #1DB954;">Free</span></h5>
                             </div>
                         </div>
                         <div class="text-center" id="slider">
@@ -156,16 +156,21 @@
         border-radius: 2px;
     }
 
-    .link:hover {
-        text-decoration: none;
-        /*opacity: 30%;*/
+    a.display-3:hover {
+        opacity: 50%;
+    }
+
+    a#id:hover {
+        opacity: 50%;
     }
 
     .overlay {
+        z-index: 5;
         display: none;
         background-color: rgba(0, 0, 0, 0.75);
         font-family: 'Righteous', cursive;
     }
+
     </style>
 </body>
 
