@@ -2,7 +2,7 @@ function init() {
     $("#userdata_link").addClass("active");
     $("#userdata_dropdown a:nth-child(1)").addClass("active");
     $("#content")[0].style.display = "block";
-    loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", displayProfile, 1);
+    loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", displayProfile, 2);
     loadRequest("https://api.spotify.com/v1/me", displayProfile, 1);
     loadRequest("https://api.spotify.com/v1/me/player/recently-played?limit=50", displayRecentlyPlayed, 1);
     loadRequest("https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term", displayTopTracks, 1);
@@ -63,8 +63,27 @@ function generateDivider() {
 }
 
 function displayProfile(req, identifier) {
-    var response = JSON.parse(req.responseText);
-    if (response["total"]) {
+    if (req.status != 401) {
+        var response = JSON.parse(req.responseText);
+    } else {
+        //Object to use in the case of bad user login
+        response = {
+            "total": "?",
+            "display_name": "Unknown User",
+            "id": "Unknown",
+            "external_urls": {
+                "spotify": ""
+            },
+            "product": "unknown",
+            "images": [],
+            "followers": {
+                "total": "?"
+            },
+            "country": "?"
+        }
+        $("#slider").hide()
+    }
+    if (response["total"] && identifier == 2) {
         generateLargeStat("Liked Songs", response["total"], true, "stats");
         //generateDivider();
     } else {
@@ -138,6 +157,7 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
         }
         art.append(overlay)
         var text = document.createElement("span");
+        //text.innerHTML = j+1 + ". " + track_name.split('.').reduce(function(o, k) { //Uncomment this to include numbers
         text.innerHTML = track_name.split('.').reduce(function(o, k) {
             if (k == "j") { k = j; }
             return o && o[k];
@@ -147,7 +167,8 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
             return o && o[k];
         }, response);
 
-        text.classList = "text-light text-decoration-none";
+        text.classList = "text-decoration-none";
+        text.style.color = properties.TEXT_COLOR;
         text.style.whiteSpace = "normal";
         text.style.wordWrap = "break-word";
         $clamp(text, {clamp: 2});
@@ -176,7 +197,14 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
 }
 
 function displayRecentlyPlayed(req, identifier) {
-    var response = JSON.parse(req.responseText);
+    if (req.status != 401) {
+        var response = JSON.parse(req.responseText);
+    } else {
+        //Object to use in the case of bad user login
+        response = {
+            "items": []
+        }
+    }
     if (Object.keys(response["items"]).length == 0) {
         console.log("No recent tracks");
     } else {
@@ -190,7 +218,14 @@ function displayRecentlyPlayed(req, identifier) {
 }
 
 function displayTopTracks(req, identifier) {
-    var response = JSON.parse(req.responseText);
+    if (req.status != 401) {
+        var response = JSON.parse(req.responseText);
+    } else {
+        //Object to use in the case of bad user login
+        response = {
+            "items": []
+        }
+    }
     if (Object.keys(response["items"]).length == 0) {
         console.log("Insufficient play history");
     } else {
@@ -203,7 +238,14 @@ function displayTopTracks(req, identifier) {
 }
 
 function displayTopArtists(req, identifier) {
-    var response = JSON.parse(req.responseText);
+    if (req.status != 401) {
+        var response = JSON.parse(req.responseText);
+    } else {
+        //Object to use in the case of bad user login
+        response = {
+            "items": []
+        }
+    }
     if (Object.keys(response["items"]).length == 0) {
         console.log("Insufficient play history");
     } else {

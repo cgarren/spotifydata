@@ -1,3 +1,12 @@
+const properties = new Object();
+properties.BACKGROUND_COLOR = 'black';
+properties.TEXT_COLOR = 'white';
+properties.SECONDARY_BACKGROUND_COLOR = '#1DB954';
+properties.SECONDARY_TEXT_COLOR = 'black';
+properties.HELPING_TEXT_COLOR = 'grey';
+properties.SPECIAL_TEXT_COLOR = '#1DB954';
+properties.SELECTED_COLOR = '#1DB954';
+
 function getParamsFromURL(new_url) {
     try {
         var hashParams = getHashParams()
@@ -112,9 +121,10 @@ function showAlert(message, type, time) {
 
 function showErrorMessage() {
     dismissAlert();
-    $("#content")[0].style.display = "none";
-    $("#feedbackButton")[0].style.display = "none";
-    $("#errormessage")[0].style.display = "block";
+    showAlert('<div id="error">Uh Oh, there was a problem logging you in with Spotify! A Spotify account is required to access all features of this site.<a class="btn btn-danger float-right" id="loginbutton" href="https://spotifydata.com">Go to login page</a></div>', "alert-danger", 0);
+    //$("#content")[0].style.display = "none";
+    //$("#feedbackButton")[0].style.display = "none";
+    //$("#errormessage")[0].style.display = "block";
 }
 
 function loadRequest(url, callbackFunction, identifier) {
@@ -128,7 +138,13 @@ function loadRequest(url, callbackFunction, identifier) {
             }
         } else if (this.status == 401) {
             console.log("401: Access token unauthorized");
-            showErrorMessage()
+            if ($('#error').length == 0) {
+                showErrorMessage()
+            }
+            if (callbackFunction != null) {
+                callbackFunction(this, identifier);
+            }
+            this.abort();
         }
     };
     xhttp.ontimeout = function(e) {
@@ -163,7 +179,8 @@ function generateLargeStat(name, value, is_link, div_id) {
         songs = document.createElement("a");
         songs.href = "#";
     }
-    songs.classList = "text-decoration-none text-light text-nowrap display-3 shadow";
+    songs.classList = "text-decoration-none text-nowrap display-3 shadow";
+    songs.style.color = properties.TEXT_COLOR;
     span = document.createElement("span");
     span.style.fontFamily = "'Squada One', cursive";
     //span.style.color = "#1DB954"
@@ -172,8 +189,8 @@ function generateLargeStat(name, value, is_link, div_id) {
     //span.classList = "display-3"
     span.innerHTML = value;
     label = document.createElement("h3");
-    label.classList = "mb-3 text-white-50 text-wrap";
-    //label.style.color = "#1d9146"
+    label.classList = "mb-3 text-wrap";
+    label.style.color = properties.HELPING_TEXT_COLOR;
     label.innerHTML = name;
     songs.append(span);
     songs.append(label);
@@ -256,7 +273,8 @@ function generateSmallStat(name, value, is_link, div_id, custom_value_color) {
         songs = document.createElement("a");
         songs.href = "#";
     }
-    songs.classList = "text-decoration-none text-light text-nowrap display-3 text-right";
+    songs.classList = "text-decoration-none text-nowrap display-3 text-right";
+    songs.style.color = properties.TEXT_COLOR;
     /*span = document.createElement("span");
     span.style.fontFamily = "'Squada One', cursive";
     //span.style.color = "#1DB954"
@@ -326,8 +344,23 @@ $(window).resize(function() {
     footerAlign();
 });
 
+function createClass(css) {
+    //var css = 'table td:hover{ background-color: #00ff00 }';
+    var style = document.createElement('style');
+
+    if (style.styleSheet) {
+        style.styleSheet.cssText = css;
+    } else {
+        style.appendChild(document.createTextNode(css));
+    }
+
+    document.getElementsByTagName('head')[0].appendChild(style);
+
+}
+
 function load() {
     $('head').prepend('<script type="application/ld+json">{"isAccessibleForFree": "False", "hasPart": {"@type": "WebPageElement","isAccessibleForFree": "False","cssSelector": "#content"}}</script>');
+    $('body')[0].style.backgroundColor = properties.BACKGROUND_COLOR;
     //Sentry.init({ dsn: 'https://a9b82693f9054fa0b17303176592ca64@o429548.ingest.sentry.io/5376381' });
     $.get('nav.html', function(data) {
         $('body').prepend(data);

@@ -3,13 +3,17 @@ function init() {
     $("#userdata_dropdown a:nth-child(5)").addClass("active");
     $("#content")[0].style.display = "block";
     loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", function(req, identifier) {
-        var response = JSON.parse(req.responseText);
-        generateImage("80px", {
-            "height": null,
-            "url": "https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png",
-            "width": null
-        }, "Liked Songs", response["total"], false, "liked_songs", 1);
-        loadRequest("https://api.spotify.com/v1/me/playlists?limit=50", displayPlaylists, 1);
+        if (req.status != 401) {
+            var response = JSON.parse(req.responseText);
+            generateImage("80px", {
+                "height": null,
+                "url": "https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png",
+                "width": null
+            }, "Liked Songs", response["total"], false, "liked_songs", 1);
+            loadRequest("https://api.spotify.com/v1/me/playlists?limit=50", displayPlaylists, 1);
+        } else {
+            generateImage("80px", null, "No Playlists Found", 0, null, "unknown", 1);
+        }
     }, 1)
     if (getHashParams()["raw_hash"] == "") {
         showAlert('<svg class="mr-2" width="40" height="40" viewBox="0 0 8.4666665 8.4666669"><g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-288.53332)"><path inkscape:connector-curvature="0" id="path8057" d="m 3.8859141,290.31736 -2.5116107,4.36789 a 0.40014058,0.39764426 0 0 0 0.3474193,0.59495 l 5.0232213,0 a 0.40014058,0.39764426 0 0 0 0.3474191,-0.59495 l -2.5116103,-4.36789 a 0.40014058,0.39764426 0 0 0 -0.6948387,0 z" style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" /><path style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458335px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 4.2333334,291.77454 8e-7,1.78395" id="path8059" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" /><path id="circle8061" d="m 4.3656251,294.08947 a 0.13229167,0.13228111 0 0 1 -0.1322917,0.13227 0.13229167,0.13228111 0 0 1 -0.1322917,-0.13227 0.13229167,0.13228111 0 0 1 0.1322917,-0.13229 0.13229167,0.13228111 0 0 1 0.1322917,0.13229 z" style="opacity:1;fill:#f77707;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" inkscape:connector-curvature="0" /></g></svg> Caution: With large libraries and playlists, load times can be very long!', "alert-warning", 0);
@@ -18,6 +22,18 @@ function init() {
     var options = $('#table').bootstrapTable('getOptions');
     options.height = window.innerHeight - (26 + 58); //subtract footer and table controls
     $('#table').bootstrapTable('refreshOptions', options);
+    $('table')[0].style.backgroundColor = properties.BACKGROUND_COLOR;
+    $('table')[0].style.color = properties.TEXT_COLOR;
+    $('#content')[0].style.color = properties.TEXT_COLOR;
+    $("#number-of-songs")[0].style.color = properties.TEXT_COLOR;
+    $("#public")[0].style.color = properties.SPECIAL_TEXT_COLOR;
+    createClass('.holder:hover{ box-shadow: 0 0rem 1rem ' + properties.SELECTED_COLOR + '; cursor: pointer;}'); //background-color: ' + properties.SELECTED_COLOR + ' }')
+    createClass('.table { background-color: ' + properties.BACKGROUND_COLOR + '; color: ' + properties.TEXT_COLOR + ' }');
+    createClass('.dropdown-menu-right { background-color: ' + properties.SECONDARY_BACKGROUND_COLOR + '; color: ' + properties.SECONDARY_TEXT_COLOR + '; border: 1px ' + properties.SELECTED_COLOR + ' }');
+    createClass('.fixed-table-toolbar { background-color: ' + properties.BACKGROUND_COLOR + '; color: ' + properties.TEXT_COLOR + ' }');
+    createClass('.btn-buttons { background-color: ' + properties.SECONDARY_BACKGROUND_COLOR + '; color: ' + properties.SECONDARY_TEXT_COLOR + ' }');
+    createClass('.bootstrap-table .fixed-table-toolbar .columns label { color: ' + properties.SECONDARY_TEXT_COLOR + ' }');
+
     /*try {
         $('#table').on('all.bs.table', function(e, arg1, arg2) {
             //console.log(e);
@@ -148,16 +164,20 @@ function callback(image, playlist_image, playlist_name, playlist_songs, playlist
     name.classList = "align-middle h5 font-weight-bold";
     name.innerHTML = playlist_name;
     var songs = document.createElement("div");
-    songs.classList = "align-middle text-secondary font-weight-normal";
+    songs.classList = "align-middle font-weight-normal";
+    songs.style.color = properties.HELPING_TEXT_COLOR;
     if (playlist_songs == 1) {
         songs.innerHTML = playlist_songs + " song";
     } else {
         songs.innerHTML = playlist_songs + " songs";
     }
     var public = document.createElement("div");
-    public.classList = "align-middle text-secondary font-weight-normal";
+    public.classList = "align-middle font-weight-normal";
+    public.style.color = properties.HELPING_TEXT_COLOR;
     if (playlist_public == true) {
         public.innerHTML = "Public";
+    } else if (playlist_public == null) {
+        public.innerHTML = "";
     } else {
         public.innerHTML = "Private";
     }
@@ -183,9 +203,9 @@ function displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_publ
     $("#playlist").show();
     $("#playlist_name").html(playlist_name);
     if (playlist_songs == 1) {
-        $("#songs").html(playlist_songs + " song");
+        $("#number-of-songs").html(playlist_songs + " song");
     } else {
-        $("#songs").html(playlist_songs + " songs");
+        $("#number-of-songs").html(playlist_songs + " songs");
     }
     if (playlist_id != "liked_songs") {
         if (playlist_public == true) {
@@ -207,7 +227,11 @@ function displayStats(feature_data, playlist_response) {
         response = JSON.parse(playlist_response.responseText);
         console.log(response)
         //Followers
-        generateLargeStat("Followers", response["followers"]["total"], false, "playlist-stats");
+        if (response["followers"]["total"] != 1) {
+            generateLargeStat("Followers", response["followers"]["total"], false, "playlist-stats");
+        } else {
+            generateLargeStat("Follower", response["followers"]["total"], false, "playlist-stats");
+        }
     }
     //generate averages
     let averages = {}
@@ -244,8 +268,9 @@ function displayStats(feature_data, playlist_response) {
     averagesdiv.classList = "shadow px-2 pt-2"
     $("#playlist-stats").append(averagesdiv);
     var header = document.createElement("h2");
-    header.classList = "font-weight-bold text-light text-center mb-3 text-wrap";
+    header.classList = "font-weight-bold text-center mb-3 text-wrap";
     header.innerHTML = "Playlist Averages";
+    header.style.color = properties.TEXT_COLOR;
     averagesdiv.append(header);
     generateSmallStat("Popularity", averages["popularity"], false, "averagesdiv", cellStyle(averages["popularity"])["css"]["color"]);
     generateSmallStat("Happiness", averages["valence"], false, "averagesdiv", cellStyle(averages["valence"])["css"]["color"]);
@@ -275,6 +300,7 @@ function displayStats(feature_data, playlist_response) {
 }
 
 function displayStatsAllPlaylists(playlist_name, playlist_songs, playlist_public, playlist_id) {
+    //TODO
     console.log(2)
 }
 
@@ -285,6 +311,8 @@ function displayData(playlist_id, playlist_songs) {
 
     $table.bootstrapTable('showLoading');
     $("#loadingmessage")[0].innerHTML = "Loading 0/" + playlist_songs + " songs";
+    $(".fixed-table-loading")[0].style.backgroundColor = properties.BACKGROUND_COLOR;
+    $("#loadingmessage")[0].style.color = properties.TEXT_COLOR;
 
     function getData(url, increment) {
         $("#loadingmessage")[0].innerHTML = "Loading " + j + "/" + playlist_songs + " songs";

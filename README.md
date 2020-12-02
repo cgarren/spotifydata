@@ -27,6 +27,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * Change song info page to be more appealing, possiblly toogle for cards/stats
 * Add a charts page which lista spotify/billboard/genius/itunes/apple music/etc charts and combines them into a master chart (there is a playlist for the billboard hot 100)
 * Add a way to see you top saved artists and albums-Maybe like a top 5 thing or just the most saved of each in the stats sidebar
+* Add a proprietary playlist, artist, track, or user "score" that combines all of the availiable data-maybe multidimenstional, like a picture or something?
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
