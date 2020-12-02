@@ -205,17 +205,25 @@ function sendFeedback() {
     $('#feedback-submit').html("Submitting...");
     name = $('#feedback-name').val();
     message = $('#feedback-message-text').val();
-
-    feedback = {
-        "name": name,
-        "message": message,
-        "user_name": sessionStorage.getItem("user_name"),
-        "user_id": sessionStorage.getItem("user_id"),
-        "email": sessionStorage.getItem("email"),
-        "product": sessionStorage.getItem("product"),
-        "account_type": sessionStorage.getItem("account_type"),
-        "country": sessionStorage.getItem("country")
-    };
+    try {
+        feedback = {
+            "name": name,
+            "message": message,
+            "user_name": sessionStorage.getItem("user_name"),
+            "user_id": sessionStorage.getItem("user_id"),
+            "email": sessionStorage.getItem("email"),
+            "product": sessionStorage.getItem("product"),
+            "account_type": sessionStorage.getItem("account_type"),
+            "country": sessionStorage.getItem("country"),
+            "status": "User logged in"
+        };
+    } catch {
+        feedback = {
+            "name": name,
+            "message": message,
+            "status": "Error, user most likely not logged in"
+        };
+    }
 
     feedback = JSON.stringify(feedback);
 
