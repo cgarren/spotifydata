@@ -2,6 +2,7 @@ function init() {
     $("#userdata_link").addClass("active");
     $("#userdata_dropdown a:nth-child(1)").addClass("active");
     $("#content")[0].style.display = "block";
+    $(".link").style.color = properties.TEXT_COLOR;
     loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", displayProfile, 2);
     loadRequest("https://api.spotify.com/v1/me", displayProfile, 1);
     loadRequest("https://api.spotify.com/v1/me/player/recently-played?limit=50", displayRecentlyPlayed, 1);

@@ -538,6 +538,7 @@ function generateChart(track_features) {
 
 function init() {
     $("#songdata_link").addClass("active");
+    $("#searchlabel")[0].style.color = properties.TEXT_COLOR;
     var success = getParamsFromURL("songdata");
     //sessionStorage.setItem('spotify_auth_state', "test") //sessionStorage.getItem('received_state'))
     //$("#songdata_link")[0].href = "https://spotifydata.com/songdata" + sessionStorage.getItem('raw_hash')
@@ -556,7 +557,7 @@ function init() {
         $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
         //if 
     } else {
-        showErrorMessage()
+        showErrorMessage();
         console.log(success, sessionStorage.getItem('received_state'), sessionStorage.getItem('spotify_auth_state'))
     }
 }
