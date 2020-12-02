@@ -72,7 +72,6 @@ function searchForTrack(ev) {
 }
 
 function complete_search(req) {
-    //console.log(req.responseText);
     if (req.status == 200 || req.status == 0) {
         results = JSON.parse(req.responseText);
         if (results["tracks"]["items"].length > 0) {
@@ -99,6 +98,8 @@ function complete_search(req) {
             $("#searchbutton")[0].innerHTML = "Show me data!";
             $("#searchbutton").prop("disabled", false);
         }
+    } else if (req.status == 401) {
+        $("#searchbutton")[0].innerHTML = "Please login to search";
     }
 }
 
@@ -210,7 +211,9 @@ function formatData(track_features, track_info, artist_info) {
     var tablediv = document.createElement("div");
     tablediv.classList = "col";
     var table = document.createElement("table");
-    table.classList = "table table-dark table-sm table-borderless mx-auto mt-3 p-2 rounded-lg shadow";
+    table.classList = "table table-sm table-borderless mx-auto mt-3 p-2 rounded-lg shadow";
+    table.style.backgroundColor = properties.BACKGROUND_COLOR
+    table.style.color = properties.TEXT_COLOR
     table.style.maxWidth = "500px";
     var thead = document.createElement("thead");
     thead.classList = "border-success border-bottom";
