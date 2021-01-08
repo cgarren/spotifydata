@@ -30,6 +30,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * Add a proprietary playlist, artist, track, or user "score" that combines all of the availiable data-maybe multidimenstional, like a picture or something?
 * Personaliy Guesser or something fun like that-spin off site in same domain but other subdomain?
 * Add option to paginate on playlist page and put warning on playlists that will take a while to load instead of the banner on top
+* Default to pagination for playlists over ~200 songs
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
