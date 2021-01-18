@@ -32,6 +32,8 @@ A web interface for getting song data through the Spotify API, plus much more!
 * Add option to paginate on playlist page and put warning on playlists that will take a while to load instead of the banner on top
 * Default to pagination for playlists over ~200 songs
 * have songdata become more of a dashbiard for the song, also expand to searching for albums, artists, podcasts? include rankings for songs/albums like gold/platinum status or pitchfork rating
+* pie shart of genres (group similar ones to get a better idea of overall makeup? ML?)
+* Number of unique artists/albums
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
