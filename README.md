@@ -34,6 +34,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * have songdata become more of a dashbiard for the song, also expand to searching for albums, artists, podcasts? include rankings for songs/albums like gold/platinum status or pitchfork rating
 * pie shart of genres (group similar ones to get a better idea of overall makeup? ML?)
 * Number of unique artists/albums
+* Put stats in playlist boxes on playlist select page for easy comparison
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
