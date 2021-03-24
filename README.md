@@ -35,6 +35,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * pie shart of genres (group similar ones to get a better idea of overall makeup? ML?)
 * Number of unique artists/albums
 * Put stats in playlist boxes on playlist select page for easy comparison
+* Make genres clickable and to go every noise at once
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
