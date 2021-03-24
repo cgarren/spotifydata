@@ -36,6 +36,7 @@ A web interface for getting song data through the Spotify API, plus much more!
 * Number of unique artists/albums
 * Put stats in playlist boxes on playlist select page for easy comparison
 * Make genres clickable and to go every noise at once/maybe in the future have separate genre pages that can pull from ENAO with full playable songs for dicovery
+* Display top albums for saved songs (10 songs from 808's and Heartbreak, 9 songs from Flower Boy etc...) and order them, MAYBE PERCENTAGES would be better? bc albums have different lengths
 
 ### Feedback
 * add a way to see how many songs you have saved from a particular artist
