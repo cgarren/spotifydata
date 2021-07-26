@@ -27,7 +27,7 @@
     <title>Spotify Data</title>
 </head>
 
-<body>
+<body class="text_color_prop background_color_prop">
     <div id="content" style="display: none;">
         <div class="container-fluid mx-md-auto px-md-auto">
             <div class="row m-0">
@@ -40,7 +40,7 @@
                                 </svg>
                             </span>
                             <div class="display-3 text-md-left font-weight-bolder ml-md-0 mx-auto my-auto"><span id="name"></span>
-                                <h5 class="text-center">Spotify ID: <a class="link text-decoration-none" id="id" href="#"></a> <span class="d-sm-inline-block d-none">|</span> <span id="account_type" style="color: #1DB954;">Free</span></h5>
+                                <h5 class="text-center">Spotify ID: <a class="link text-decoration-none text_color_prop" id="id" href="#"></a> <span class="d-sm-inline-block d-none">|</span> <span id="account_type" style="color: #1DB954;">Free</span></h5>
                             </div>
                         </div>
                         <div class="text-center" id="slider">
@@ -160,15 +160,21 @@
         opacity: 50%;
     }
 
-    a#id:hover {
-        opacity: 50%;
-    }
-
     .overlay {
         z-index: 5;
         display: none;
         background-color: rgba(0, 0, 0, 0.75);
         font-family: 'Righteous', cursive;
+    }
+
+    /*Remove the scrollbar from Chrome, Safari, Edge and IE*/
+    ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+
+    * {
+      -ms-overflow-style: none !important;
     }
 
     </style>

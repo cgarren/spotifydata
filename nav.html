@@ -1,3 +1,4 @@
+<!--Navbar-->
 <nav class="navbar navbar-expand-sm navbar-light shadow-lg" style="background-color: #1DB954;">
     <a class="navbar-brand" href="https://spotifydata.com" style="font-family: 'Righteous', cursive;">Spotify Data</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +35,9 @@
         </div>
     </div>
 </nav>
+<!--Placeholer for alerts-->
 <div class="alertdiv"></div>
+<!--Hidden error message-->
 <div class="mt-3" id="errormessage" style="display: none;">
     <div class="text-light text-center">
         <h4>Invalid access token! Please sign in again.</h4>
@@ -43,38 +46,58 @@
         <a class="btn btn-primary" id="loginbutton" href="https://spotifydata.com">Back to login page</a>
     </div>
 </div>
-<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content modal-form" style="">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Give Feedback on Spotify Data</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <p class="">I love to hear from people who use this site! Feel free to share any comments, concerns, or suggestions below.</p>
-                    <div class="form-group">
-                        <label for="name" class="col-form-label">Your Name:</label>
-                        <input type="text" class="form-control" id="feedback-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="feedback-message-text"></textarea>
-                    </div>
-                </form>
-            </div>
-            <button onclick="sendFeedback()" type="button" class="btn btn-primary" id="feedback-submit">Send message</button>
-        </div>
-        <div class="modal-content modal-success" style="display: none">
-            <div class="modal-body text-center">
-                Thanks for your feedback!
-            </div>
-        </div>
-    </div>
-</div>
+<!--Global styles-->
 <style>
+/*Common colors*/
+.background_color_prop {
+    background-color: black;
+}
+
+.text_color_prop {
+    color: white;
+}
+
+/*a.text_color_prop:hover {
+    opacity: 50%;
+    color: white
+}*/
+
+.secondary_background_color_prop {
+    background-color: #1DB954;
+}
+
+.secondary_text_color_prop {
+    color: black;
+}
+
+.helping_text_color_prop {
+    color: grey;
+}
+
+.special_text_color_prop {
+    color: #1DB954;
+}
+
+.hover_1:hover {
+    opacity: 50%;
+    color: white
+}
+
+.hover_2:hover {
+    color: #1DB954;
+}
+
+.border_prop {
+    box-shadow: 0 0rem 1rem #1DB954;
+    display: block;
+}
+
+.selected_color_prop:hover {
+    /*color: #1DB954;*/
+    box-shadow: 0 0rem 1rem #1DB954;
+    display: block;
+}
+
 .tooltip-inner {
     max-width: 350px;
 }
@@ -112,16 +135,16 @@ tr {
 }
 
 .alert .btn-danger {
-  float: right;
+    float: right;
 }
 
 .alert #error {
-  line-height: 34px;
+    line-height: 34px;
 }
 
-.alert > div:after {
-  clear: both;
-  content: '';
-  display: table;
+.alert>div:after {
+    clear: both;
+    content: '';
+    display: table;
 }
 </style>

@@ -1,0 +1,124 @@
+<!--Feedback modal-->
+<div class="modal fade text-body" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-form" style="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Give Feedback on Spotify Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <p class="">I love to hear from people who use this site! Feel free to share any comments, concerns, or suggestions below.</p>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Your Name (optional):</label>
+                        <input type="text" class="form-control" id="feedback-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Your Email (optional):</label>
+                        <input type="text" class="form-control" id="feedback-email">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="feedback-message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <button onclick="sendFeedback()" type="button" class="btn btn-primary" id="feedback-submit">Send message</button>
+        </div>
+        <div class="modal-content modal-success" style="display: none">
+            <div class="modal-body text-center">
+                Thanks for your feedback!
+            </div>
+        </div>
+    </div>
+</div>
+<!--Template song modal-->
+<div class="modal fade text-body" id="infoModal" tabindex="-1" aria-labelledby="infoModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-form" style="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">See info below</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <p class="">I love to hear from people who use this site! Feel free to share any comments, concerns, or suggestions below.</p>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Your Name (optional):</label>
+                        <input type="text" class="form-control" id="info-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Your Email (optional):</label>
+                        <input type="text" class="form-control" id="info-email">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="info-message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <button onclick="sendFeedback()" type="button" class="btn btn-primary" id="info-submit">Send message</button>
+        </div>
+        <div class="modal-content modal-success" style="display: none">
+            <div class="modal-body text-center">
+                Thanks for your feedback!
+            </div>
+        </div>
+    </div>
+</div>
+<!--Template song modal-->
+<div class="modal fade" id="songModal" tabindex="-1" aria-labelledby="songModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg border_prop">
+        <div class="modal-content modal-form">
+            <div class="modal-header background_color_prop text_color_prop">
+                <div class="modal-title">
+                    <div class="art" style="background-image: url('https://i.scdn.co/image/ab67616d0000b273346d77e155d854735410ed18');"></div>
+                    <div class="title text-md-left ml-md-2 mx-auto my-auto">
+                        <div class="h2 font-weight-bolder" style="line-height: .7em">Show Out (with Skepta & Pop Smoke)</div>
+                        <div class="h3 font-weight-bolder">Kid Cudi</div>
+                        <div class="stats">
+                            <div>Tempo: 110 bpm</div>
+                            <div>Key: B</div>
+                            <div>Explicit: Yes</div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="close text_color_prop hover_2" data-dismiss="modal" aria-label="Close" style="text-shadow: none">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body background_color_prop text_color_prop">
+                Yoooooo
+            </div>
+            <!--<button onclick="sendFeedback()" type="button" class="btn btn-success" id="info-submit">Save to Liked Songs</button>-->
+            <div class="modal-content modal-success" style="display: none">
+                <div class="modal-body text-center">
+                    Thanks for your feedback!
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+    .art {
+        box-shadow: 1px 1px 8px #000;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 200px;
+        height: 200px;
+        font-size: 9em;
+        color: white;
+        padding: 0;
+        line-height: 200px;
+        float: left;
+    }
+
+    .title {
+        float: left;
+
+    }
+    </style>

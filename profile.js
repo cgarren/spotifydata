@@ -2,9 +2,6 @@ function init() {
     $("#userdata_link").addClass("active");
     $("#userdata_dropdown a:nth-child(1)").addClass("active");
     $("#content")[0].style.display = "block";
-    $("body")[0].style.color = properties.TEXT_COLOR;
-    $("#id")[0].style.color = properties.TEXT_COLOR;
-    createClass('.art:hover .overlay{ box-shadow: 0 0rem 1rem ' + properties.SELECTED_COLOR + '; display: block;}'); //background-color: ' + properties.SELECTED_COLOR + ' }')
     loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", displayProfile, 2);
     loadRequest("https://api.spotify.com/v1/me", displayProfile, 1);
     loadRequest("https://api.spotify.com/v1/me/player/recently-played?limit=50", displayRecentlyPlayed, 1);
@@ -102,7 +99,10 @@ function displayProfile(req, identifier) {
             showImage(image_url);
         }
 
-        generateLargeStat("Followers", response["followers"]["total"], true, "stats");
+        let fol = generateLargeStat("Followers", response["followers"]["total"], true, "stats");
+        fol.addEventListener("click", showDetailsModal);
+        fol.dataset.type = "stat";
+        fol.dataset.id = null;
         //generateDivider();
         //generateLargeStat("Following", response["followers"]["total"], true, "stats");
         //generateDivider();
@@ -152,10 +152,10 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
         //overlay.title = j + 1;
         overlay.innerHTML = j + 1;
         if (type == "album") {
-            art.classList = "art album";
+            art.classList = "art album selected_color_prop";
             overlay.classList = "overlay album";
         } else {
-            art.classList = "art artist";
+            art.classList = "art artist selected_color_prop";
             overlay.classList = "overlay artist";
             //console.log(type)
         }
@@ -171,8 +171,7 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
             return o && o[k];
         }, response);
 
-        text.classList = "text-decoration-none";
-        text.style.color = properties.TEXT_COLOR;
+        text.classList = "text-decoration-none text_color_prop";
         text.style.whiteSpace = "normal";
         text.style.wordWrap = "break-word";
         $clamp(text, {clamp: 2});
@@ -194,7 +193,7 @@ function generateRow(row_title, art_url, track_name, popularity, items, type, re
     }
     avgpopularity = document.createElement("span");
     avgpopularity.innerHTML = "Avg popularity: " + avgpop / 50;
-    avgpopularity.classList = "text-white-50 h5"
+    avgpopularity.classList = "helping_text_color_prop h5"
     title.append(document.createElement("br"))
     title.style.lineHeight = ".7em";
     title.append(avgpopularity);

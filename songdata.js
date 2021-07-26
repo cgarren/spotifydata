@@ -211,9 +211,7 @@ function formatData(track_features, track_info, artist_info) {
     var tablediv = document.createElement("div");
     tablediv.classList = "col";
     var table = document.createElement("table");
-    table.classList = "table table-sm table-borderless mx-auto mt-3 p-2 rounded-lg shadow";
-    table.style.backgroundColor = properties.BACKGROUND_COLOR
-    table.style.color = properties.TEXT_COLOR
+    table.classList = "table table-sm table-borderless mx-auto mt-3 p-2 rounded-lg shadow background_color_prop text_color_prop";
     table.style.maxWidth = "500px";
     var thead = document.createElement("thead");
     thead.classList = "border-success border-bottom";
@@ -538,7 +536,6 @@ function generateChart(track_features) {
 
 function init() {
     $("#songdata_link").addClass("active");
-    $("#searchlabel")[0].style.color = properties.TEXT_COLOR;
     var success = getParamsFromURL("songdata");
     //sessionStorage.setItem('spotify_auth_state', "test") //sessionStorage.getItem('received_state'))
     //$("#songdata_link")[0].href = "https://spotifydata.com/songdata" + sessionStorage.getItem('raw_hash')
@@ -554,8 +551,9 @@ function init() {
             }
         });
 
-        $("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
-        //if 
+        //$("#searchbutton")[0].addEventListener("click", function() { searchForTrack() });
+        $("#searchbutton")[0].addEventListener("click", function() { showDetailsModal() });
+        
     } else {
         showErrorMessage();
         console.log(success, sessionStorage.getItem('received_state'), sessionStorage.getItem('spotify_auth_state'))

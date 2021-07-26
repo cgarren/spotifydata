@@ -37,26 +37,59 @@ function getHashParams() {
     return hashParams;
 }
 
+/*function calcDate(date1, date2) {
+    //below
+    var diffa = Math.floor(date1.getTime() - date2.getTime());
+    var day = 1000 * 60 * 60 * 24;
+    var days = Math.floor(diffa / day);
+    var months = Math.floor(days / 31);
+    var years = Math.floor(months / 12);
+    var message = '';
+    if (years != 0) {
+        message = years + " year(s) ago \n"
+    } else if (months != 0) {
+        message = months + " month(s) ago \n"
+    } else if (days != 0) {
+        message = days + " day(s) ago \n"
+    } else {
+        message = "today";
+    }
+    return message
+}*/
+
 function convertISOTime(date, compute_time_since) {
     var date = new Date(date);
     if (compute_time_since == true) {
         var now = new Date();
         var millis = Math.floor(now - date);
+        //console.log(now, date, now-date, Math.floor(now - date), millis)
     } else {
         var millis = Math.floor(date);
         return date
     }
+    /*
     var seconds = (millis / 1000) % 60;
     seconds = Math.floor(seconds);
     var minutes = (millis / (1000 * 60)) % 60;
     minutes = Math.floor(minutes);
     var hours = (millis / (1000 * 60 * 60)) % 24;
     hours = Math.floor(hours);
-    var days = Math.floor(millis / (1000 * 60 * 60) / 24);
+    var days = Math.floor(millis / (1000 * 60 * 60 * 24));
+    */
 
-    if (minutes == 0) {
+    seconds = Math.floor(millis / 1000);
+    minutes = Math.floor(seconds / 60);
+    seconds = seconds % 60;
+    hours = Math.floor(minutes / 60);
+    minutes = minutes % 60;
+    days = Math.floor(hours / 24);
+    hours = hours % 24;
+
+    //console.log(millis, seconds, minutes, hours, days)
+
+    if (minutes == 0 && hours == 0 && days == 0) {
         return seconds + "s";
-    } else if (hours == 0) {
+    } else if (hours == 0 && days == 0) {
         return minutes + "m " + seconds + "s";
     } else if (days == 0) {
         return hours + "h " + minutes + "m";
@@ -127,12 +160,12 @@ function showErrorMessage() {
     //$("#errormessage")[0].style.display = "block";
 }
 
-function loadRequest(url, callbackFunction, identifier) {
+function loadRequest(url, callbackFunction, identifier, noauth) {
     var xhttp;
     var oauth_id = sessionStorage.getItem('access_token');
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4 && (this.status == 200 || this.status == 503 || this.status == 429)) {
             if (callbackFunction != null) {
                 callbackFunction(this, identifier);
             }
@@ -151,9 +184,35 @@ function loadRequest(url, callbackFunction, identifier) {
         console.log("Request timed out: " + url);
     }
     xhttp.open("GET", url, true);
-    xhttp.setRequestHeader("Authorization", "Bearer " + oauth_id);
+    if (noauth != true) {
+        xhttp.setRequestHeader("Authorization", "Bearer " + oauth_id);
+    }
+    //xhttp.setRequestHeader("Accept", "application/json");
     xhttp.timeout = 10000;
-    xhttp.send();
+    try {
+        xhttp.send();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function loadRequestv2(url, identifier) {
+    var oauth_id = sessionStorage.getItem('access_token');
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            "Authorization": "Bearer " + oauth_id,
+        }
+    }).then(function(response) {
+        return response.json();
+    }).catch(function(error) {
+        if (error.status == 401) {
+            if ($('#error').length == 0) {
+                showErrorMessage();
+            }
+        }
+        return error;
+    });
 }
 
 function dismissAlert(id) {
@@ -171,16 +230,15 @@ function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function generateLargeStat(name, value, is_link, div_id) {
+function generateLargeStat(name, value, is_link, div_id, id) {
     if (is_link == false) {
         songs = document.createElement("div");
         songs.style.cursor = "default";
     } else {
         songs = document.createElement("a");
-        songs.href = "#";
+        songs.style.cursor = "pointer";
     }
-    songs.classList = "text-decoration-none text-nowrap display-3 shadow";
-    songs.style.color = properties.TEXT_COLOR;
+    songs.classList = "text-decoration-none text-nowrap display-3 shadow text_color_prop hover_1";
     span = document.createElement("span");
     span.style.fontFamily = "'Squada One', cursive";
     //span.style.color = "#1DB954"
@@ -189,12 +247,12 @@ function generateLargeStat(name, value, is_link, div_id) {
     //span.classList = "display-3"
     span.innerHTML = value;
     label = document.createElement("h3");
-    label.classList = "mb-3 text-wrap";
-    label.style.color = properties.HELPING_TEXT_COLOR;
+    label.classList = "mb-3 text-wrap helping_text_color_prop";
     label.innerHTML = name;
     songs.append(span);
     songs.append(label);
     $("#" + div_id).append(songs);
+    return songs;
 }
 
 function openFeedbackModal() {
@@ -204,24 +262,31 @@ function openFeedbackModal() {
 function sendFeedback() {
     $('#feedback-submit').html("Submitting...");
     name = $('#feedback-name').val();
+    email = $('#feedback-email').val();
     message = $('#feedback-message-text').val();
     try {
+        if (sessionStorage.getItem("user_name") != "null") {
+            feedback = {
+                "name": name,
+                "email": email,
+                "message": message,
+                "user_name": sessionStorage.getItem("user_name"),
+                "user_id": sessionStorage.getItem("user_id"),
+                "account_email": sessionStorage.getItem("email"),
+                "product": sessionStorage.getItem("product"),
+                "account_type": sessionStorage.getItem("account_type"),
+                "country": sessionStorage.getItem("country"),
+                "status": "User logged in"
+            };
+        } else {
+            throw "User not logged in"
+        }
+    } catch (err) {
         feedback = {
             "name": name,
+            "email": email,
             "message": message,
-            "user_name": sessionStorage.getItem("user_name"),
-            "user_id": sessionStorage.getItem("user_id"),
-            "email": sessionStorage.getItem("email"),
-            "product": sessionStorage.getItem("product"),
-            "account_type": sessionStorage.getItem("account_type"),
-            "country": sessionStorage.getItem("country"),
-            "status": "User logged in"
-        };
-    } catch {
-        feedback = {
-            "name": name,
-            "message": message,
-            "status": "Error, user most likely not logged in"
+            "status": err
         };
     }
 
@@ -279,10 +344,9 @@ function generateSmallStat(name, value, is_link, div_id, custom_value_color) {
         songs.style.cursor = "default";
     } else {
         songs = document.createElement("a");
-        songs.href = "#";
+        songs.style.cursor = "pointer";
     }
-    songs.classList = "text-decoration-none text-nowrap display-3 text-right";
-    songs.style.color = properties.TEXT_COLOR;
+    songs.classList = "text-decoration-none text-nowrap display-3 text-right text_color_prop hover_1";
     /*span = document.createElement("span");
     span.style.fontFamily = "'Squada One', cursive";
     //span.style.color = "#1DB954"
@@ -301,6 +365,7 @@ function generateSmallStat(name, value, is_link, div_id, custom_value_color) {
     label.append(span)
     songs.append(label);
     $("#" + div_id).append(songs)
+    return songs;
 }
 
 function addLoadEvent(func) {
@@ -331,6 +396,12 @@ function getName(req) {
         sessionStorage.setItem("user_name", null);
         console.log("Error getting user's name");
     }
+}
+
+function showDetailsModal(e) {
+    console.log(e);
+    $('#songModal').modal('show');
+    //$('body').css('opacity', '50%');
 }
 
 function logout() {
@@ -368,7 +439,6 @@ function createClass(css) {
 
 function load() {
     $('head').prepend('<script type="application/ld+json">{"isAccessibleForFree": "False", "hasPart": {"@type": "WebPageElement","isAccessibleForFree": "False","cssSelector": "#content"}}</script>');
-    $('body')[0].style.backgroundColor = properties.BACKGROUND_COLOR;
     //Sentry.init({ dsn: 'https://a9b82693f9054fa0b17303176592ca64@o429548.ingest.sentry.io/5376381' });
     $.get('nav.html', function(data) {
         $('body').prepend(data);
@@ -394,6 +464,9 @@ function load() {
             footerAlign();
         });
         init();
+        $.get('modal.html', function(data) {
+            $('body').prepend(data);
+        });
         var checkLoginInterval = window.setInterval(loadRequest("https://api.spotify.com/v1/me", getName, 1), 60000);
     });
 }

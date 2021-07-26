@@ -1,0 +1,54 @@
+{
+    "sections":
+    {
+        "The Site":
+        {
+            "questions": [
+            {
+                "question": "What is Spotify Data?",
+                "answer": "This is a website that allows you to retrieve data on songs, playlists, and your account from Spotify. It also combines this data into some interesting statistics that you will find on the sidebars of some pages. Feel free to poke around and explore <a class=\"special_text_color_prop hover_2\" href=\"https://spotifydata.com/profile\">your personal stats</a>, <a class=\"special_text_color_prop hover_2 hover_2\" href=\"https://spotifydata.com/playlists\">the detailed attributes of your playlists</a>, and <a class=\"special_text_color_prop hover_2\" href=\"https://spotifydata.com/songdata\">detailed data on any song</a>."
+            },
+            {
+                "question": "Why did you build this site?",
+                "answer": "The idea for Spotify Data came from me trying to sample music and needing to know what key a song was in. I realized that there wasn't an easy online tool to do this just searching by track name, so Spotify Data was born. It started off as a simple script written in python, but I wanted other people to be able to use it so I made it into a website. The first page built that has that functionality was <a class=\"special_text_color_prop hover_2\" href=\"https://spotifydata.com/songdata\">Song Info</a>. Since then, I've been adding features mostly at my own discretion and honing my web design skills. If there's anything you'd like to see added or any bugs you find, <a class=\"special_text_color_prop hover_2\" href=\"javascript:openFeedbackModal()\">suggest something</a> and I will fix it or consider building it into the site."
+            },
+            {
+                "question": "How can I suggest a feature or report a bug?",
+                "answer": "Click <a class=\"special_text_color_prop hover_2\" href=\"javascript:openFeedbackModal()\">suggest something</a> at the top right of any page."
+            },
+            {
+                "question": "I like what you're doing, how can I help support the development of Spotify Data?",
+                "answer": "Tell people about it! The more visits the site gets the higher the chance that I will keep developing it and the higher the chance that it starts gaining more of a following. Also, tell me what you think! Any time you have feedback of any kind, click <a class=\"special_text_color_prop hover_2\" href=\"javascript:openFeedbackModal()\">suggest something</a> and I will get your feedback right away. Your comments are the most important feedback to me."
+            },
+            {
+                "question": "How does this site get data from Spotify?",
+                "answer": "Spotify has a service called an 'Application Program Interface' (API), which is a fancy way of saying that they provide access to some of their data to the public in a way that is easy to access programatically. For this website to work, I had to register it with Spotify in order to get a secret key that I can use to get the data. When you load a page, this site makes a request to the API for the necessary information. Just like that, all of your public Spotify stats show up like magic!"
+            },
+            {
+                "question": "Whay do I get logged out after 1 hour?",
+                "answer": "This is a restriction imposed by Spotify. Every hour thet you want to access this site, Spotify Data has to get a new access token so that it can continue to get data from the API."
+            }]
+        },
+        "The Data":
+        {
+            "questions": [
+            {
+                "question": "How does the data from this site compare to Spotify Wrapped?",
+                "answer": "Spotify's end of year tradition called 'Spotify Wrapped' compiles all of your data from the previous 12 months into a nice neat package that they put on their app and website, and has become quite popular. One of the goals of Spotify Data is to provide access to as much data as possible from this report, in addition to other data, at any time of the year. Unfortunately, Spotify's public API (discussed <a class=\"special_text_color_prop hover_2\" href=\"#\">here</a>) only provides access to a limited subset of this history. For example, you will see your top 50 tracks and artists on the <a class=\"special_text_color_prop hover_2\" href=\"https://spotifydata.com/profile\">profile</a> page of Spotify Data, as well as your 50 most recently played songs. Spotify gives no other programatic way to get to any other parts of your play history which is part of what makes Spotify Wrapped so special. If you are deeply interested, you can request a copy of all the data spotify has on you <a class=\"special_text_color_prop hover_2\" href=\"https://www.spotify.com/us/account/privacy/\">here</a>, including your play history.<br><br>p.s.: It could be a possible feature of this site in the future to upload this file and give stats on it if there is enough interest!"
+            },
+            {
+                "question": "How does Spotify determine the different attributes of tracks?",
+                "answer": "Spotify's exact algorithm is not known to the public. However, they do release a good amount of information via their api in the form of detailed song breakdowns. These include tracks broken up into Beats, Bars, Sections, Segments, and Tatums, which are low-level detailed breakdowns of songs. To learn more about this breakdown see the Spotify documentation <a class=\"special_text_color_prop hover_2\" href=\"https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-analysis/#audio-analysis-details\">here</a>. Spotify presumably uses advanced algorithms to determine attributes such as danceability, instrumentalness, and happiness. These likely include a combination of analyzing the song breakdowns, machine learning, and soundwave analysis. You can check out how these attributes are spread across the tracks on Spotify on <a class=\"special_text_color_prop hover_2\" href=\"https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-analysis/#audio-analysis-details\">this</a> documentation page."
+            },
+            {
+                "question": "How does Spotify determine my top artists and tracks?",
+                "answer": "Spotify uses a combination of your top played tracks and a measure called 'affinity' to calculate the rankings you see on the <a class=\"special_text_color_prop hover_2\" href=\"https://spotifydata.com/profile\">profile</a> page. Quoting the company on this mysterious measure: <div class=\"quote secondary_text_color_prop secondary_background_color_prop\">\"Affinity is a measure of the expected preference a user has for a particular track or artist. It is based on user behavior, including play history, but does not include actions made while in incognito mode. Light or infrequent users of Spotify may not have sufficient play history to generate a full affinity data set. This data is typically updated once each day for each user.\"</div>"
+            },
+            {
+                "question": "How does Spotify determine the different attributes of tracks?",
+                "answer": "Spotify's exact algorithm is not known to the public, however, they do release a good amount of information via their api in the form of detailed song breakdowns. These include tracks broken up into Beats, Bars, Tatums, and something else. Spotify presumably uses advanced algorithms to determine attributes such as danceability, instrumentalness, and happiness. These likely include a combination of analyzing the beat/bar/tatum graphs, machine learning, and soundwave analysis."
+            }]
+
+        }
+    }
+}

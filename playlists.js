@@ -2,21 +2,16 @@ function init() {
     $("#userdata_link").addClass("active");
     $("#userdata_dropdown a:nth-child(5)").addClass("active");
     $("#content")[0].style.display = "block";
-    loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", function(req, identifier) {
-        if (req.status != 401) {
-            var response = JSON.parse(req.responseText);
-            generateImage("80px", {
-                "height": null,
-                "url": "https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png",
-                "width": null
-            }, "Liked Songs", response["total"], false, "liked_songs", 1);
-            loadRequest("https://api.spotify.com/v1/me/playlists?limit=50", displayPlaylists, 1);
-        } else {
-            generateImage("80px", null, "No Playlists Found", 0, null, "unknown", 1);
-        }
-    }, 1)
-    if (getHashParams()["raw_hash"] == "") {
-        showAlert('<svg class="mr-2" width="40" height="40" viewBox="0 0 8.4666665 8.4666669"><g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-288.53332)"><path inkscape:connector-curvature="0" id="path8057" d="m 3.8859141,290.31736 -2.5116107,4.36789 a 0.40014058,0.39764426 0 0 0 0.3474193,0.59495 l 5.0232213,0 a 0.40014058,0.39764426 0 0 0 0.3474191,-0.59495 l -2.5116103,-4.36789 a 0.40014058,0.39764426 0 0 0 -0.6948387,0 z" style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" /><path style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458335px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 4.2333334,291.77454 8e-7,1.78395" id="path8059" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" /><path id="circle8061" d="m 4.3656251,294.08947 a 0.13229167,0.13228111 0 0 1 -0.1322917,0.13227 0.13229167,0.13228111 0 0 1 -0.1322917,-0.13227 0.13229167,0.13228111 0 0 1 0.1322917,-0.13229 0.13229167,0.13228111 0 0 1 0.1322917,0.13229 z" style="opacity:1;fill:#f77707;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" inkscape:connector-curvature="0" /></g></svg> Caution: With large libraries and playlists, load times can be very long!', "alert-warning", 0);
+
+    //#55GmZuHBdV35tZDA0RNycA
+    const hash = getHashParams()["raw_hash"];
+    //console.log(hash);
+    if (hash == "") {
+        loadAllPlaylists();
+        window.history.pushState('forward', '', './playlists');
+    } else {
+        loadPlaylist(hash.substring(1)) == null
+        window.history.pushState('forward', '', './playlists' + hash);
     }
 
     var options = $('#table').bootstrapTable('getOptions');
@@ -33,174 +28,152 @@ function init() {
     createClass('.fixed-table-toolbar { background-color: ' + properties.BACKGROUND_COLOR + '; color: ' + properties.TEXT_COLOR + ' }');
     createClass('.btn-buttons { background-color: ' + properties.SECONDARY_BACKGROUND_COLOR + '; color: ' + properties.SECONDARY_TEXT_COLOR + ' }');
     createClass('.bootstrap-table .fixed-table-toolbar .columns label { color: ' + properties.SECONDARY_TEXT_COLOR + ' }');
-
-    /*try {
-        $('#table').on('all.bs.table', function(e, arg1, arg2) {
-            //console.log(e);
-            //console.log(arg1);
-            //console.log(arg2);
-        });
-    } catch {
-
-    }*/
 }
 
-jQuery(document).ready(function($) {
+//------------------------------------------------------------------------------
+//                            MAIN PLAYLIST PAGE
+//------------------------------------------------------------------------------
 
-    if (window.history && window.history.pushState) {
+async function loadAllPlaylists() {
+    loadRequest("https://api.spotify.com/v1/me/tracks?limit=1", function(res, identifier) {
+        if (res.status != 401) {
+            //show cautionary alert for big playlists
+            showAlert('<svg class="mr-2" width="40" height="40" viewBox="0 0 8.4666665 8.4666669"><g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-288.53332)"><path inkscape:connector-curvature="0" id="path8057" d="m 3.8859141,290.31736 -2.5116107,4.36789 a 0.40014058,0.39764426 0 0 0 0.3474193,0.59495 l 5.0232213,0 a 0.40014058,0.39764426 0 0 0 0.3474191,-0.59495 l -2.5116103,-4.36789 a 0.40014058,0.39764426 0 0 0 -0.6948387,0 z" style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" /><path style="fill:none;fill-rule:evenodd;stroke:#f77707;stroke-width:0.26458335px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 4.2333334,291.77454 8e-7,1.78395" id="path8059" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" /><path id="circle8061" d="m 4.3656251,294.08947 a 0.13229167,0.13228111 0 0 1 -0.1322917,0.13227 0.13229167,0.13228111 0 0 1 -0.1322917,-0.13227 0.13229167,0.13228111 0 0 1 0.1322917,-0.13229 0.13229167,0.13228111 0 0 1 0.1322917,0.13229 z" style="opacity:1;fill:#f77707;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" inkscape:connector-curvature="0" /></g></svg> Currently with large libraries and playlists, load times can be very long!', "alert-warning", 0);
 
-        $(window).on('popstate', function() {
-            var hashLocation = location.hash;
-            var hashSplit = hashLocation.split("#!/");
-            var hashName = hashSplit[1];
+            let response = JSON.parse(res.responseText);
 
-            if (hashName !== '') {
-                var hash = window.location.hash;
-                if (hash === '') {
-                    location.reload();
-                }
-            }
-        });
+            //generate images for liked songs
+            let image_small = generateCustomPlaylistImage("80px", "https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png");
+            let image_large = generateCustomPlaylistImage("120px", "https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png");
 
-        window.history.pushState('forward', null, './playlists');
-    }
+            //add liked songs to list
+            generatePlaylistRow("liked_songs", "Liked Songs", response["total"], sessionStorage.getItem("user_name") + " (Private)", image_small, image_large);
 
-});
+            //begin generating the rest of the playlists (could probably be sped up using async, but we always want liked songs to appear first)
+            //loadRequest("https://api.spotify.com/v1/me/playlists?limit=50", displayPlaylists, 1);
+            displayPlaylists()
 
-function showImage(imgPath, row) {
-    var myImage = new Image();
-    myImage.name = imgPath;
-    myImage.src = imgPath;
-    myImage.onload = function findHHandWW() {
-        var imgHeight = this.height;
-        var imgWidth = this.width;
-        if (imgHeight > 150 || imgWidth > 150) {
-            var hratio = imgHeight / 150;
-            var wratio = imgWidth / 150;
-            if (hratio > wratio) {
-                imgHeight = imgHeight / hratio;
-                imgWidth = imgWidth / hratio;
-            } else {
-                imgHeight = imgHeight / wratio;
-                imgWidth = imgWidth / wratio;
-            }
-        }
-        return "<img height='" + imgHeight + "px' width='" + imgWidth + "pxH' src='" + image_url + "'>";
-    }
-}
-
-function generateImage(image_size, playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id, num) {
-    var image = document.createElement("span");
-    if (playlist_image != null) {
-        var myImage = new Image();
-        myImage.name = playlist_image["url"];
-        myImage.src = playlist_image["url"];
-        myImage.onload = function() {
-            var imgHeight = this.height;
-            var imgWidth = this.width;
-            /*if (imgHeight > 75 || imgWidth > 75) {
-                var hratio = imgHeight / 75;
-                var wratio = imgWidth / 75;
-                if (hratio > wratio) {
-                    imgHeight = imgHeight / hratio;
-                    imgWidth = imgWidth / hratio;
-                } else {
-                    imgHeight = imgHeight / wratio;
-                    imgWidth = imgWidth / wratio;
-                }
-            }*/
-            image.style.backgroundImage = 'url("' + playlist_image["url"] + '")';
-            image.style.backgroundRepeat = "no-repeat";
-            //image.style.backgroundAttachment = "fixed";
-            image.style.backgroundPosition = "center";
-            image.style.backgroundSize = "cover";
-
-            image.classList = "ml-md-0 mr-2 float-left";
-            image.style.height = image_size;
-            image.style.width = image_size;
-            if (num == 1) {
-                callback(image, playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id);
-            } else if (num == 2) {
-                displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_public, playlist_id);
-                //loadRequest("https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks", displaySongs, 1);
-                displayData(playlist_id, playlist_songs);
-            } else {
-                console.log("Error!")
-            }
-        }
-    } else {
-        image.id = "image";
-        //"<span id='image' class='dot ml-md-0 mr-2'><svg width='40' height='40.5' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 18px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg></span>";
-        if (num == 1) {
-            image.classList = "dot ml-md-0 mr-2 float-left";
-            image.innerHTML = "<svg width='40' height='40.5' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 18px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg>";
-            callback(image, playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id);
-        } else if (num == 2) {
-            image.classList = "dot-profile ml-md-0 mr-2 float-left";
-            image.innerHTML = "<svg width='60' height='60' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 30px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg>";
-            displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_public, playlist_id);
-            //loadRequest("https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks", displaySongs, 1);
-            displayData(playlist_id, playlist_songs);
         } else {
-            console.log("Error!")
+            //Generic message when user is not logged in
+            let image = generateDefaultPlaylistImage("80px");
+            generatePlaylistRow(null, "No Playlists Found", 0, "Unknown User", image, image);
+        }
+    }, 1)
+}
+
+//load all playlists //TODO: might want to consider paging this to reduce unnecessary loading
+async function displayPlaylists() {
+    let response = {"next": "https://api.spotify.com/v1/me/playlists?limit=50"};
+
+    while (response["next"] != null) {
+        response = await loadRequestv2(response["next"], 1);
+
+        for (i of response["items"]) {
+            //generate necessary playlist info
+            let ret = formatImagesAndIndicators(i)
+            //display the playlist in DOM
+            generatePlaylistRow(i["id"], i["name"], i["tracks"]["total"], ret["playlist_indicator"], ret["image_small"], ret["image_large"]);
         }
     }
 }
 
-function callback(image, playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id) {
-    var table = $("#Playlisttable")[0];
-    var row = document.createElement("tr");
-    var holder = document.createElement("td");
+function generatePlaylistRow(playlist_id, playlist_name, playlist_songs, playlist_indicator, playlist_image_small, playlist_image_large) {
+    //define table
+    let table = $("#Playlisttable")[0];
+    //create holding elements and add properties
+    let row = document.createElement("tr");
+    let holder = document.createElement("td");
+    //make the playlist clickable if it has at least one song
     if (playlist_songs != 0) {
         holder.classList = "holder";
         holder.id = playlist_name;
         holder.addEventListener("click", function(params) {
             dismissAlert();
-            generateImage("120px", playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id, 2);
+            //displayPlaylistInfo(playlist_image_large, playlist_name, playlist_songs, playlist_indicator, playlist_id);
+            //displayPlaylistData(playlist_id, playlist_songs);
+            loadPlaylist(playlist_id);
         }, false)
-    } else {;
     }
-    var name = document.createElement("div");
+    //create name div
+    let name = document.createElement("div");
     name.classList = "align-middle h5 font-weight-bold";
     name.innerHTML = playlist_name;
-    var songs = document.createElement("div");
-    songs.classList = "align-middle font-weight-normal";
-    songs.style.color = properties.HELPING_TEXT_COLOR;
+    //create songs div
+    let songs = document.createElement("div");
+    songs.classList = "align-middle font-weight-normal helping_text_color_prop";
     if (playlist_songs == 1) {
         songs.innerHTML = playlist_songs + " song";
     } else {
         songs.innerHTML = playlist_songs + " songs";
     }
-    var public = document.createElement("div");
-    public.classList = "align-middle font-weight-normal";
-    public.style.color = properties.HELPING_TEXT_COLOR;
-    if (playlist_public == true) {
-        public.innerHTML = "Public";
-    } else if (playlist_public == null) {
-        public.innerHTML = "";
-    } else {
-        public.innerHTML = "Private";
-    }
-
-    holder.prepend(image);
+    //create private/public/owner indicator div
+    let indicator = document.createElement("div");
+    indicator.classList = "align-middle font-weight-normal helping_text_color_prop";
+    indicator.innerHTML = playlist_indicator
+    //put elements in DOM
+    holder.prepend(playlist_image_small);
     holder.append(name);
     holder.append(songs);
-    holder.append(public);
+    holder.append(indicator);
     row.append(holder);
     table.append(row);
 }
 
-/*function generateRow(playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id) {
-    var image = generateImage("80px", playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id)
-}*/
-
-function loadingTemplate(message) {
-    return '<i class="fa fa-spinner fa-spin fa-fw fa-2x"></i><br><div id="loadingmessage">Loading your music</div>'
+function displayStatsAllPlaylists(playlist_name, playlist_songs, playlist_public, playlist_id) {
+    //TODO, start with a simple number of playlists probably
+    console.log(2)
 }
 
-function displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_public, playlist_id) {
+//------------------------------------------------------------------------------
+//                          INDIVIDUAL PLAYLIST PAGE
+//------------------------------------------------------------------------------
+
+//loads the given playlist
+async function loadPlaylist(playlist_id) {
+    response = await loadRequestv2("https://api.spotify.com/v1/playlists/" + playlist_id, 2)
+
+    try {
+        //get images and set indicator appropriately
+        ret = formatImagesAndIndicators(response);
+
+        //display the header information about the playlist
+        displayPlaylistInfo(ret["image_large"], response["name"], response["tracks"]["total"], ret["playlist_indicator"], playlist_id);
+
+        //get the playlists songs and their data from Spotify
+        let data = await loadData(playlist_id, response["tracks"]["total"]);
+
+        //format the data and feed it into the table
+        $('#table').bootstrapTable('load', formatData(data));
+
+        //signal that we're done loading so the data can be shown
+        $('#table').bootstrapTable('hideLoading');
+
+        //displays the stats on  a playlist //TODO: need a way to get follower count and other info here for stats
+        displayStats(data, null);
+        /*if (playlist_id == "liked_songs") {
+            displayStats(data, null);
+        } else {
+            loadRequest("https://api.spotify.com/v1/playlists/" + playlist_id, function(req, identifier) {
+                displayStats(data, req);
+            });
+        }*/
+
+    } catch (err) {
+        console.log(err)
+        if (response.error.status != 401) {
+            console.log("Error getting playlist " + playlist_id + ", loading selection screen");
+        }
+        loadAllPlaylists();
+        window.history.pushState('forward', '', './playlists');
+    }
+}
+
+function displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_indicator, playlist_id) {
+    //hide the list and ahow the playlist view
     $("#list").hide();
     $("#playlist").show();
+
+    //sets the various attributes of the playlist in the DOM
     $("#playlist_name").html(playlist_name);
     if (playlist_songs == 1) {
         $("#number-of-songs").html(playlist_songs + " song");
@@ -208,23 +181,72 @@ function displayPlaylistInfo(image, playlist_name, playlist_songs, playlist_publ
         $("#number-of-songs").html(playlist_songs + " songs");
     }
     if (playlist_id != "liked_songs") {
-        if (playlist_public == true) {
-            $("#public").html("Public");
-        } else {
-            $("#public").html("Private");
-        }
+        $("#public").html(playlist_indicator);
     } else {
         $("#divider")[0].style.display = "none!important";
         $("#public")[0].style.display = "none!important";
     }
     $("#pic").append(image);
-    var newURL = "playlists#" + playlist_name;
+
+    //sets the urt to reflect the displayed playlist
+    var newURL = "playlists#" + playlist_id;
     window.history.pushState({}, document.title, "/" + newURL);
 }
 
+async function loadData(playlist_id, playlist_songs) {
+    //set loading message in the table
+    $('#table').bootstrapTable('showLoading');
+    $("#loadingmessage")[0].innerHTML = "Loading 0/" + playlist_songs + " songs";
+    $(".fixed-table-loading")[0].style.backgroundColor = properties.BACKGROUND_COLOR;
+    $("#loadingmessage")[0].style.color = properties.TEXT_COLOR;
+
+    //check to see if the library is getting loaded, as it has a different endpoint. kick off the getData recursion
+    if (playlist_id != "liked_songs") {
+        return await getData("https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks?offset=0&limit=100", 100, [], 0, playlist_songs); //max is 100 songs per request
+    } else {
+        return await getData("https://api.spotify.com/v1/me/tracks?offset=0&limit=50", 50, [], 0, playlist_songs); //max is 50 songs per request
+    }
+
+}
+
+//recursive function to get all of the tracks in a playlist/library
+async function getData(url, increment, data, j, playlist_songs) {
+    //end condition if we've reached the last chunk of songs to request
+    if (url == null) {
+        return data
+    //otherwise load data from the url
+    } else {
+        //get the next set of songs
+        let response = await loadRequestv2(url, 1);
+
+        //increment the song counter for the loading message
+        j += response["items"].length
+
+        //updates loading message with current progress
+        $("#loadingmessage")[0].innerHTML = "Loading " + j + "/" + playlist_songs + " songs";
+
+        //creates list of ids to feed into next request
+        id_list = [];
+        response.items.forEach(element => id_list.push(element.track.id));
+
+        //gets features of found songs
+        let features = await loadRequestv2("https://api.spotify.com/v1/audio-features/?" + jQuery.param({ "ids": id_list.join() }), 1);
+
+        //wrap up values neatly and push to overall data array
+        for (i in response["items"]) {
+            response["items"][i]["track"] = { ...response["items"][i]["track"], ...features["audio_features"][i] }
+            data.push(response["items"][i])
+        }
+
+        //call the next url in the request
+        return await getData(response["next"], increment, data, j, playlist_songs);
+    }
+}
+
 function displayStats(feature_data, playlist_response) {
+    //check if the playlist is liked songs (liked songs can't have followers)
     if (playlist_response != null) {
-        response = JSON.parse(playlist_response.responseText);
+        //response = JSON.parse(playlist_response.responseText);
         console.log(response)
         //Followers
         if (response["followers"]["total"] != 1) {
@@ -232,12 +254,14 @@ function displayStats(feature_data, playlist_response) {
         } else {
             generateLargeStat("Follower", response["followers"]["total"], false, "playlist-stats");
         }
-    }
+    } //Holding off on the followers until I find a better way to get them without re-calling the api or passing them all the way through
     //generate averages
     let averages = {}
     for (i of feature_data) {
         for (j in i["track"]) {
+            //console.log(j)
             if (isNumber(i["track"][j]) && j != "time_signature" && j != "name") {
+                //console.log(averages[j])
                 if (averages[j] == undefined) {
                     averages[j] = parseFloat(i["track"][j]);
                     averages[j + "_count"] = 1;
@@ -248,6 +272,7 @@ function displayStats(feature_data, playlist_response) {
             }
         }
     }
+
     for (i in averages) {
         averages[i] = Math.round(averages[i] / averages[i + "_count"]);
         delete averages[i + "_count"];
@@ -296,71 +321,86 @@ function displayStats(feature_data, playlist_response) {
 
     //followers, average popularity, average basic stat everything, average track playlist recency/adding trends, average creation date of songs, mood (based on a few factors like danceability and stuff), # of contributing users
 
-
 }
 
-function displayStatsAllPlaylists(playlist_name, playlist_songs, playlist_public, playlist_id) {
-    //TODO
-    console.log(2)
-}
+//------------------------------------------------------------------------------
+//                              HELPER FUNCTIONS
+//------------------------------------------------------------------------------
 
-function displayData(playlist_id, playlist_songs) {
-    var $table = $('#table');
-    var data = [];
-    var j = 0;
-
-    $table.bootstrapTable('showLoading');
-    $("#loadingmessage")[0].innerHTML = "Loading 0/" + playlist_songs + " songs";
-    $(".fixed-table-loading")[0].style.backgroundColor = properties.BACKGROUND_COLOR;
-    $("#loadingmessage")[0].style.color = properties.TEXT_COLOR;
-
-    function getData(url, increment) {
-        $("#loadingmessage")[0].innerHTML = "Loading " + j + "/" + playlist_songs + " songs";
-        //console.log(url);
-        if (url != null) {
-            //get the next set of songs
-            loadRequest(url, function(res, identifier) {
-                response = JSON.parse(res.responseText);
-                id_list = [];
-                //console.log(response);
-                //NEED TO CREATE LIST OF IDS AND SEND THEM TO THE MASS DATA ENDPOINTS
-                response.items.forEach(element => id_list.push(element.track.id));
-                loadRequest("https://api.spotify.com/v1/audio-features/?" + jQuery.param({ "ids": id_list.join() }), function(feat_res) {
-                    features = JSON.parse(feat_res.responseText);
-                    //console.log(features);
-                    for (i in response["items"]) {
-                        response["items"][i]["track"] = { ...response["items"][i]["track"], ...features["audio_features"][i] }
-                        data.push(response["items"][i])
-                        //console.log(response["items"][i])
-                    }
-                    //response["items"].forEach(element => data.push(element))
-                    j = j + increment;
-                    //console.log(j, 2)
-                    getData(response["next"], increment);
-                }, 1);
-                //$('#table').bootstrapTable('append', JSON.parse(res.responseText)["items"]);
-            }, 1);
-        } else {
-            formatted_data = formatData(data);
-            console.log(formatted_data);
-            $table.bootstrapTable('load', formatted_data);
-            $table.bootstrapTable('hideLoading');
-            if (playlist_id == "liked_songs") {
-                displayStats(data, null);
-            } else {
-                loadRequest("https://api.spotify.com/v1/playlists/" + playlist_id, function(req, identifier) {
-                    displayStats(data, req);
-                });
-            }
-        }
-    }
-    if (playlist_id != "liked_songs") {
-        getData("https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks?offset=0&limit=100", 100);
+//helper function to call appropriate image generation functions and set indicastor appropriately
+function formatImagesAndIndicators(res) {
+    //call image generation functions for large and small images
+    let image_small;
+    let image_large;
+    if (res["images"][0] != null) {
+        image_small = generateCustomPlaylistImage("80px", res["images"][0]["url"]);
+        image_large = generateCustomPlaylistImage("120px", res["images"][0]["url"]);
     } else {
-        getData("https://api.spotify.com/v1/me/tracks?offset=0&limit=50", 50);
+        image_small = generateDefaultPlaylistImage("80px");
+        image_large = generateDefaultPlaylistImage("120px");
+    }
+
+    //set value of indicator field appropriately
+    let playlist_indicator;
+    if (sessionStorage.getItem('user_id') == res["owner"]["id"]) {
+        if (res["public"] == true) {
+            playlist_indicator = res["owner"]["display_name"] + " (Public)";
+        } else if (res["public"] == false) {
+            playlist_indicator = res["owner"]["display_name"] + " (Private)";
+        } else {
+            playlist_indicator = res["owner"]["display_name"];
+        }
+    } else {
+        playlist_indicator = res["owner"]["display_name"];
+    }
+
+    //return results
+    return {
+        "playlist_indicator": playlist_indicator,
+        "image_small": image_small,
+        "image_large": image_large
     }
 }
 
+//returns the image at image_url in image_size as an img element
+function generateCustomPlaylistImage(image_size, image_url) {
+    //define params
+    let imageSpan = document.createElement("span");
+    //set element styles
+    imageSpan.style.backgroundImage = 'url("' + image_url + '")';
+    imageSpan.style.backgroundRepeat = "no-repeat";
+    imageSpan.style.backgroundPosition = "center";
+    imageSpan.style.backgroundSize = "cover";
+    imageSpan.classList = "ml-md-0 mr-2 float-left";
+    imageSpan.style.height = image_size;
+    imageSpan.style.width = image_size;
+    //return the new element
+    return imageSpan
+}
+
+//returns the generic playlist image in image size as an img element
+function generateDefaultPlaylistImage(image_size) {
+    let imageSpan = document.createElement("span");
+    //set elment styles
+    imageSpan.id = "image";
+    imageSpan.style.height = image_size;
+    imageSpan.style.width = image_size;
+    imageSpan.style.backgroundColor = "#222327";
+    imageSpan.classList = "ml-md-0 mr-2 float-left"
+    imageSpan.style.borderRadius = "0%";
+    imageSpan.style.display = "inline-block";
+    //set svg content
+    imageSpan.innerHTML = "<svg width='" + parseInt(image_size) / 2 + "' height='" + parseInt(image_size) / 2 + "' color='#88898D' viewBox='0 0 80 81' xmlns='http://www.w3.org/2000/svg' style='margin: 18px'><title>Playlist Icon</title><path d='M25.6 11.565v45.38c-2.643-3.27-6.68-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4 14.4-6.46 14.4-14.4v-51.82l48-10.205V47.2c-2.642-3.27-6.678-5.37-11.2-5.37-7.94 0-14.4 6.46-14.4 14.4s6.46 14.4 14.4 14.4S80 64.17 80 56.23V0L25.6 11.565zm-11.2 65.61c-6.176 0-11.2-5.025-11.2-11.2 0-6.177 5.024-11.2 11.2-11.2 6.176 0 11.2 5.023 11.2 11.2 0 6.174-5.026 11.2-11.2 11.2zm51.2-9.745c-6.176 0-11.2-5.024-11.2-11.2 0-6.174 5.024-11.2 11.2-11.2 6.176 0 11.2 5.026 11.2 11.2 0 6.178-5.026 11.2-11.2 11.2z' fill='currentColor' fill-rule='evenodd'></path></svg>";
+    //return the new element
+    return imageSpan
+}
+
+//defines a temple for the loading message in table
+function loadingTemplate(message) {
+    return '<i class="fa fa-spinner fa-spin fa-fw fa-2x"></i><br><div id="loadingmessage">Loading your music</div>'
+}
+
+//sorter function for durations in the data table
 function durationSorter(a, b) {
     var letters = ["d", "h", "m", "s"]
     var aa = a.split(" ");
@@ -401,6 +441,7 @@ function durationSorter(a, b) {
     return 0
 }
 
+//sorter function for dates in the data table
 function dateSorter(a, b) {
     a = Date.parse(a)
     b = Date.parse(b)
@@ -413,6 +454,7 @@ function dateSorter(a, b) {
     }
 }
 
+//helper function to get json in the proper format for the table to display
 function formatData(data) {
     //$("#loadingmessage")[0].innerHTML = "Processing...";
     let song_key_codes = new Map([
@@ -440,7 +482,7 @@ function formatData(data) {
     for (song of data) {
         if (song["track"]["is_local"] == false) {
             //set date added to a more readable value
-            var date_options = {
+            let date_options = {
                 timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                 hour12: true,
                 year: 'numeric',
@@ -485,6 +527,7 @@ function formatData(data) {
     return data;
 }
 
+//returns the proper color for a stat given its value (weight)
 function pickHex(color1, color2, weight) {
     var w1 = weight;
     var w2 = 1 - w1;
@@ -495,6 +538,7 @@ function pickHex(color1, color2, weight) {
     return rgb;
 }
 
+//helper function to format each cell correctly with colored elements
 function cellStyle(value, row, index, field) {
     if (isNumber(value) && field != "track.time_signature" && field != "track.name" && field != "track.artists.0.name" && field != "track.duration_ms") {
         if (field == "track.tempo") {
@@ -519,65 +563,4 @@ function cellStyle(value, row, index, field) {
         //console.log(key, val, typeof(val), tabledata2.style.color)
     }
     return {}
-}
-/*
-function displaySongs(req, identifier) {
-    var response = JSON.parse(req.responseText);
-    console.log(response);
-    if (response["next"] != null) {
-        //get the next set of songs
-        loadRequest(response["next"], displaySongs, 1);
-    }
-    for (i in response["items"]) {
-        generateSongRow(response["items"][i], i);
-    }
-}
-
-function generateSongRow(data, i) {
-    //console.log(data);
-    //console.log(data["track"]["artists"].length);
-    var table = $("#Songtable")[0];
-    var row = document.createElement("tr");
-    row.id = data["track"]["id"];
-    var name = document.createElement("td");
-    name.innerHTML = data["track"]["name"];
-    /*holder.addEventListener("click", function(params) {
-        generateImage("120px", playlist_image, playlist_name, playlist_songs, playlist_public, playlist_id, 2)
-    }, false)*/
-/*
-    var artist = document.createElement("td");
-    var artists = data["track"]["artists"][0]["name"];
-    if (data["track"]["artists"].length > 1) {
-        for (i = 1; i < data["track"]["artists"].length; i++) {
-            artists = artists + ", " + data["track"]["artists"][i]["name"]
-        }
-    }
-    artist.innerHTML = artists;
-    var duration = document.createElement("td");
-    duration.innerHTML = convertMilliseconds(data["track"]["duration_ms"]);
-
-    row.append(name);
-    row.append(artist);
-    row.append(duration);
-    table.append(row);
-}
-*/
-
-function displayPlaylists(req, identifier) {
-    var response = JSON.parse(req.responseText);
-    for (i in response["items"]) {
-        //console.log(i)
-        generateImage("80px", response["items"][i]["images"][0], response["items"][i]["name"], response["items"][i]["tracks"]["total"], response["items"][i]["public"], response["items"][i]["id"], 1);
-    }
-    if (response["next"] != null) {
-        loadRequest(response["next"], displayPlaylists, 1);
-        /*product = response["product"];
-        $("#account_type")[0].innerHTML = product.charAt(0).toUpperCase() + product.slice(1);
-
-        if (Object.keys(response["images"]).length > 0) {
-            image_url = response["images"][0]["url"];
-            console.log(image_url)
-            showImage(image_url);
-        }*/
-    }
 }
